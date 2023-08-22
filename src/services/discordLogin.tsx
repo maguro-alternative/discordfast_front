@@ -18,6 +18,10 @@ const DiscordLogin = () => {
     const DiscordLoginRedirect = () => {
         const discordLoginUriState = `${discordLoginUri}&state=${uniqueId}`
         setCookie('state',uniqueId,7)
+        axios.get(
+            `http://localhost:5000/discord_save_state/${uniqueId}`,
+            { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
+        );
         window.location.href = discordLoginUriState;
     }
 
