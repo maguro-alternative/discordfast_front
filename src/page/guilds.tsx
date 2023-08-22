@@ -6,17 +6,19 @@ import { DiscordGuilds } from '../store';
 const Guilds = () => {
     const [guildsData, setGuildsData] = useState<DiscordGuilds[]>([]);
 
+    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await axios.get<DiscordGuilds[]>(
-                    'http://localhost:5000/guilds/view',
+                    `${SERVER_BASE_URL}/guilds/view`,
                     { withCredentials: true }
                 );
                 const responseData = response.data;
                 console.log(responseData);
                 setGuildsData(responseData);
-            } catch (error) {
+            } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 //throw new Error('ログインに失敗しました。 - ', error);
             }

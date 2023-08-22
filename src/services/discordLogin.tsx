@@ -14,12 +14,13 @@ const DiscordLogin = () => {
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
 
     const discordLoginUri = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`
+    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
     const DiscordLoginRedirect = () => {
         const discordLoginUriState = `${discordLoginUri}&state=${uniqueId}`
         setCookie('state',uniqueId,7)
         axios.get(
-            `http://localhost:5000/discord_save_state/${uniqueId}`,
+            `${SERVER_BASE_URL}/discord_save_state/${uniqueId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
         window.location.href = discordLoginUriState;
@@ -28,7 +29,7 @@ const DiscordLogin = () => {
     const handleCallback = async () => {
 
         const response = await axios.get(
-            'http://localhost:5000',
+            `${SERVER_BASE_URL}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
 
