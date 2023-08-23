@@ -6,6 +6,7 @@ import DiscordCallback from './services/discordCallback';
 import TestForm from './page/testform'
 import Guilds from './page/guilds';
 import GuildID from './page/guild/index';
+import Admin from './page/guild/admin'
 //import logo from './logo.svg';
 import './css/App.css';
 
@@ -19,6 +20,7 @@ function App() {
                 <Route path={"/test-form"} element={<TestForm/>}/>
                 <Route path={"/guilds"} element={<Guilds/>}/>
                 <Route path={"/guild/:id"} element={<GuildID/>}/>
+                <Route path={"/guild/:id/admin"} element={<Admin/>}/>
             </Routes>
         </BrowserRouter>
     );

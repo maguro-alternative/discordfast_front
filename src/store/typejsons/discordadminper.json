@@ -1,0 +1,27 @@
+{
+    "guildMembers": [
+        {
+            "userDisplayName": "",
+            "userId": 0,
+            "userName": ""
+        }
+    ],
+    "guildRoles": [
+        {
+            "roleId": 0,
+            "roleName": "@everyone"
+        }
+    ],
+    "lineBotPermission": 8,
+    "lineBotRoleIdPermission": [0],
+    "lineBotUserIdPermission": [0],
+    "linePermission": 8,
+    "lineRoleIdPermission": [0],
+    "lineUserIdPermission": [0],
+    "vcPermission": 8,
+    "vcRoleIdPermission": [0],
+    "vcUserIdPermission": [0],
+    "webhookPermission": 8,
+    "webhookRoleIdPermission": [0],
+    "webhookUserIdPermission": [0]
+}
