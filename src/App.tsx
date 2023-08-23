@@ -5,6 +5,7 @@ import DiscordLogin from './services/discordLogin';
 import DiscordCallback from './services/discordCallback';
 import TestForm from './page/testform'
 import Guilds from './page/guilds';
+import GuildID from './page/guild/index';
 //import logo from './logo.svg';
 import './css/App.css';
 
@@ -17,6 +18,7 @@ function App() {
                 <Route path={"/discord-callback"} element={<DiscordCallback/>}/>
                 <Route path={"/test-form"} element={<TestForm/>}/>
                 <Route path={"/guilds"} element={<Guilds/>}/>
+                <Route path={"/guild/:id"} element={<GuildID/>}/>
             </Routes>
         </BrowserRouter>
     );
