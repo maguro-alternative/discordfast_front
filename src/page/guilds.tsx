@@ -9,6 +9,7 @@ const Guilds = () => {
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
     useEffect(() => {
+        let ignore = false;
         async function fetchData() {
             try {
                 const response = await axios.get<DiscordGuilds[]>(
@@ -23,8 +24,12 @@ const Guilds = () => {
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
-
-        fetchData();
+        if (!ignore){
+            fetchData();
+        }
+        return () => {
+            ignore = true;
+        };
     }, []); // 空の配列を渡すことで初回のみ実行される
 
     return (
