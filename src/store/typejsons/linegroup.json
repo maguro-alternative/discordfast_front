@@ -10,11 +10,7 @@
             {
                 "id": 0,
                 "name": "eeee",
-                "type": "TextChannel",
-                "lineNgChannel": false,
-                "ngMessageType": [],
-                "messageBot": true,
-                "ngUsers": []
+                "type": "TextChannel"
             }
         ],
         "00000": [
@@ -43,19 +39,9 @@
     "threads": [
         {
             "id": 0,
-            "name": "seikinfromthefareast",
-            "lineNgChannel": false,
-            "ngMessageType": [],
-            "messageBot": false,
-            "ngUsers": []
+            "name": "seikinfromthefareast"
         }
     ],
-    "users": [
-        {
-            "id": 0,
-            "name": "Bastion",
-            "userDisplayName": "Bastion"
-        }
-    ],
-    "chengePermission": false
+    "defalutChannelId": 0,
+    "debugMode": false
 }

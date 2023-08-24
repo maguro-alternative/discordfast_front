@@ -7,6 +7,7 @@ import discordLinePost from './typejsons/discordlinepost.json'
 import discordLineSet from './typejsons/discordlineset.json'
 import discordVcSignal from './typejsons/discordvcsignal.json'
 import discordWebhook from './typejsons/discordwebhook.json'
+import lineGroup from './typejsons/linegroup.json'
 
 export type DiscordCallbackResponse = typeof discordCallbackResponse
 export type DiscordOAuthResponse = typeof discordOAuthResponse
@@ -17,3 +18,4 @@ export type DiscordLinePost = typeof discordLinePost
 export type DiscordLineSet = typeof discordLineSet
 export type DiscordVcSignal = typeof discordVcSignal
 export type DiscordWebhook = typeof discordWebhook
+export type LineGroup = typeof lineGroup

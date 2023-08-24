@@ -11,6 +11,7 @@ import LinePost from './page/guild/line-post';
 import LineSet from './page/guild/line-set';
 import VcSignal from './page/guild/vc-signal';
 import Webhook from './page/guild/webhook';
+import LineGroup from './page/group';
 //import logo from './logo.svg';
 import './css/App.css';
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path={"/guild/:id/line-set"} element={<LineSet/>}/>
                 <Route path={"/guild/:id/vc-signal"} element={<VcSignal/>}/>
                 <Route path={"/guild/:id/webhook"} element={<Webhook/>}/>
+                <Route path={"/group/:id"} element={<LineGroup/>}/>
             </Routes>
         </BrowserRouter>
     );
