@@ -1,0 +1,62 @@
+{
+    "categorys": [
+        {
+            "id": 0,
+            "name": ""
+        }
+    ],
+    "channels": {
+        "0000": [
+            {
+            "id": 0,
+            "name": "eeee",
+            "type": "TextChannel",
+            "lineNgChannel": false,
+            "ngMessageType": ["text"],
+            "messageBot": true,
+            "ngUsers": [0]
+            }
+        ],
+        "00000": [
+            {
+            "id": 0,
+            "name": "",
+            "type": "VoiceChannel",
+            "lineNgChannel": false,
+            "ngMessageType": [],
+            "messageBot": true,
+            "ngUsers": []
+            }
+        ],
+        "None": [
+            {
+            "id": 0,
+            "name": "test",
+            "type": "TextChannel",
+            "lineNgChannel": true,
+            "ngMessageType": [],
+            "messageBot": true,
+            "ngUsers": []
+            }
+        ]
+    },
+    "threads": [
+        {
+            "id": 0,
+            "name": "seikinfromthefareast",
+            "lineNgChannel": false,
+            "ngMessageType": ["text"],
+            "messageBot": false,
+            "ngUsers": [0]
+        }
+    ],
+    "chengePermission": false,
+    "lineNotifyToken": "",
+    "lineBotToken": "",
+    "lineBotSecret": "",
+    "lineGroupId": "",
+    "lineClientId": "",
+    "lineClientSecret": "",
+    "defalutChannelId": 0,
+    "debugMode": false
+}

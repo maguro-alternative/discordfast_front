@@ -1,0 +1,78 @@
+{
+    "categorys": [
+        {
+            "id": 0,
+            "name": ""
+        }
+    ],
+    "channels": {
+        "0000": [
+            {
+                "id": 0,
+                "name": "eeee",
+                "type": "TextChannel",
+                "lineNgChannel": false,
+                "ngMessageType": [],
+                "messageBot": true,
+                "ngUsers": []
+            }
+        ],
+        "00000": [
+            {
+                "id": 0,
+                "name": "",
+                "type": "VoiceChannel",
+                "lineNgChannel": false,
+                "ngMessageType": [],
+                "messageBot": true,
+                "ngUsers": []
+            }
+        ],
+        "None": [
+            {
+                "id": 0,
+                "name": "test",
+                "type": "TextChannel",
+                "lineNgChannel": true,
+                "ngMessageType": [],
+                "messageBot": true,
+                "ngUsers": []
+            }
+        ]
+    },
+    "vcChannels": {
+        "0000": [],
+        "00000": [
+            {
+                "id": 0,
+                "name": "",
+                "type": "VoiceChannel",
+                "lineNgChannel": false,
+                "ngMessageType": [],
+                "messageBot": true,
+                "ngUsers": []
+            }
+        ],
+        "None": []
+    },
+    "threads": [
+        {
+            "id": 0,
+            "name": "seikinfromthefareast"
+        }
+    ],
+    "users": [
+        {
+            "id": 0,
+            "name": "Bastion",
+            "userDisplayName": "Bastion"
+        }
+    ],
+    "roles": [
+        {
+            "id": 0,
+            "name": "@everyone"
+        }
+    ],
+    "chengePermission": false
+}
