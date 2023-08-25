@@ -6,18 +6,18 @@ export function UserIdComprehension(
 ){
     let optionDict: {
         value:number,
-        name:string
+        label:string
     };
     let optionList: {
         value:number,
-        name:string
+        label:string
     }[] = [];
 
     userList.forEach(user => {
         if (user.userId in userIdList){
             optionDict = {
                 value:user.userId,
-                name:user.userName
+                label:user.userName
             }
             optionList.push(optionDict);
         }
