@@ -127,6 +127,8 @@ const Admin = () => {
         console.log(jsonData);
     };
 
+    const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
+
     return(
         <>
             <form onSubmit={handleFormSubmit}>
@@ -136,6 +138,16 @@ const Admin = () => {
                         type="text"
                         name="line_permission"
                         value={formAdminData.line_permission}
+                    />
+                </div>
+                <div style={{ width: "500px", margin: "50px" }}>
+                    <Select
+                        options={userIdSelect}
+                        defaultValue={selectedLineUserValue}
+                        onChange={(value) => {
+                            value ? setselectedLineUserValue([...value]) : null;
+                        }}
+                        isMulti // trueに
                     />
                 </div>
             </form>
