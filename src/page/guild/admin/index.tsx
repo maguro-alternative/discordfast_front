@@ -121,8 +121,25 @@ const Admin = () => {
         guildRole
     );
 
+    const handleFormSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const jsonData = JSON.stringify(formAdminData);
+        console.log(jsonData);
+    };
+
     return(
-        <></>
+        <>
+            <form onSubmit={handleFormSubmit}>
+                <div>
+                    <label htmlFor="linePerCode">LINEへの送信設定</label>
+                    <input
+                        type="text"
+                        name="line_permission"
+                        value={formAdminData.line_permission}
+                    />
+                </div>
+            </form>
+        </>
     )
 }
 
