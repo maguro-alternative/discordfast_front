@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { LineGroup } from '../../store';
 
-const LineGroup = () => {
+const LineGroupSetting = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [lineGroupData, setLineGroupData] = useState<LineGroup>();
@@ -39,4 +39,4 @@ const LineGroup = () => {
     )
 }
 
-export default LineGroup;
+export default LineGroupSetting;
