@@ -51,7 +51,23 @@ const Admin = () => {
         };
     },[]);
 
-    adminData?.guildMembers
+    const [formAdminData, setAdminFormData] = useState<AdminFormData>({
+        guild_id                    :Number(id),
+        line_permission             :Number(adminData?.linePermission),
+        line_user_id_permission     :adminData?.lineUserIdPermission || [],
+        line_role_id_permission     :adminData?.lineRoleIdPermission || [],
+        line_bot_permission         :Number(adminData?.lineBotPermission),
+        line_bot_user_id_permission :adminData?.lineBotUserIdPermission || [],
+        line_bot_role_id_permission :adminData?.lineBotRoleIdPermission || [],
+        vc_permission               :Number(adminData?.vcPermission),
+        vc_user_id_permission       :adminData?.vcUserIdPermission || [],
+        vc_role_id_permission       :adminData?.vcRoleIdPermission || [],
+        webhook_permission          :Number(adminData?.webhookPermission),
+        webhook_user_id_permission  :adminData?.webhookUserIdPermission || [],
+        webhook_role_id_permission  :adminData?.webhookRoleIdPermission || []
+    });
+
+    adminData?.guildMembers.map
 
     return(
         <></>
