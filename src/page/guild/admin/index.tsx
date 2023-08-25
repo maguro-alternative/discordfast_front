@@ -104,7 +104,7 @@ const Admin = () => {
     );
 
     const roleIdSelect = RoleIdComprehension(guildRole);
-    const lineRoleIDSelected = RoleIdIndexComprehension(
+    const lineRoleIdSelected = RoleIdIndexComprehension(
         lineRoleIds,
         guildRole
     );
@@ -128,6 +128,9 @@ const Admin = () => {
     };
 
     const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
+    const [selectedLineUserBotValue, setselectedLineBotUserValue] = useState(lineBotUserIdSelected);
+
+    const [selectedLineRoleValue, setselectedLineRoleValue] = useState(lineRoleIdSelected);
 
     return(
         <>
@@ -144,6 +147,16 @@ const Admin = () => {
                     <Select
                         options={userIdSelect}
                         defaultValue={selectedLineUserValue}
+                        onChange={(value) => {
+                            value ? setselectedLineUserValue([...value]) : null;
+                        }}
+                        isMulti // trueに
+                    />
+                </div>
+                <div style={{ width: "500px", margin: "50px" }}>
+                    <Select
+                        options={roleIdSelect}
+                        defaultValue={selectedLineRoleValue}
                         onChange={(value) => {
                             value ? setselectedLineUserValue([...value]) : null;
                         }}
