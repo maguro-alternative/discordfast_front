@@ -26,6 +26,22 @@ const Admin = () => {
 
     const [adminData, setAdminData] = useState<DiscordAdmin>();
 
+    const [formAdminData, setAdminFormData] = useState<AdminFormData>({
+        guild_id                    :Number(id),
+        line_permission             :adminData?.linePermission || 8,
+        line_user_id_permission     :adminData?.lineUserIdPermission || [],
+        line_role_id_permission     :adminData?.lineRoleIdPermission || [],
+        line_bot_permission         :adminData?.lineBotPermission || 8,
+        line_bot_user_id_permission :adminData?.lineBotUserIdPermission || [],
+        line_bot_role_id_permission :adminData?.lineBotRoleIdPermission || [],
+        vc_permission               :adminData?.vcPermission || 8,
+        vc_user_id_permission       :adminData?.vcUserIdPermission || [],
+        vc_role_id_permission       :adminData?.vcRoleIdPermission || [],
+        webhook_permission          :adminData?.webhookPermission || 8,
+        webhook_user_id_permission  :adminData?.webhookUserIdPermission || [],
+        webhook_role_id_permission  :adminData?.webhookRoleIdPermission || []
+    });
+
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
         let ignore = false;
@@ -50,22 +66,6 @@ const Admin = () => {
             ignore = true;
         };
     },[]);
-
-    const [formAdminData, setAdminFormData] = useState<AdminFormData>({
-        guild_id                    :Number(id),
-        line_permission             :Number(adminData?.linePermission),
-        line_user_id_permission     :adminData?.lineUserIdPermission || [],
-        line_role_id_permission     :adminData?.lineRoleIdPermission || [],
-        line_bot_permission         :Number(adminData?.lineBotPermission),
-        line_bot_user_id_permission :adminData?.lineBotUserIdPermission || [],
-        line_bot_role_id_permission :adminData?.lineBotRoleIdPermission || [],
-        vc_permission               :Number(adminData?.vcPermission),
-        vc_user_id_permission       :adminData?.vcUserIdPermission || [],
-        vc_role_id_permission       :adminData?.vcRoleIdPermission || [],
-        webhook_permission          :Number(adminData?.webhookPermission),
-        webhook_user_id_permission  :adminData?.webhookUserIdPermission || [],
-        webhook_role_id_permission  :adminData?.webhookRoleIdPermission || []
-    });
 
     adminData?.guildMembers.map
 
