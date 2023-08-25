@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { DiscordAdmin } from '../../../store';
+import { UserIdComprehension,UserIdIndexComprehension } from "../../../units/dictComprehension";
 
 interface AdminFormData {
     guild_id                    : number;
@@ -67,7 +68,11 @@ const Admin = () => {
         };
     },[]);
 
-    adminData?.guildMembers.map
+    const userIdSelect = UserIdComprehension(adminData?.guildMembers || []);
+    const lineUserIdSelect = UserIdIndexComprehension(
+        adminData?.lineUserIdPermission || [],
+        adminData?.guildMembers || []
+    );
 
     return(
         <></>
