@@ -121,7 +121,7 @@ const Admin = () => {
         guildRole
     );
 
-    const handleFormSubmit = (e: React.FormEvent) => {
+    const handleFormSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         selectedLineUserValue.map((user,index) => {
             formAdminData.line_user_id_permission.push(user.value);
@@ -148,7 +148,10 @@ const Admin = () => {
             formAdminData.webhook_role_id_permission.push(role.value);
         });
         const jsonData = JSON.stringify(formAdminData);
-        console.log(jsonData);
+        const adminJson = await axios.post(
+            `${SERVER_BASE_URL}/api/admin-success-json`,
+            JSON.parse(jsonData)
+        );
     };
 
     const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
