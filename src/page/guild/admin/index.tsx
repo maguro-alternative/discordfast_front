@@ -32,8 +32,8 @@ const Admin = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [adminData, setAdminData] = useState<DiscordAdmin>();
-    const [isLoading, setIsLoading] = useState(true);
-    const [isStateing, setIsStateing] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
+    const [isStateing, setIsStateing] = useState(true); // サーバーからデータを取得する前か
 
     const guildMember = adminData && adminData.guildMembers !== undefined ? adminData.guildMembers : [];
     const guildRole = adminData && adminData.guildRoles !== undefined ? adminData.guildRoles : [];
@@ -65,21 +65,21 @@ const Admin = () => {
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
-    const userIdSelect = UserIdComprehension(guildMember);
-    //const [lineUserIdSelected,setLineUserIdSelected] = useState(UserIdIndexComprehension(lineUserIds,guildMember));
-    const lineUserIdSelected = UserIdIndexComprehension(lineUserIds,guildMember);
-    const lineBotUserIdSelected = UserIdIndexComprehension(lineBotUserIds,guildMember);
-    const vcUserIdSelected = UserIdIndexComprehension(vcUserIds,guildMember);
-    const webhookUserIdSelected = UserIdIndexComprehension(webhookUserIds,guildMember);
+    const userIdSelect = UserIdComprehension(guildMember);  // サーバーメンバー一覧
+    const lineUserIdSelected = UserIdIndexComprehension(lineUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
+    const lineBotUserIdSelected = UserIdIndexComprehension(lineBotUserIds,guildMember); // linebotの設定を許可されているユーザ一覧
+    const vcUserIdSelected = UserIdIndexComprehension(vcUserIds,guildMember);           // ボイスチャンネルの入退室設定を許可されているユーザ一覧
+    const webhookUserIdSelected = UserIdIndexComprehension(webhookUserIds,guildMember); // webhookの設定を許可されているユーザ一覧
 
-    const roleIdSelect = RoleIdComprehension(guildRole);
-    const lineRoleIdSelected = RoleIdIndexComprehension(lineRoleIds,guildRole);
-    const lineBotRoleIdSelected = RoleIdIndexComprehension(lineBotRoleIds,guildRole);
-    const vcRoleIdSelected = RoleIdIndexComprehension(vcRoleIds,guildRole);
-    const webhookRoleIdSelected = RoleIdIndexComprehension(webhookRoleIds,guildRole);
+    const roleIdSelect = RoleIdComprehension(guildRole);    // サーバーロール一覧
+    const lineRoleIdSelected = RoleIdIndexComprehension(lineRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
+    const lineBotRoleIdSelected = RoleIdIndexComprehension(lineBotRoleIds,guildRole);   // linebotの設定を許可されているロール一覧
+    const vcRoleIdSelected = RoleIdIndexComprehension(vcRoleIds,guildRole);             // ボイスチャンネルの入退室設定を許可されているロール一覧
+    const webhookRoleIdSelected = RoleIdIndexComprehension(webhookRoleIds,guildRole);   // webhookの設定を許可されているロール一覧
 
     const handleFormSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
+        // 各要素をselectから抜き取る
         selectedLineUserValue.map((user,index) => {
             formAdminData.line_user_id_permission.push(user.value);
         });
@@ -104,15 +104,14 @@ const Admin = () => {
         selectedWebhookRoleValue.map((role,index) => {
             formAdminData.webhook_role_id_permission.push(role.value);
         });
+        // json文字列に変換(guild_id)はstrに変換
         const jsonData = JSON.stringify(formAdminData,(key, value) => {
             if (typeof value === 'bigint') {
-                console.log(value);
-                console.log(value.toString());
                 return value.toString();
             }
             return value;
         });
-        console.log(jsonData)
+        // サーバー側に送信
         const adminJson = await axios.post(
             `${SERVER_BASE_URL}/api/admin-success-json`,
             JSON.parse(jsonData),
@@ -120,6 +119,7 @@ const Admin = () => {
         );
     };
 
+    // すでに設定されている要素を設定
     const [selectedLineUserValue, setSelectedLineUserValue] = useState(lineUserIdSelected);
     const [selectedLineBotUserValue, setSelectedLineBotUserValue] = useState(lineBotUserIdSelected);
     const [selectedVcUserValue, setSelectedVcUserValue] = useState(vcUserIdSelected);
@@ -134,12 +134,12 @@ const Admin = () => {
         let ignore = false;
         async function fetchData() {
             try {
+                // サーバー側から必要なデータをリクエスト追加
                 const response = await axios.get<DiscordAdmin>(
                     `${SERVER_BASE_URL}/guild/${id}/admin/view`,
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
                 setAdminData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
@@ -150,12 +150,15 @@ const Admin = () => {
         if (!ignore){
             fetchData();
         }
+        // クリーンアップ(2回以上実行しない)
         return () => {
             ignore = true;
         };
     },[]);
 
+    // ロード中ではない
     if (!isLoading) {
+        // 初期値が設定されてない場合(非同期処理が間に合わないため追加)
         if(isStateing){
             setSelectedLineUserValue(lineUserIdSelected);
             setSelectedLineBotUserValue(lineBotUserIdSelected);
@@ -166,6 +169,7 @@ const Admin = () => {
             setSelectedLineBotRoleValue(lineBotRoleIdSelected);
             setSelectedVcRoleValue(vcRoleIdSelected);
             setSelectedWebhookRoleValue(webhookRoleIdSelected);
+            // 追加したためローディング解除
             setIsStateing(false);
         }
     }
@@ -173,8 +177,6 @@ const Admin = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
-        console.log(lineUserIdSelected);
-        console.log(selectedLineUserValue);
         return(
             <>
                 <form onSubmit={handleFormSubmit}>
