@@ -5,11 +5,11 @@ export function UserIdComprehension(
     userList:DiscordAdmin["guildMembers"]
 ){
     let optionDict: {
-        value:number,
+        value:string,
         label:string
     };
     let optionList: {
-        value:number,
+        value:string,
         label:string
     }[] = [];
 
@@ -25,20 +25,21 @@ export function UserIdComprehension(
 }
 
 export function UserIdIndexComprehension(
-    userIdList:number[],
+    userIdList:string[],
     userList:DiscordAdmin["guildMembers"]
 ){
     let optionDict: {
-        value:number,
+        value:string,
         label:string
     };
     let optionList: {
-        value:number,
+        value:string,
         label:string
-    }[] = [];
+    }[] = Array();
 
     userList.forEach(user => {
-        if (user.userId in userIdList){
+        //console.log(userIdList.indexOf(user.userId));
+        if (userIdList.indexOf(user.userId) !== -1){
             optionDict = {
                 value:user.userId,
                 label:user.userName
@@ -46,6 +47,8 @@ export function UserIdIndexComprehension(
             optionList.push(optionDict);
         }
     });
+
+    console.log('optionList',optionList);
 
     return optionList;
 }
@@ -55,11 +58,11 @@ export function RoleIdComprehension(
     roleList:DiscordAdmin["guildRoles"]
 ){
     let optionDict: {
-        value:number,
+        value:string,
         label:string
     };
     let optionList: {
-        value:number,
+        value:string,
         label:string
     }[] = [];
 
@@ -75,15 +78,15 @@ export function RoleIdComprehension(
 }
 
 export function RoleIdIndexComprehension(
-    roleIdList:number[],
+    roleIdList:string[],
     roleList:DiscordAdmin["guildRoles"]
 ){
     let optionDict: {
-        value:number,
+        value:string,
         label:string
     };
     let optionList: {
-        value:number,
+        value:string,
         label:string
     }[] = [];
 

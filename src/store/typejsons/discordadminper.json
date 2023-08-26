@@ -2,26 +2,26 @@
     "guildMembers": [
         {
             "userDisplayName": "",
-            "userId": 0,
+            "userId": "123456789012345678",
             "userName": ""
         }
     ],
     "guildRoles": [
         {
-            "roleId": 0,
+            "roleId": "123456789012345678",
             "roleName": "@everyone"
         }
     ],
     "lineBotPermission": 8,
-    "lineBotRoleIdPermission": [0],
-    "lineBotUserIdPermission": [0],
+    "lineBotRoleIdPermission": ["123456789012345678"],
+    "lineBotUserIdPermission": ["123456789012345678"],
     "linePermission": 8,
-    "lineRoleIdPermission": [0],
-    "lineUserIdPermission": [0],
+    "lineRoleIdPermission": ["123456789012345678"],
+    "lineUserIdPermission": ["123456789012345678"],
     "vcPermission": 8,
-    "vcRoleIdPermission": [0],
-    "vcUserIdPermission": [0],
+    "vcRoleIdPermission": ["123456789012345678"],
+    "vcUserIdPermission": ["123456789012345678"],
     "webhookPermission": 8,
-    "webhookRoleIdPermission": [0],
-    "webhookUserIdPermission": [0]
+    "webhookRoleIdPermission": ["123456789012345678"],
+    "webhookUserIdPermission": ["123456789012345678"]
 }
