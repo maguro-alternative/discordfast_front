@@ -123,8 +123,12 @@ const Admin = () => {
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        selectedLineUserValue.map((user,index) => {
+            formAdminData.line_user_id_permission.push(user.value);
+        });
         const jsonData = JSON.stringify(formAdminData);
         console.log(jsonData);
+        console.log(selectedLineUserValue);
     };
 
     const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
@@ -158,11 +162,12 @@ const Admin = () => {
                         options={roleIdSelect}
                         defaultValue={selectedLineRoleValue}
                         onChange={(value) => {
-                            value ? setselectedLineUserValue([...value]) : null;
+                            value ? setselectedLineRoleValue([...value]) : null;
                         }}
                         isMulti // trueに
                     />
                 </div>
+                <button type="submit">Submit</button>
             </form>
         </>
     )
