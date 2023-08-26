@@ -98,7 +98,7 @@ const Admin = () => {
         vcUserIds,
         guildMember
     );
-    const webhookUserIdSelect = UserIdIndexComprehension(
+    const webhookUserIdSelected = UserIdIndexComprehension(
         webhookUserIds,
         guildMember
     );
@@ -108,15 +108,15 @@ const Admin = () => {
         lineRoleIds,
         guildRole
     );
-    const lineBotRoleIDSelected = RoleIdIndexComprehension(
+    const lineBotRoleIdSelected = RoleIdIndexComprehension(
         lineBotRoleIds,
         guildRole
     );
-    const vcRoleIDSelected = RoleIdIndexComprehension(
+    const vcRoleIdSelected = RoleIdIndexComprehension(
         vcRoleIds,
         guildRole
     );
-    const webhookRoleIDSelected = RoleIdIndexComprehension(
+    const webhookRoleIdSelected = RoleIdIndexComprehension(
         webhookRoleIds,
         guildRole
     );
@@ -126,47 +126,172 @@ const Admin = () => {
         selectedLineUserValue.map((user,index) => {
             formAdminData.line_user_id_permission.push(user.value);
         });
+        selectedLineRoleValue.map((role,index) => {
+            formAdminData.line_role_id_permission.push(role.value);
+        });
+        selectedLineBotUserValue.map((user,index) => {
+            formAdminData.line_bot_user_id_permission.push(user.value);
+        });
+        selectedLineBotRoleValue.map((role,index) => {
+            formAdminData.line_bot_role_id_permission.push(role.value);
+        });
         const jsonData = JSON.stringify(formAdminData);
         console.log(jsonData);
-        console.log(selectedLineUserValue);
     };
 
     const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
-    const [selectedLineUserBotValue, setselectedLineBotUserValue] = useState(lineBotUserIdSelected);
+    const [selectedLineBotUserValue, setselectedLineBotUserValue] = useState(lineBotUserIdSelected);
+    const [selectedVcUserValue, setselectedVcUserValue] = useState(vcUserIdSelected);
+    const [selectedWebhookUserValue, setselectedWebhookUserValue] = useState(webhookUserIdSelected);
 
     const [selectedLineRoleValue, setselectedLineRoleValue] = useState(lineRoleIdSelected);
+    const [selectedLineBotRoleValue, setselectedLineBotRoleValue] = useState(lineBotRoleIdSelected);
+    const [selectedVcRoleValue, setselectedVcRoleValue] = useState(vcRoleIdSelected);
+    const [selectedWebhookRoleValue, setselectedWebhookRoleValue] = useState(webhookRoleIdSelected);
 
     return(
         <>
             <form onSubmit={handleFormSubmit}>
-                <div>
-                    <label htmlFor="linePerCode">LINEへの送信設定</label>
-                    <input
-                        type="text"
-                        name="line_permission"
-                        value={formAdminData.line_permission}
-                    />
-                </div>
-                <div style={{ width: "500px", margin: "50px" }}>
-                    <Select
-                        options={userIdSelect}
-                        defaultValue={selectedLineUserValue}
-                        onChange={(value) => {
-                            value ? setselectedLineUserValue([...value]) : null;
-                        }}
-                        isMulti // trueに
-                    />
-                </div>
-                <div style={{ width: "500px", margin: "50px" }}>
-                    <Select
-                        options={roleIdSelect}
-                        defaultValue={selectedLineRoleValue}
-                        onChange={(value) => {
-                            value ? setselectedLineRoleValue([...value]) : null;
-                        }}
-                        isMulti // trueに
-                    />
-                </div>
+                <details>
+                    <summary>
+                        <strong>LINEへの送信設定</strong>
+                    </summary>
+                    <div>
+                        <label htmlFor="linePerCode">編集を許可する権限コード</label>
+                        <input
+                            type="text"
+                            name="line_permission"
+                            value={formAdminData.line_permission}
+                        />
+                    </div>
+                    <h6>アクセスを許可するメンバーの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={userIdSelect}
+                            defaultValue={selectedLineUserValue}
+                            onChange={(value) => {
+                                value ? setselectedLineUserValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                    <h6>アクセスを許可するロールの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={roleIdSelect}
+                            defaultValue={selectedLineRoleValue}
+                            onChange={(value) => {
+                                value ? setselectedLineRoleValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <strong>LINEBotおよびグループ設定</strong>
+                    </summary>
+                    <div>
+                        <label htmlFor="lineBotPerCode">編集を許可する権限コード</label>
+                        <input
+                            type="text"
+                            name="line_bot_permission"
+                            value={formAdminData.line_bot_permission}
+                        />
+                    </div>
+                    <h6>アクセスを許可するメンバーの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={userIdSelect}
+                            defaultValue={selectedLineBotUserValue}
+                            onChange={(value) => {
+                                value ? setselectedLineBotUserValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                    <h6>アクセスを許可するロールの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={roleIdSelect}
+                            defaultValue={selectedLineBotRoleValue}
+                            onChange={(value) => {
+                                value ? setselectedLineBotRoleValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <strong>ボイスチャンネルの通知設定</strong>
+                    </summary>
+                    <div>
+                        <label htmlFor="vcPerCode">編集を許可する権限コード</label>
+                        <input
+                            type="text"
+                            name="vc_permission"
+                            value={formAdminData.vc_permission}
+                        />
+                    </div>
+                    <h6>アクセスを許可するメンバーの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={userIdSelect}
+                            defaultValue={selectedVcUserValue}
+                            onChange={(value) => {
+                                value ? setselectedVcUserValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                    <h6>アクセスを許可するロールの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={roleIdSelect}
+                            defaultValue={selectedVcRoleValue}
+                            onChange={(value) => {
+                                value ? setselectedVcRoleValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <strong>Webhookの通知設定</strong>
+                    </summary>
+                    <div>
+                        <label htmlFor="webhookPerCode">編集を許可する権限コード</label>
+                        <input
+                            type="text"
+                            name="webhook_permission"
+                            value={formAdminData.webhook_permission}
+                        />
+                    </div>
+                    <h6>アクセスを許可するメンバーの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={userIdSelect}
+                            defaultValue={selectedWebhookUserValue}
+                            onChange={(value) => {
+                                value ? setselectedWebhookUserValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                    <h6>アクセスを許可するロールの選択</h6>
+                    <div style={{ width: "500px", margin: "50px" }}>
+                        <Select
+                            options={roleIdSelect}
+                            defaultValue={selectedWebhookRoleValue}
+                            onChange={(value) => {
+                                value ? setselectedWebhookRoleValue([...value]) : null;
+                            }}
+                            isMulti // trueに
+                        />
+                    </div>
+                </details>
                 <button type="submit">Submit</button>
             </form>
         </>
