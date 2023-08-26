@@ -33,6 +33,7 @@ const Admin = () => {
 
     const [adminData, setAdminData] = useState<DiscordAdmin>();
     const [isLoading, setIsLoading] = useState(true);
+    const [isStateing, setIsStateing] = useState(true);
 
     const guildMember = adminData && adminData.guildMembers !== undefined ? adminData.guildMembers : [];
     const guildRole = adminData && adminData.guildRoles !== undefined ? adminData.guildRoles : [];
@@ -119,15 +120,15 @@ const Admin = () => {
         );
     };
 
-    const [selectedLineUserValue, setselectedLineUserValue] = useState(lineUserIdSelected);
-    const [selectedLineBotUserValue, setselectedLineBotUserValue] = useState(lineBotUserIdSelected);
-    const [selectedVcUserValue, setselectedVcUserValue] = useState(vcUserIdSelected);
-    const [selectedWebhookUserValue, setselectedWebhookUserValue] = useState(webhookUserIdSelected);
+    const [selectedLineUserValue, setSelectedLineUserValue] = useState(lineUserIdSelected);
+    const [selectedLineBotUserValue, setSelectedLineBotUserValue] = useState(lineBotUserIdSelected);
+    const [selectedVcUserValue, setSelectedVcUserValue] = useState(vcUserIdSelected);
+    const [selectedWebhookUserValue, setSelectedWebhookUserValue] = useState(webhookUserIdSelected);
 
-    const [selectedLineRoleValue, setselectedLineRoleValue] = useState(lineRoleIdSelected);
-    const [selectedLineBotRoleValue, setselectedLineBotRoleValue] = useState(lineBotRoleIdSelected);
-    const [selectedVcRoleValue, setselectedVcRoleValue] = useState(vcRoleIdSelected);
-    const [selectedWebhookRoleValue, setselectedWebhookRoleValue] = useState(webhookRoleIdSelected);
+    const [selectedLineRoleValue, setSelectedLineRoleValue] = useState(lineRoleIdSelected);
+    const [selectedLineBotRoleValue, setSelectedLineBotRoleValue] = useState(lineBotRoleIdSelected);
+    const [selectedVcRoleValue, setSelectedVcRoleValue] = useState(vcRoleIdSelected);
+    const [selectedWebhookRoleValue, setSelectedWebhookRoleValue] = useState(webhookRoleIdSelected);
 
     useEffect(() => {
         let ignore = false;
@@ -154,13 +155,26 @@ const Admin = () => {
         };
     },[]);
 
-    if (isLoading || adminData === undefined) {
+    if (!isLoading) {
+        if(isStateing){
+            setSelectedLineUserValue(lineUserIdSelected);
+            setSelectedLineBotUserValue(lineBotUserIdSelected);
+            setSelectedVcUserValue(vcUserIdSelected);
+            setSelectedWebhookUserValue(webhookUserIdSelected);
+
+            setSelectedLineRoleValue(lineRoleIdSelected);
+            setSelectedLineBotRoleValue(lineBotRoleIdSelected);
+            setSelectedVcRoleValue(vcRoleIdSelected);
+            setSelectedWebhookRoleValue(webhookRoleIdSelected);
+            setIsStateing(false);
+        }
+    }
+
+    if (isLoading) {
         return <div>Loading...</div>;
     } else {
-        console.log('line ',lineUserIdSelected);
-        console.log('ids',lineUserIds);
-        console.log('lineselect ',selectedLineUserValue);
-        console.log(lineUserIds);
+        console.log(lineUserIdSelected);
+        console.log(selectedLineUserValue);
         return(
             <>
                 <form onSubmit={handleFormSubmit}>
@@ -179,11 +193,10 @@ const Admin = () => {
                         <h6>アクセスを許可するメンバーの選択</h6>
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
-                                key={`input_${selectedLineUserValue.length}`}
                                 options={userIdSelect}
                                 defaultValue={lineUserIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedLineUserValue([...value]) : null;
+                                    value ? setSelectedLineUserValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -192,9 +205,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={roleIdSelect}
-                                defaultValue={selectedLineRoleValue}
+                                defaultValue={lineRoleIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedLineRoleValue([...value]) : null;
+                                    value ? setSelectedLineRoleValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -216,9 +229,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={userIdSelect}
-                                defaultValue={selectedLineBotUserValue}
+                                defaultValue={lineBotUserIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedLineBotUserValue([...value]) : null;
+                                    value ? setSelectedLineBotUserValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -227,9 +240,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={roleIdSelect}
-                                defaultValue={selectedLineBotRoleValue}
+                                defaultValue={lineBotRoleIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedLineBotRoleValue([...value]) : null;
+                                    value ? setSelectedLineBotRoleValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -251,9 +264,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={userIdSelect}
-                                defaultValue={selectedVcUserValue}
+                                defaultValue={vcUserIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedVcUserValue([...value]) : null;
+                                    value ? setSelectedVcUserValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -262,9 +275,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={roleIdSelect}
-                                defaultValue={selectedVcRoleValue}
+                                defaultValue={vcRoleIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedVcRoleValue([...value]) : null;
+                                    value ? setSelectedVcRoleValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -286,9 +299,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={userIdSelect}
-                                defaultValue={selectedWebhookUserValue}
+                                defaultValue={webhookUserIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedWebhookUserValue([...value]) : null;
+                                    value ? setSelectedWebhookUserValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
@@ -297,9 +310,9 @@ const Admin = () => {
                         <div style={{ width: "500px", margin: "50px" }}>
                             <Select
                                 options={roleIdSelect}
-                                defaultValue={selectedWebhookRoleValue}
+                                defaultValue={webhookRoleIdSelected}
                                 onChange={(value) => {
-                                    value ? setselectedWebhookRoleValue([...value]) : null;
+                                    value ? setSelectedWebhookRoleValue([...value]) : null;
                                 }}
                                 isMulti // trueに
                             />
