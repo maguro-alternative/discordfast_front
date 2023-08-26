@@ -135,6 +135,18 @@ const Admin = () => {
         selectedLineBotRoleValue.map((role,index) => {
             formAdminData.line_bot_role_id_permission.push(role.value);
         });
+        selectedVcUserValue.map((user,index) => {
+            formAdminData.vc_user_id_permission.push(user.value);
+        });
+        selectedVcRoleValue.map((role,index) => {
+            formAdminData.vc_role_id_permission.push(role.value);
+        });
+        selectedWebhookUserValue.map((user,index) => {
+            formAdminData.webhook_user_id_permission.push(user.value);
+        });
+        selectedWebhookRoleValue.map((role,index) => {
+            formAdminData.webhook_role_id_permission.push(role.value);
+        });
         const jsonData = JSON.stringify(formAdminData);
         console.log(jsonData);
     };
@@ -161,7 +173,7 @@ const Admin = () => {
                         <input
                             type="text"
                             name="line_permission"
-                            value={formAdminData.line_permission}
+                            defaultValue={formAdminData.line_permission}
                         />
                     </div>
                     <h6>アクセスを許可するメンバーの選択</h6>
@@ -196,7 +208,7 @@ const Admin = () => {
                         <input
                             type="text"
                             name="line_bot_permission"
-                            value={formAdminData.line_bot_permission}
+                            defaultValue={formAdminData.line_bot_permission}
                         />
                     </div>
                     <h6>アクセスを許可するメンバーの選択</h6>
@@ -231,7 +243,7 @@ const Admin = () => {
                         <input
                             type="text"
                             name="vc_permission"
-                            value={formAdminData.vc_permission}
+                            defaultValue={formAdminData.vc_permission}
                         />
                     </div>
                     <h6>アクセスを許可するメンバーの選択</h6>
@@ -266,7 +278,7 @@ const Admin = () => {
                         <input
                             type="text"
                             name="webhook_permission"
-                            value={formAdminData.webhook_permission}
+                            defaultValue={formAdminData.webhook_permission}
                         />
                     </div>
                     <h6>アクセスを許可するメンバーの選択</h6>
