@@ -5,9 +5,9 @@
     "taskList": [
         {
             "alertLevel": 1,
-            "alertRole": 0,
-            "alertUser": 0,
-            "taskChannel": 0,
+            "alertRole": "123456789012345678",
+            "alertUser": "123456789012345678",
+            "taskChannel": "123456789012345678",
             "taskNumber": 10,
             "taskTitle": "a",
             "timeLimit": "2023-08-19 12:00"

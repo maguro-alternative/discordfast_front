@@ -1,7 +1,7 @@
 {
     "webhooks": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "Spidey Bot",
             "channelId": 0,
             "channelName": ""
@@ -9,14 +9,14 @@
     ],
     "guildUsers": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "",
             "userDisplayName": ""
         }
     ],
     "guildRoles": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "@everyone"
         }
     ],
@@ -24,12 +24,12 @@
     "webhookSet": [
         {
             "uuid": "b0389d11-5485-4c10-b510-1019fe667601",
-            "guild_id": 0,
-            "webhook_id": 0,
+            "guild_id": "123456789012345678",
+            "webhook_id": "123456789012345678",
             "subscription_type": "twitter",
             "subscription_id": "sigumataityouda",
-            "mention_roles": [0],
-            "mention_members": [0],
+            "mention_roles": ["123456789012345678"],
+            "mention_members": ["123456789012345678"],
             "ng_or_word": [""],
             "ng_and_word": [""],
             "search_or_word": [""],

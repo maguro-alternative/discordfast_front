@@ -63,14 +63,14 @@
     ],
     "users": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "Bastion",
             "userDisplayName": "Bastion"
         }
     ],
     "roles": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "@everyone"
         }
     ],
