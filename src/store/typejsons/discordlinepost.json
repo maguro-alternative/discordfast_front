@@ -1,14 +1,14 @@
 {
     "categorys": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": ""
         }
     ],
     "channels": {
         "0000": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "eeee",
                 "type": "TextChannel",
                 "lineNgChannel": false,
@@ -19,7 +19,7 @@
         ],
         "00000": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "",
                 "type": "VoiceChannel",
                 "lineNgChannel": false,
@@ -30,7 +30,7 @@
         ],
         "None": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "test",
                 "type": "TextChannel",
                 "lineNgChannel": true,
@@ -42,7 +42,7 @@
     },
     "threads": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "seikinfromthefareast",
             "lineNgChannel": false,
             "ngMessageType": [],
@@ -52,7 +52,7 @@
     ],
     "users": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "Bastion",
             "userDisplayName": "Bastion"
         }
