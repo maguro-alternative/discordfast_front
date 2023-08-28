@@ -3,7 +3,7 @@ import Select from "react-select";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { DiscordAdmin } from '../../../store';
+import { DiscordAdmin, SelectOption } from '../../../store';
 import {
     UserIdComprehension,
     UserIdIndexComprehension,
@@ -51,8 +51,8 @@ const Admin = () => {
     const [formAdminData, setAdminFormData] = useState<AdminFormData>({
         guild_id                    :BigInt(id || ''),
         line_permission             :adminData && adminData.linePermission !== undefined ? adminData.linePermission : 8,
-        line_user_id_permission     :lineUserIds,
-        line_role_id_permission     :lineRoleIds,
+        line_user_id_permission     :[],
+        line_role_id_permission     :[],
         line_bot_permission         :adminData && adminData.lineBotPermission !== undefined ? adminData.lineBotPermission : 8,
         line_bot_user_id_permission :lineBotUserIds,
         line_bot_role_id_permission :lineBotRoleIds,
@@ -85,9 +85,6 @@ const Admin = () => {
     const handleFormSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         // 各要素をselectから抜き取る
-        selectedLineUserValue.map((user,index) => {
-            formAdminData.line_user_id_permission.push(user.value);
-        });
         selectedLineRoleValue.map((role,index) => {
             formAdminData.line_role_id_permission.push(role.value);
         });
@@ -179,6 +176,14 @@ const Admin = () => {
         }
     }
 
+    const handleSelectionChange = (selectedValues:SelectOption[]) => {
+        formAdminData.line_user_id_permission = [];
+        selectedValues.map((option,index) => {
+            console.log(option.value);
+            formAdminData.line_user_id_permission.push(option.value);
+        });
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
@@ -199,6 +204,7 @@ const Admin = () => {
                         guildRole={roleIdSelect}
                         lineUserIds={lineUserIds}
                         lineRoleIds={lineRoleIds}
+                        selectCallback={handleSelectionChange}
                     ></LineAdminForm>
                     <details>
                         <summary>

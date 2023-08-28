@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
 import { SelectOption } from '../../../store';
@@ -13,6 +13,7 @@ interface LineAdminFormProps {
     guildRole       : SelectOption[];
     lineUserIds     : string[];
     lineRoleIds     : string[];
+    selectCallback  : (selectedValues:SelectOption[]) => void;
 }
 
 const LineAdminForm: React.FC<LineAdminFormProps> = ({
@@ -20,9 +21,10 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
     guildMember,
     guildRole,
     lineUserIds,
-    lineRoleIds
+    lineRoleIds,
+    selectCallback
 }) => {
-
+    const [useInitialCallback, setUseInitialCallback] = useState(true); // サーバーからデータを取得する前か
     const lineUserIdSelected = UserIdIndexOptionComprehension(lineUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
 
     const lineRoleIdSelected = RoleIdIndexOptionComprehension(lineRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
@@ -30,6 +32,23 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
     // すでに設定されている要素を設定
     const [selectedLineUserValue, setSelectedLineUserValue] = useState(lineUserIdSelected);
     const [selectedLineRoleValue, setSelectedLineRoleValue] = useState(lineRoleIdSelected);
+
+    // すでに設定されている要素を設定
+    if (useInitialCallback){
+        console.log('call');
+        selectCallback(selectedLineUserValue);
+        selectCallback(selectedLineRoleValue);
+        setUseInitialCallback(false);
+    }
+
+    // 非同期でのstate更新に合わせるため
+    useEffect(() => {
+        selectCallback(selectedLineUserValue);
+    },[selectedLineUserValue]);
+
+    useEffect(() => {
+        selectCallback(selectedLineRoleValue);
+    },[selectedLineRoleValue]);
 
     return (
         <details>
@@ -50,7 +69,12 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                     options={guildMember}
                     defaultValue={selectedLineUserValue}
                     onChange={(value) => {
-                        value ? setSelectedLineUserValue([...value]) : null;
+                        if(value){
+                            setSelectedLineUserValue([...value]);
+                        }else{
+                            null;
+                        };
+                        selectCallback(selectedLineUserValue);
                     }}
                     isMulti // trueに
                 />
@@ -61,7 +85,12 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                     options={guildRole}
                     defaultValue={selectedLineRoleValue}
                     onChange={(value) => {
-                        value ? setSelectedLineRoleValue([...value]) : null;
+                        if(value){
+                            setSelectedLineRoleValue([...value]);
+                        }else{
+                            null
+                        };
+                        selectCallback(selectedLineRoleValue);
                     }}
                     isMulti // trueに
                 />

@@ -42,6 +42,22 @@ export function UserIdIndexComprehension(
     return optionList;
 }
 
+export function UserIdIndexOptionComprehension(
+    userIdList:string[],
+    userList:SelectOption[]
+){
+    /*
+    受け取ったサーバーロール一覧をSelectで選択できる形式に変換
+    */
+    let optionList: SelectOption[] = [];
+
+    userList.forEach(user => {
+        if (userIdList.indexOf(user.value) !== -1){
+            optionList.push(user);
+        }
+    });
+    return optionList;
+}
 
 export function RoleIdComprehension(
     roleList:DiscordAdmin["guildRoles"]
@@ -83,5 +99,22 @@ export function RoleIdIndexComprehension(
         }
     });
 
+    return optionList;
+}
+
+export function RoleIdIndexOptionComprehension(
+    roleIdList:string[],
+    roleList:SelectOption[]
+){
+    /*
+    受け取ったサーバーロール一覧をSelectで選択できる形式に変換
+    */
+    let optionList: SelectOption[] = [];
+
+    roleList.forEach(role => {
+        if (roleIdList.indexOf(role.value) !== -1){
+            optionList.push(role);
+        }
+    });
     return optionList;
 }
