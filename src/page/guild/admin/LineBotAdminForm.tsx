@@ -8,61 +8,61 @@ import {
 } from "../../../units/dictComprehension";
 
 interface LineAdminFormProps {
-    linePermission : number;
-    guildMember     : SelectOption[];
-    guildRole       : SelectOption[];
-    lineUserIds     : string[];
-    lineRoleIds     : string[];
-    selectCallback  : (selectedValues:SelectOption[],selectType:string) => void;
-    textCallback    : (e:React.ChangeEvent<HTMLInputElement>) => void;
+    lineBotPermission   : number;
+    guildMember         : SelectOption[];
+    guildRole           : SelectOption[];
+    lineBotUserIds      : string[];
+    lineBotRoleIds      : string[];
+    selectCallback      : (selectedValues:SelectOption[],selectType:string) => void;
+    textCallback        : (e:React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LineAdminForm: React.FC<LineAdminFormProps> = ({
-    linePermission,
+const LineBotAdminForm: React.FC<LineAdminFormProps> = ({
+    lineBotPermission,
     guildMember,
     guildRole,
-    lineUserIds,
-    lineRoleIds,
+    lineBotUserIds,
+    lineBotRoleIds,
     selectCallback,
     textCallback
 }) => {
     const [useInitialCallback, setUseInitialCallback] = useState(true); // サーバーからデータを取得する前か
-    const lineUserIdSelected = UserIdIndexOptionComprehension(lineUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
+    const lineBotUserIdSelected = UserIdIndexOptionComprehension(lineBotUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
 
-    const lineRoleIdSelected = RoleIdIndexOptionComprehension(lineRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
+    const lineRoleIdSelected = RoleIdIndexOptionComprehension(lineBotRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
 
     // すでに設定されている要素を設定
-    const [selectedLineUserValue, setSelectedLineUserValue] = useState(lineUserIdSelected);
-    const [selectedLineRoleValue, setSelectedLineRoleValue] = useState(lineRoleIdSelected);
+    const [selectedLineBotUserValue, setSelectedLineBotUserValue] = useState(lineBotUserIdSelected);
+    const [selectedLineBotRoleValue, setSelectedLineBotRoleValue] = useState(lineRoleIdSelected);
 
     // すでに設定されている要素を設定
     if (useInitialCallback){
         console.log('call');
-        selectCallback(selectedLineUserValue,'user');
-        selectCallback(selectedLineRoleValue,'role');
+        selectCallback(selectedLineBotUserValue,'user');
+        selectCallback(selectedLineBotRoleValue,'role');
         setUseInitialCallback(false);
     }
 
     // 非同期でのstate更新に合わせるため
     useEffect(() => {
-        selectCallback(selectedLineUserValue,'user');
-    },[selectedLineUserValue]);
+        selectCallback(selectedLineBotUserValue,'user');
+    },[selectedLineBotUserValue]);
 
     useEffect(() => {
-        selectCallback(selectedLineRoleValue,'role');
-    },[selectedLineRoleValue]);
+        selectCallback(selectedLineBotRoleValue,'role');
+    },[selectedLineBotRoleValue]);
 
     return (
         <details>
             <summary>
-                <strong>LINEへの送信設定</strong>
+                <strong>LINEBotおよびグループ設定</strong>
             </summary>
             <div>
                 <label>編集を許可する権限コード</label>
                 <input
                     type="text"
-                    name="line_permission"
-                    defaultValue={linePermission}
+                    name="line_bot_permission"
+                    defaultValue={lineBotPermission}
                     onChange={textCallback}
                 />
             </div>
@@ -70,14 +70,14 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
             <div style={{ width: "500px", margin: "50px" }}>
                 <Select
                     options={guildMember}
-                    defaultValue={selectedLineUserValue}
+                    defaultValue={selectedLineBotUserValue}
                     onChange={(value) => {
                         if(value){
-                            setSelectedLineUserValue([...value]);
+                            setSelectedLineBotUserValue([...value]);
                         }else{
                             null;
                         };
-                        selectCallback(selectedLineUserValue,'user');
+                        selectCallback(selectedLineBotUserValue,'user');
                     }}
                     isMulti // trueに
                 />
@@ -86,14 +86,14 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
             <div style={{ width: "500px", margin: "50px" }}>
                 <Select
                     options={guildRole}
-                    defaultValue={selectedLineRoleValue}
+                    defaultValue={selectedLineBotRoleValue}
                     onChange={(value) => {
                         if(value){
-                            setSelectedLineRoleValue([...value]);
+                            setSelectedLineBotRoleValue([...value]);
                         }else{
                             null
                         };
-                        selectCallback(selectedLineRoleValue,'role');
+                        selectCallback(selectedLineBotRoleValue,'role');
                     }}
                     isMulti // trueに
                 />
@@ -102,4 +102,4 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
     )
 };
 
-export default LineAdminForm;
+export default LineBotAdminForm;

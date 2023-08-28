@@ -12,6 +12,7 @@ import {
 } from "../../../units/dictComprehension";
 
 import LineAdminForm from "./LineAdminForm";
+import LineBotAdminForm from "./LineBotAdminForm";
 
 interface AdminFormData {
     guild_id                    : bigint;
@@ -67,26 +68,18 @@ const Admin = () => {
     const userIdSelect = useMemo(() => {
         return UserIdComprehension(guildMember);    // サーバーメンバー一覧
     }, [guildMember]);
-    const lineBotUserIdSelected = UserIdIndexComprehension(lineBotUserIds,guildMember); // linebotの設定を許可されているユーザ一覧
     const vcUserIdSelected = UserIdIndexComprehension(vcUserIds,guildMember);           // ボイスチャンネルの入退室設定を許可されているユーザ一覧
     const webhookUserIdSelected = UserIdIndexComprehension(webhookUserIds,guildMember); // webhookの設定を許可されているユーザ一覧
 
     const roleIdSelect = useMemo(() => {
         return RoleIdComprehension(guildRole); // サーバーロール一覧
     }, [guildRole]);
-    const lineBotRoleIdSelected = RoleIdIndexComprehension(lineBotRoleIds,guildRole);   // linebotの設定を許可されているロール一覧
     const vcRoleIdSelected = RoleIdIndexComprehension(vcRoleIds,guildRole);             // ボイスチャンネルの入退室設定を許可されているロール一覧
     const webhookRoleIdSelected = RoleIdIndexComprehension(webhookRoleIds,guildRole);   // webhookの設定を許可されているロール一覧
 
     const handleFormSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         // 各要素をselectから抜き取る
-        selectedLineBotUserValue.map((user,index) => {
-            formAdminData.line_bot_user_id_permission.push(user.value);
-        });
-        selectedLineBotRoleValue.map((role,index) => {
-            formAdminData.line_bot_role_id_permission.push(role.value);
-        });
         selectedVcUserValue.map((user,index) => {
             formAdminData.vc_user_id_permission.push(user.value);
         });
@@ -106,6 +99,7 @@ const Admin = () => {
             }
             return value;
         });
+        console.log(formAdminData);
         // サーバー側に送信
         const adminJson = await axios.post(
             `${SERVER_BASE_URL}/api/admin-success-json`,
@@ -115,11 +109,9 @@ const Admin = () => {
     };
 
     // すでに設定されている要素を設定
-    const [selectedLineBotUserValue, setSelectedLineBotUserValue] = useState(lineBotUserIdSelected);
     const [selectedVcUserValue, setSelectedVcUserValue] = useState(vcUserIdSelected);
     const [selectedWebhookUserValue, setSelectedWebhookUserValue] = useState(webhookUserIdSelected);
 
-    const [selectedLineBotRoleValue, setSelectedLineBotRoleValue] = useState(lineBotRoleIdSelected);
     const [selectedVcRoleValue, setSelectedVcRoleValue] = useState(vcRoleIdSelected);
     const [selectedWebhookRoleValue, setSelectedWebhookRoleValue] = useState(webhookRoleIdSelected);
 
@@ -153,11 +145,9 @@ const Admin = () => {
     if (!isLoading) {
         // 初期値が設定されてない場合(非同期処理が間に合わないため追加)
         if(isStateing){
-            setSelectedLineBotUserValue(lineBotUserIdSelected);
             setSelectedVcUserValue(vcUserIdSelected);
             setSelectedWebhookUserValue(webhookUserIdSelected);
 
-            setSelectedLineBotRoleValue(lineBotRoleIdSelected);
             setSelectedVcRoleValue(vcRoleIdSelected);
             setSelectedWebhookRoleValue(webhookRoleIdSelected);
             // 追加したためローディング解除
@@ -185,63 +175,77 @@ const Admin = () => {
         }
     };
 
+
+    const handleLineBotSelectionChange = (
+        selectedValues:SelectOption[],
+        selectType:string
+    ) => {
+        /*
+        LINEへの送信設定のuser、roleのidをそれぞれ格納
+        */
+        if (selectType === 'user'){
+            formAdminData.line_bot_user_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.line_bot_user_id_permission.push(option.value);
+            });
+        } else if (selectType === 'role') {
+            formAdminData.line_bot_role_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.line_bot_role_id_permission.push(option.value);
+            });
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type } = e.target;
+
+        console.log(name);
+
+        setAdminFormData((inputDate) => ({
+            ...inputDate,
+            [name]: value
+        }))
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
+        const lineBotPermissionCode = adminData && adminData.lineBotPermission !== undefined ? adminData.lineBotPermission : 8;
         const lineUserIds = adminData && adminData.lineUserIdPermission !== undefined ? adminData.lineUserIdPermission : [];
         const lineRoleIds = adminData && adminData.lineRoleIdPermission !== undefined ? adminData.lineRoleIdPermission : [];
+
+        const linePermissionCode = adminData && adminData.linePermission !== undefined ? adminData.linePermission : 8;
         const lineBotUserIds = adminData && adminData.lineBotUserIdPermission !== undefined ? adminData.lineBotUserIdPermission : [];
         const lineBotRoleIds = adminData && adminData.lineBotRoleIdPermission !== undefined ? adminData.lineBotRoleIdPermission : [];
+
+        const vcPermissionCode = adminData && adminData.vcPermission !== undefined ? adminData.vcPermission : 8;
         const vcUserIds = adminData && adminData.vcUserIdPermission !== undefined ? adminData.vcUserIdPermission : [];
         const vcRoleIds = adminData && adminData.vcRoleIdPermission !== undefined ? adminData.vcRoleIdPermission : [];
+
+        const webhookPermissionCode = adminData && adminData.webhookPermission !== undefined ? adminData.webhookPermission : 8;
         const webhookUserIds = adminData && adminData.webhookUserIdPermission !== undefined ? adminData.webhookUserIdPermission : [];
         const webhookRoleIds = adminData && adminData.webhookRoleIdPermission !== undefined ? adminData.webhookRoleIdPermission : [];
         return(
             <>
                 <form onSubmit={handleFormSubmit}>
                     <LineAdminForm
-                        line_permission={formAdminData.line_permission}
+                        linePermission={linePermissionCode}
                         guildMember={userIdSelect}
                         guildRole={roleIdSelect}
                         lineUserIds={lineUserIds}
                         lineRoleIds={lineRoleIds}
                         selectCallback={handleLineSelectionChange}
+                        textCallback={handleInputChange}
                     ></LineAdminForm>
-                    <details>
-                        <summary>
-                            <strong>LINEBotおよびグループ設定</strong>
-                        </summary>
-                        <div>
-                            <label>編集を許可する権限コード</label>
-                            <input
-                                type="text"
-                                name="line_bot_permission"
-                                defaultValue={formAdminData.line_bot_permission}
-                            />
-                        </div>
-                        <h6>アクセスを許可するメンバーの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={userIdSelect}
-                                defaultValue={lineBotUserIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedLineBotUserValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                        <h6>アクセスを許可するロールの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={roleIdSelect}
-                                defaultValue={lineBotRoleIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedLineBotRoleValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                    </details>
+                    <LineBotAdminForm
+                        lineBotPermission={lineBotPermissionCode}
+                        guildMember={userIdSelect}
+                        guildRole={roleIdSelect}
+                        lineBotUserIds={lineBotUserIds}
+                        lineBotRoleIds={lineBotRoleIds}
+                        selectCallback={handleLineBotSelectionChange}
+                        textCallback={handleInputChange}
+                    ></LineBotAdminForm>
                     <details>
                         <summary>
                             <strong>ボイスチャンネルの通知設定</strong>
