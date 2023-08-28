@@ -8,7 +8,7 @@ import {
 } from "../../../units/dictComprehension";
 
 interface VcAdminFormProps {
-    vcPermission: number;
+    vcPermission    : number;
     guildMember     : SelectOption[];
     guildRole       : SelectOption[];
     vcUserIds       : string[];
