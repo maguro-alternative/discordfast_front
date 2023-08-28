@@ -37,7 +37,6 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
 
     // すでに設定されている要素を設定
     if (useInitialCallback){
-        console.log('call');
         selectCallback(selectedWebhookUserValue,'user');
         selectCallback(selectedWebhookRoleValue,'role');
         setUseInitialCallback(false);
@@ -61,7 +60,7 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                 <label>編集を許可する権限コード</label>
                 <input
                     type="text"
-                    name="line_permission"
+                    name="webhook_permission"
                     defaultValue={webhookPermission}
                     onChange={textCallback}
                 />

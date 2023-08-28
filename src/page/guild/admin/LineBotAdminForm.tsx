@@ -37,7 +37,6 @@ const LineBotAdminForm: React.FC<LineAdminFormProps> = ({
 
     // すでに設定されている要素を設定
     if (useInitialCallback){
-        console.log('call');
         selectCallback(selectedLineBotUserValue,'user');
         selectCallback(selectedLineBotRoleValue,'role');
         setUseInitialCallback(false);

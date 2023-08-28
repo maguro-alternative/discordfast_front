@@ -37,7 +37,6 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
 
     // すでに設定されている要素を設定
     if (useInitialCallback){
-        console.log('call');
         selectCallback(selectedVcUserValue,'user');
         selectCallback(selectedVcRoleValue,'role');
         setUseInitialCallback(false);
@@ -61,7 +60,7 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
                 <label>編集を許可する権限コード</label>
                 <input
                     type="text"
-                    name="line_permission"
+                    name="vc_permission"
                     defaultValue={vcPermission}
                     onChange={textCallback}
                 />
