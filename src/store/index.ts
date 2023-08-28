@@ -19,3 +19,8 @@ export type DiscordLineSet = typeof discordLineSet
 export type DiscordVcSignal = typeof discordVcSignal
 export type DiscordWebhook = typeof discordWebhook
 export type LineGroup = typeof lineGroup
+
+export interface SelectOption {
+    value:string,
+    label:string
+};
