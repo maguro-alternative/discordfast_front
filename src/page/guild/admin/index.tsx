@@ -13,6 +13,7 @@ import {
 
 import LineAdminForm from "./LineAdminForm";
 import LineBotAdminForm from "./LineBotAdminForm";
+import VcAdminForm from "./VcAdminForm";
 
 interface AdminFormData {
     guild_id                    : bigint;
@@ -40,8 +41,6 @@ const Admin = () => {
     const guildMember = adminData && adminData.guildMembers !== undefined ? adminData.guildMembers : [];
     const guildRole = adminData && adminData.guildRoles !== undefined ? adminData.guildRoles : [];
 
-    const lineBotUserIds = adminData && adminData.lineBotUserIdPermission !== undefined ? adminData.lineBotUserIdPermission : [];
-    const lineBotRoleIds = adminData && adminData.lineBotRoleIdPermission !== undefined ? adminData.lineBotRoleIdPermission : [];
     const vcUserIds = adminData && adminData.vcUserIdPermission !== undefined ? adminData.vcUserIdPermission : [];
     const vcRoleIds = adminData && adminData.vcRoleIdPermission !== undefined ? adminData.vcRoleIdPermission : [];
     const webhookUserIds = adminData && adminData.webhookUserIdPermission !== undefined ? adminData.webhookUserIdPermission : [];
@@ -53,14 +52,14 @@ const Admin = () => {
         line_user_id_permission     :[],
         line_role_id_permission     :[],
         line_bot_permission         :adminData && adminData.lineBotPermission !== undefined ? adminData.lineBotPermission : 8,
-        line_bot_user_id_permission :lineBotUserIds,
-        line_bot_role_id_permission :lineBotRoleIds,
+        line_bot_user_id_permission :[],
+        line_bot_role_id_permission :[],
         vc_permission               :adminData && adminData.vcPermission !== undefined ? adminData.vcPermission : 8,
-        vc_user_id_permission       :vcUserIds,
-        vc_role_id_permission       :vcRoleIds,
+        vc_user_id_permission       :[],
+        vc_role_id_permission       :[],
         webhook_permission          :adminData && adminData.webhookPermission !== undefined ? adminData.webhookPermission : 8,
-        webhook_user_id_permission  :webhookUserIds,
-        webhook_role_id_permission  :webhookRoleIds
+        webhook_user_id_permission  :[],
+        webhook_role_id_permission  :[]
     });
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -175,13 +174,12 @@ const Admin = () => {
         }
     };
 
-
     const handleLineBotSelectionChange = (
         selectedValues:SelectOption[],
         selectType:string
     ) => {
         /*
-        LINEへの送信設定のuser、roleのidをそれぞれ格納
+        LINEBotおよびグループ設定のuser、roleのidをそれぞれ格納
         */
         if (selectType === 'user'){
             formAdminData.line_bot_user_id_permission = [];
@@ -192,6 +190,26 @@ const Admin = () => {
             formAdminData.line_bot_role_id_permission = [];
             selectedValues.map((option,index) => {
                 formAdminData.line_bot_role_id_permission.push(option.value);
+            });
+        }
+    };
+
+    const handleVcSelectionChange = (
+        selectedValues:SelectOption[],
+        selectType:string
+    ) => {
+        /*
+        ボイスチャンネルの通知設定のuser、roleのidをそれぞれ格納
+        */
+        if (selectType === 'user'){
+            formAdminData.vc_user_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.vc_user_id_permission.push(option.value);
+            });
+        } else if (selectType === 'role') {
+            formAdminData.vc_role_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.vc_role_id_permission.push(option.value);
             });
         }
     };
@@ -246,41 +264,15 @@ const Admin = () => {
                         selectCallback={handleLineBotSelectionChange}
                         textCallback={handleInputChange}
                     ></LineBotAdminForm>
-                    <details>
-                        <summary>
-                            <strong>ボイスチャンネルの通知設定</strong>
-                        </summary>
-                        <div>
-                            <label>編集を許可する権限コード</label>
-                            <input
-                                type="text"
-                                name="vc_permission"
-                                defaultValue={formAdminData.vc_permission}
-                            />
-                        </div>
-                        <h6>アクセスを許可するメンバーの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={userIdSelect}
-                                defaultValue={vcUserIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedVcUserValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                        <h6>アクセスを許可するロールの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={roleIdSelect}
-                                defaultValue={vcRoleIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedVcRoleValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                    </details>
+                    <VcAdminForm
+                        vcPermission={vcPermissionCode}
+                        guildMember={userIdSelect}
+                        guildRole={roleIdSelect}
+                        vcUserIds={vcUserIds}
+                        vcRoleIds={vcRoleIds}
+                        selectCallback={handleVcSelectionChange}
+                        textCallback={handleInputChange}
+                    ></VcAdminForm>
                     <details>
                         <summary>
                             <strong>Webhookの通知設定</strong>
