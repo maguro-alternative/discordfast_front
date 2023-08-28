@@ -39,8 +39,6 @@ const Admin = () => {
     const guildMember = adminData && adminData.guildMembers !== undefined ? adminData.guildMembers : [];
     const guildRole = adminData && adminData.guildRoles !== undefined ? adminData.guildRoles : [];
 
-    const lineUserIds = adminData && adminData.lineUserIdPermission !== undefined ? adminData.lineUserIdPermission : [];
-    const lineRoleIds = adminData && adminData.lineRoleIdPermission !== undefined ? adminData.lineRoleIdPermission : [];
     const lineBotUserIds = adminData && adminData.lineBotUserIdPermission !== undefined ? adminData.lineBotUserIdPermission : [];
     const lineBotRoleIds = adminData && adminData.lineBotRoleIdPermission !== undefined ? adminData.lineBotRoleIdPermission : [];
     const vcUserIds = adminData && adminData.vcUserIdPermission !== undefined ? adminData.vcUserIdPermission : [];
@@ -69,7 +67,6 @@ const Admin = () => {
     const userIdSelect = useMemo(() => {
         return UserIdComprehension(guildMember);    // サーバーメンバー一覧
     }, [guildMember]);
-    const lineUserIdSelected = UserIdIndexComprehension(lineUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
     const lineBotUserIdSelected = UserIdIndexComprehension(lineBotUserIds,guildMember); // linebotの設定を許可されているユーザ一覧
     const vcUserIdSelected = UserIdIndexComprehension(vcUserIds,guildMember);           // ボイスチャンネルの入退室設定を許可されているユーザ一覧
     const webhookUserIdSelected = UserIdIndexComprehension(webhookUserIds,guildMember); // webhookの設定を許可されているユーザ一覧
@@ -77,7 +74,6 @@ const Admin = () => {
     const roleIdSelect = useMemo(() => {
         return RoleIdComprehension(guildRole); // サーバーロール一覧
     }, [guildRole]);
-    const lineRoleIdSelected = RoleIdIndexComprehension(lineRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
     const lineBotRoleIdSelected = RoleIdIndexComprehension(lineBotRoleIds,guildRole);   // linebotの設定を許可されているロール一覧
     const vcRoleIdSelected = RoleIdIndexComprehension(vcRoleIds,guildRole);             // ボイスチャンネルの入退室設定を許可されているロール一覧
     const webhookRoleIdSelected = RoleIdIndexComprehension(webhookRoleIds,guildRole);   // webhookの設定を許可されているロール一覧
@@ -85,9 +81,6 @@ const Admin = () => {
     const handleFormSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         // 各要素をselectから抜き取る
-        selectedLineRoleValue.map((role,index) => {
-            formAdminData.line_role_id_permission.push(role.value);
-        });
         selectedLineBotUserValue.map((user,index) => {
             formAdminData.line_bot_user_id_permission.push(user.value);
         });
@@ -122,12 +115,10 @@ const Admin = () => {
     };
 
     // すでに設定されている要素を設定
-    const [selectedLineUserValue, setSelectedLineUserValue] = useState(lineUserIdSelected);
     const [selectedLineBotUserValue, setSelectedLineBotUserValue] = useState(lineBotUserIdSelected);
     const [selectedVcUserValue, setSelectedVcUserValue] = useState(vcUserIdSelected);
     const [selectedWebhookUserValue, setSelectedWebhookUserValue] = useState(webhookUserIdSelected);
 
-    const [selectedLineRoleValue, setSelectedLineRoleValue] = useState(lineRoleIdSelected);
     const [selectedLineBotRoleValue, setSelectedLineBotRoleValue] = useState(lineBotRoleIdSelected);
     const [selectedVcRoleValue, setSelectedVcRoleValue] = useState(vcRoleIdSelected);
     const [selectedWebhookRoleValue, setSelectedWebhookRoleValue] = useState(webhookRoleIdSelected);
@@ -162,12 +153,10 @@ const Admin = () => {
     if (!isLoading) {
         // 初期値が設定されてない場合(非同期処理が間に合わないため追加)
         if(isStateing){
-            setSelectedLineUserValue(lineUserIdSelected);
             setSelectedLineBotUserValue(lineBotUserIdSelected);
             setSelectedVcUserValue(vcUserIdSelected);
             setSelectedWebhookUserValue(webhookUserIdSelected);
 
-            setSelectedLineRoleValue(lineRoleIdSelected);
             setSelectedLineBotRoleValue(lineBotRoleIdSelected);
             setSelectedVcRoleValue(vcRoleIdSelected);
             setSelectedWebhookRoleValue(webhookRoleIdSelected);
@@ -176,12 +165,24 @@ const Admin = () => {
         }
     }
 
-    const handleSelectionChange = (selectedValues:SelectOption[]) => {
-        formAdminData.line_user_id_permission = [];
-        selectedValues.map((option,index) => {
-            console.log(option.value);
-            formAdminData.line_user_id_permission.push(option.value);
-        });
+    const handleLineSelectionChange = (
+        selectedValues:SelectOption[],
+        selectType:string
+    ) => {
+        /*
+        LINEへの送信設定のuser、roleのidをそれぞれ格納
+        */
+        if (selectType === 'user'){
+            formAdminData.line_user_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.line_user_id_permission.push(option.value);
+            });
+        } else if (selectType === 'role') {
+            formAdminData.line_role_id_permission = [];
+            selectedValues.map((option,index) => {
+                formAdminData.line_role_id_permission.push(option.value);
+            });
+        }
     };
 
     if (isLoading) {
@@ -204,7 +205,7 @@ const Admin = () => {
                         guildRole={roleIdSelect}
                         lineUserIds={lineUserIds}
                         lineRoleIds={lineRoleIds}
-                        selectCallback={handleSelectionChange}
+                        selectCallback={handleLineSelectionChange}
                     ></LineAdminForm>
                     <details>
                         <summary>

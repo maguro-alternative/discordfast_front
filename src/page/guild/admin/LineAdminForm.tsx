@@ -13,7 +13,7 @@ interface LineAdminFormProps {
     guildRole       : SelectOption[];
     lineUserIds     : string[];
     lineRoleIds     : string[];
-    selectCallback  : (selectedValues:SelectOption[]) => void;
+    selectCallback  : (selectedValues:SelectOption[],selectType:string) => void;
 }
 
 const LineAdminForm: React.FC<LineAdminFormProps> = ({
@@ -36,18 +36,18 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
     // すでに設定されている要素を設定
     if (useInitialCallback){
         console.log('call');
-        selectCallback(selectedLineUserValue);
-        selectCallback(selectedLineRoleValue);
+        selectCallback(selectedLineUserValue,'user');
+        selectCallback(selectedLineRoleValue,'role');
         setUseInitialCallback(false);
     }
 
     // 非同期でのstate更新に合わせるため
     useEffect(() => {
-        selectCallback(selectedLineUserValue);
+        selectCallback(selectedLineUserValue,'user');
     },[selectedLineUserValue]);
 
     useEffect(() => {
-        selectCallback(selectedLineRoleValue);
+        selectCallback(selectedLineRoleValue,'role');
     },[selectedLineRoleValue]);
 
     return (
@@ -74,7 +74,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                         }else{
                             null;
                         };
-                        selectCallback(selectedLineUserValue);
+                        selectCallback(selectedLineUserValue,'user');
                     }}
                     isMulti // trueに
                 />
@@ -90,7 +90,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                         }else{
                             null
                         };
-                        selectCallback(selectedLineRoleValue);
+                        selectCallback(selectedLineRoleValue,'role');
                     }}
                     isMulti // trueに
                 />
