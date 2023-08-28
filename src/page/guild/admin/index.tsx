@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Select from "react-select";
-import AsyncSelect from 'react-select/async'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,6 +10,8 @@ import {
     RoleIdComprehension,
     RoleIdIndexComprehension
 } from "../../../units/dictComprehension";
+
+import LineAdminForm from "./LineAdminForm";
 
 interface AdminFormData {
     guild_id                    : bigint;
@@ -65,13 +66,17 @@ const Admin = () => {
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
-    const userIdSelect = UserIdComprehension(guildMember);  // サーバーメンバー一覧
+    const userIdSelect = useMemo(() => {
+        return UserIdComprehension(guildMember);    // サーバーメンバー一覧
+    }, [guildMember]);
     const lineUserIdSelected = UserIdIndexComprehension(lineUserIds,guildMember);   // lineの送信設定を許可されているユーザid一覧
     const lineBotUserIdSelected = UserIdIndexComprehension(lineBotUserIds,guildMember); // linebotの設定を許可されているユーザ一覧
     const vcUserIdSelected = UserIdIndexComprehension(vcUserIds,guildMember);           // ボイスチャンネルの入退室設定を許可されているユーザ一覧
     const webhookUserIdSelected = UserIdIndexComprehension(webhookUserIds,guildMember); // webhookの設定を許可されているユーザ一覧
 
-    const roleIdSelect = RoleIdComprehension(guildRole);    // サーバーロール一覧
+    const roleIdSelect = useMemo(() => {
+        return RoleIdComprehension(guildRole); // サーバーロール一覧
+    }, [guildRole]);
     const lineRoleIdSelected = RoleIdIndexComprehension(lineRoleIds,guildRole); // lineの送信設定を許可されているロールid一覧
     const lineBotRoleIdSelected = RoleIdIndexComprehension(lineBotRoleIds,guildRole);   // linebotの設定を許可されているロール一覧
     const vcRoleIdSelected = RoleIdIndexComprehension(vcRoleIds,guildRole);             // ボイスチャンネルの入退室設定を許可されているロール一覧
@@ -177,44 +182,24 @@ const Admin = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
+        const lineUserIds = adminData && adminData.lineUserIdPermission !== undefined ? adminData.lineUserIdPermission : [];
+        const lineRoleIds = adminData && adminData.lineRoleIdPermission !== undefined ? adminData.lineRoleIdPermission : [];
+        const lineBotUserIds = adminData && adminData.lineBotUserIdPermission !== undefined ? adminData.lineBotUserIdPermission : [];
+        const lineBotRoleIds = adminData && adminData.lineBotRoleIdPermission !== undefined ? adminData.lineBotRoleIdPermission : [];
+        const vcUserIds = adminData && adminData.vcUserIdPermission !== undefined ? adminData.vcUserIdPermission : [];
+        const vcRoleIds = adminData && adminData.vcRoleIdPermission !== undefined ? adminData.vcRoleIdPermission : [];
+        const webhookUserIds = adminData && adminData.webhookUserIdPermission !== undefined ? adminData.webhookUserIdPermission : [];
+        const webhookRoleIds = adminData && adminData.webhookRoleIdPermission !== undefined ? adminData.webhookRoleIdPermission : [];
         return(
             <>
                 <form onSubmit={handleFormSubmit}>
-                    <details>
-                        <summary>
-                            <strong>LINEへの送信設定</strong>
-                        </summary>
-                        <div>
-                            <label>編集を許可する権限コード</label>
-                            <input
-                                type="text"
-                                name="line_permission"
-                                defaultValue={formAdminData.line_permission}
-                            />
-                        </div>
-                        <h6>アクセスを許可するメンバーの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={userIdSelect}
-                                defaultValue={lineUserIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedLineUserValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                        <h6>アクセスを許可するロールの選択</h6>
-                        <div style={{ width: "500px", margin: "50px" }}>
-                            <Select
-                                options={roleIdSelect}
-                                defaultValue={lineRoleIdSelected}
-                                onChange={(value) => {
-                                    value ? setSelectedLineRoleValue([...value]) : null;
-                                }}
-                                isMulti // trueに
-                            />
-                        </div>
-                    </details>
+                    <LineAdminForm
+                        line_permission={formAdminData.line_permission}
+                        guildMember={userIdSelect}
+                        guildRole={roleIdSelect}
+                        lineUserIds={lineUserIds}
+                        lineRoleIds={lineRoleIds}
+                    ></LineAdminForm>
                     <details>
                         <summary>
                             <strong>LINEBotおよびグループ設定</strong>
