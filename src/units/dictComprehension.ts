@@ -1,17 +1,13 @@
-import { DiscordAdmin } from '../store';
-
+import { DiscordAdmin,SelectOption } from '../store';
 
 export function UserIdComprehension(
     userList:DiscordAdmin["guildMembers"]
 ){
-    let optionDict: {
-        value:string,
-        label:string
-    };
-    let optionList: {
-        value:string,
-        label:string
-    }[] = [];
+    /*
+    受け取ったサーバーメンバー一覧をSelectで選択できる形式に変換
+    */
+    let optionDict: SelectOption;
+    let optionList: SelectOption[] = [];
 
     userList.forEach(user => {
         optionDict = {
@@ -28,17 +24,13 @@ export function UserIdIndexComprehension(
     userIdList:string[],
     userList:DiscordAdmin["guildMembers"]
 ){
-    let optionDict: {
-        value:string,
-        label:string
-    };
-    let optionList: {
-        value:string,
-        label:string
-    }[] = Array();
+    /*
+    受け取ったサーバーロール一覧をSelectで選択できる形式に変換
+    */
+    let optionDict: SelectOption;
+    let optionList: SelectOption[] = [];
 
     userList.forEach(user => {
-        //console.log(userIdList.indexOf(user.userId));
         if (userIdList.indexOf(user.userId) !== -1){
             optionDict = {
                 value:user.userId,
@@ -47,9 +39,6 @@ export function UserIdIndexComprehension(
             optionList.push(optionDict);
         }
     });
-
-    console.log('optionList',optionList);
-
     return optionList;
 }
 
@@ -57,14 +46,11 @@ export function UserIdIndexComprehension(
 export function RoleIdComprehension(
     roleList:DiscordAdmin["guildRoles"]
 ){
-    let optionDict: {
-        value:string,
-        label:string
-    };
-    let optionList: {
-        value:string,
-        label:string
-    }[] = [];
+    /*
+    すでに選択されているサーバーメンバーを抜き取る
+    */
+    let optionDict: SelectOption;
+    let optionList: SelectOption[] = [];
 
     roleList.forEach(role => {
         optionDict = {
@@ -81,14 +67,11 @@ export function RoleIdIndexComprehension(
     roleIdList:string[],
     roleList:DiscordAdmin["guildRoles"]
 ){
-    let optionDict: {
-        value:string,
-        label:string
-    };
-    let optionList: {
-        value:string,
-        label:string
-    }[] = [];
+    /*
+    すでに選択されているロールを抜き取る
+    */
+    let optionDict: SelectOption;
+    let optionList: SelectOption[] = [];
 
     roleList.forEach(role => {
         if (role.roleId in roleIdList){
