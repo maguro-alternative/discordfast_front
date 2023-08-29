@@ -16,6 +16,12 @@ interface Channel {
     ngUsers: string[];
 }
 
+interface LinePostData {
+    channels: {
+        [key: string]: Channel[]; // インデックスシグネチャを使用
+    };
+}
+
 const LinePost = () => {
     const { id } = useParams(); // パラメータを取得
 
@@ -23,6 +29,32 @@ const LinePost = () => {
     const [linePostData, setLinePostData] = useState<DiscordLinePost>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
     const [isStateing, setIsStateing] = useState(true); // サーバーからデータを取得する前か
+
+    const handleNgCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, checked } = e.target;
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+
+            if (updatedChannels[value]) {
+            const updatedChannelArray = updatedChannels[value].map(channel => (
+                channel.id === name ? { ...channel, lineNgChannel: checked } : channel
+            ));
+
+            updatedChannels[value] = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                channels: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    };
+
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -83,14 +115,16 @@ const LinePost = () => {
                                     <input
                                         type="checkbox"
                                         name={channel.id}
-                                        value="line_ng_channel"
+                                        value={categoryChannel.id}
                                         defaultChecked
+                                        onChange={handleNgCheckChage}
                                     />
                                     :
                                     <input
                                         type="checkbox"
                                         name={channel.id}
-                                        value="line_ng_channel"
+                                        value={categoryChannel.id}
+                                        onChange={handleNgCheckChage}
                                     />
                                     }
                                     <label>:LINEへ送信しない</label>
