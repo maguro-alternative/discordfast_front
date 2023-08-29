@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
 import { DiscordLinePost,SelectOption } from '../../../store';
+
+import { UserIdComprehension } from "../../../units/dictComprehension";
 
 // JSONデータの型定義
 interface Channel {
@@ -30,6 +32,12 @@ const LinePost = () => {
     const [linePostData, setLinePostData] = useState<DiscordLinePost>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
     const [isStateing, setIsStateing] = useState(true); // サーバーからデータを取得する前か
+
+    const users = linePostData && linePostData.users !== undefined ? linePostData.users : [];
+
+    const userIdSelect = useMemo(() => {
+        return UserIdComprehension(users);    // サーバーメンバー一覧
+    }, [users]);
 
     const messageTypeOption = [
         { value: "MessageType.default", label: "デフォルト" },
@@ -187,6 +195,8 @@ const LinePost = () => {
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = JSON.parse(JSON.stringify(discordChannel));
 
+        const users = linePostData && linePostData.users !== undefined ? linePostData.users : [];
+
         return(
             <>
                 <details>
@@ -261,6 +271,11 @@ const LinePost = () => {
                                             };
                                         }}
                                         isMulti // trueに
+                                    ></Select>
+
+                                    <h5>メッセージを送信しないユーザー</h5>
+                                    <Select
+                                        options={userIdSelect}
                                     ></Select>
                                 </details>
                             ))}
