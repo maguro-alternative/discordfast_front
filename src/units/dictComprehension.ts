@@ -1,6 +1,6 @@
-import { DiscordAdmin,SelectOption } from '../store';
+import { DiscordLinePost,DiscordAdmin,SelectOption } from '../store';
 
-export function UserIdComprehension(
+export function MemberIdComprehension(
     userList:DiscordAdmin["guildMembers"]
 ){
     /*
@@ -13,6 +13,26 @@ export function UserIdComprehension(
         optionDict = {
             value:user.userId,
             label:user.userName
+        }
+        optionList.push(optionDict);
+    });
+
+    return optionList;
+}
+
+export function UserIdComprehension(
+    userList:DiscordLinePost["users"]
+){
+    /*
+    受け取ったサーバーメンバー一覧をSelectで選択できる形式に変換
+    */
+    let optionDict: SelectOption;
+    let optionList: SelectOption[] = [];
+
+    userList.forEach(user => {
+        optionDict = {
+            value:user.id,
+            label:user.name
         }
         optionList.push(optionDict);
     });

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { DiscordAdmin, SelectOption } from '../../../store';
 import {
-    UserIdComprehension,
+    MemberIdComprehension,
     RoleIdComprehension,
 } from "../../../units/dictComprehension";
 
@@ -58,7 +58,7 @@ const Admin = () => {
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
     const userIdSelect = useMemo(() => {
-        return UserIdComprehension(guildMember);    // サーバーメンバー一覧
+        return MemberIdComprehension(guildMember);    // サーバーメンバー一覧
     }, [guildMember]);
 
     const roleIdSelect = useMemo(() => {
