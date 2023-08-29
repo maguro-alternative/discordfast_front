@@ -15,10 +15,6 @@ interface Channel {
     ngUsers: string[];
 }
 
-interface ChannelsData {
-    [channelId: string]: Channel[];
-}
-
 const LinePost = () => {
     const { id } = useParams(); // パラメータを取得
 
@@ -65,17 +61,39 @@ const LinePost = () => {
                         <strong>チャンネル一覧</strong>
                     </summary>
                     {discordCategoryChannel.map((categoryChannel,index) => (
-                        <li key={categoryChannel.id}>
-                            <strong>Channel ID:</strong> {categoryChannel.id}
+                        <details key={categoryChannel.id}>
+                            <summary>
+                                <strong>{categoryChannel.name}</strong>
+                            </summary>
                             <ul>
-                            {
-                                channelJson[discordCategoryChannel[index].id].map((channel:Channel,i:number) => (
-                                    channel.id
-                                ))
-                            }
+                            {channelJson[discordCategoryChannel[index].id].map((channel:Channel,i:number) => (
+                                <details key={channel.id}>
+                                    <summary>
+                                        <strong>{channel.name}</strong>
+                                    </summary>
+                                    {channel.id}
+                                </details>
+                            ))}
                             </ul>
-                    </li>
+                        </details>
                     ))}
+                    {channelJson["None"].length > 0 ? (
+                        <details>
+                            <summary>
+                                <strong>カテゴリーなし</strong>
+                            </summary>
+                            <ul>
+                            {channelJson["None"].map((channel:Channel,i:number) => (
+                                <details key={channel.id}>
+                                    <summary>
+                                        <strong>{channel.name}</strong>
+                                    </summary>
+                                    {channel.id}
+                                </details>
+                            ))}
+                            </ul>
+                        </details>
+                    ):(<></>)}
                 </details>
             </>
         )
