@@ -71,7 +71,10 @@ const LinePost = () => {
                             {channelJson[discordCategoryChannel[index].id].map((channel:Channel,i:number) => (
                                 <details key={channel.id}>
                                     <summary>
-                                        <strong>{channel.name}</strong>
+                                        <strong>
+                                            {channel.type === 'VoiceChannel'?`🔊:${channel.name}`:``}
+                                            {channel.type === 'TextChannel'?`#:${channel.name}`:`${channel.name}`}
+                                        </strong>
                                     </summary>
                                     {channel.id}
                                 </details>
@@ -88,7 +91,10 @@ const LinePost = () => {
                             {channelJson["None"].map((channel:Channel,i:number) => (
                                 <details key={channel.id}>
                                     <summary>
-                                        <strong>{channel.name}</strong>
+                                        <strong>
+                                            {channel.type === 'VoiceChannel'?`🔊:${channel.name}`:``}
+                                            {channel.type === 'TextChannel'?`#:${channel.name}`:`${channel.name}`}
+                                        </strong>
                                     </summary>
                                     {channel.id}
                                 </details>
