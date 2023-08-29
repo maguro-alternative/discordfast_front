@@ -53,6 +53,7 @@ const LinePost = () => {
     } else {
         const discordCategoryChannel = linePostData && linePostData.categorys !== undefined ? linePostData.categorys : [];
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
+        const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = JSON.parse(JSON.stringify(discordChannel));
         return(
             <>
@@ -60,6 +61,7 @@ const LinePost = () => {
                     <summary>
                         <strong>チャンネル一覧</strong>
                     </summary>
+                    <ul>
                     {discordCategoryChannel.map((categoryChannel,index) => (
                         <details key={categoryChannel.id}>
                             <summary>
@@ -94,6 +96,21 @@ const LinePost = () => {
                             </ul>
                         </details>
                     ):(<></>)}
+                    <details>
+                        <summary>
+                            <strong>スレッド一覧</strong>
+                        </summary>
+                        <ul>
+                        {discordThreads.map((thread,index) => (
+                            <details key={thread.id}>
+                                <summary>
+                                    <strong>{thread.name}</strong>
+                                </summary>
+                            </details>
+                        ))}
+                        </ul>
+                        </details>
+                    </ul>
                 </details>
             </>
         )
