@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Select from "react-select";
+import Select,{ MultiValue } from "react-select";
 
-import { DiscordLinePost } from '../../../store';
+import { DiscordLinePost,SelectOption } from '../../../store';
 
 // JSONデータの型定義
 interface Channel {
@@ -26,11 +26,23 @@ const LinePost = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
+    const [selectedNgMessageType,setSelectedNgMessageType] = useState<SelectOption[]>();
     const [linePostData, setLinePostData] = useState<DiscordLinePost>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
     const [isStateing, setIsStateing] = useState(true); // サーバーからデータを取得する前か
 
+    const messageTypeOption = [
+        { value: "MessageType.default", label: "デフォルト" },
+        { value: "MessageType.recipient_add", label: "スレッド追加" },
+        { value: "MessageType.pins_add", label: "ピン止め" },
+    ];
+
     const handleNgCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        name    :channel id
+        value   :category id
+        checked :bool
+        */
         const { name, value, checked } = e.target;
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
@@ -38,11 +50,15 @@ const LinePost = () => {
             const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
 
             if (updatedChannels[value]) {
-            const updatedChannelArray = updatedChannels[value].map(channel => (
-                channel.id === name ? { ...channel, lineNgChannel: checked } : channel
-            ));
+                const updatedChannelArray = updatedChannels[value].map(channel => (
+                    channel.id === name ? {
+                        ...channel,
+                        lineNgChannel: checked
+                    }
+                    :channel
+                ));
 
-            updatedChannels[value] = updatedChannelArray;
+                updatedChannels[value] = updatedChannelArray;
             }
 
             const setUpdatedData: DiscordLinePost = {
@@ -54,6 +70,87 @@ const LinePost = () => {
             setLinePostData(setUpdatedData)
         }
     };
+
+    const handleBotCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        name    :channel id
+        value   :category id
+        checked :bool
+        */
+        const { name, value, checked } = e.target;
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+
+            if (updatedChannels[value]) {
+                const updatedChannelArray = updatedChannels[value].map(channel => (
+                    channel.id === name ? {
+                        ...channel,
+                        messageBot: checked
+                    }
+                    :channel
+                ));
+
+                updatedChannels[value] = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                channels: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    };
+
+    const handleMessageTypeSet = (ngMessageType:string[]) => {
+        return ngMessageType.map(messageType => (
+            {
+                value:messageType,
+                label:messageTypeOption[messageTypeOption.findIndex(type => {
+                    return type.value === messageType ? type.label:''
+                })].label
+            }
+        ))
+    }
+
+    const handleMessageTypeChenge = (
+        ngMessageType:MultiValue<SelectOption>,
+        categoryId:string,
+        channelId:string
+    ) => {
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+
+            const ngMessages = ngMessageType.map((type) => {
+                return type.value
+            })
+
+            if (updatedChannels[categoryId]) {
+                const updatedChannelArray = updatedChannels[categoryId].map(channel => (
+                    channel.id === channelId ? {
+                        ...channel,
+                        ngMessageType: [...ngMessages]
+                    }
+                    :channel
+                ));
+
+                updatedChannels[categoryId] = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                channels: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    }
 
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -89,6 +186,7 @@ const LinePost = () => {
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = JSON.parse(JSON.stringify(discordChannel));
+
         return(
             <>
                 <details>
@@ -135,62 +233,35 @@ const LinePost = () => {
                                         name={channel.id}
                                         value="ng_message_type"
                                         defaultChecked
+                                        onChange={handleBotCheckChage}
                                     />
                                     :
                                     <input
                                         type="checkbox"
                                         name={channel.id}
                                         value="ng_message_type"
+                                        onChange={handleBotCheckChage}
                                     />
                                     }
                                     <label>:botのメッセージを送信しない</label>
 
                                     <h5>送信しないメッセージの種類:</h5>
-                                    {channel.ngMessageType.includes('MessageType.default') ?
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.default"
-                                        defaultChecked
-                                    />
-                                    :
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.default"
-                                    />
-                                    }
-                                    <label>:デフォルト</label>
-                                    {channel.ngMessageType.includes('MessageType.recipient_add') ?
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.recipient_add"
-                                        defaultChecked
-                                    />
-                                    :
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.recipient_add"
-                                    />
-                                    }
-                                    <label>:スレッド追加</label>
-                                    {channel.ngMessageType.includes('MessageType.pins_add') ?
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.pins_add"
-                                        defaultChecked
-                                    />
-                                    :
-                                    <input
-                                        type="checkbox"
-                                        name={channel.id}
-                                        value="MessageType.pins_add"
-                                    />
-                                    }
-                                    <label>:ピン止め</label>
+                                    <Select
+                                        options={messageTypeOption}
+                                        defaultValue={handleMessageTypeSet(channel.ngMessageType)}
+                                        onChange={(value) => {
+                                            if(value){
+                                                handleMessageTypeChenge(
+                                                    [...value],
+                                                    categoryChannel.id,
+                                                    channel.id
+                                                )
+                                            }else{
+                                                null
+                                            };
+                                        }}
+                                        isMulti // trueに
+                                    ></Select>
                                 </details>
                             ))}
                             </ul>
