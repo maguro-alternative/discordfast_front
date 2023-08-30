@@ -371,7 +371,77 @@ const LinePost = () => {
                                                 {channel.name}
                                             </strong>
                                         </summary>
-                                        {channel.id}
+                                        {channel.lineNgChannel ?
+                                        <input
+                                            type="checkbox"
+                                            name={channel.id}
+                                            value="None"
+                                            defaultChecked
+                                            onChange={handleNgCheckChage}
+                                        />
+                                        :
+                                        <input
+                                            type="checkbox"
+                                            name={channel.id}
+                                            value="None"
+                                            onChange={handleNgCheckChage}
+                                        />
+                                        }
+                                        <label>:LINEへ送信しない</label>
+
+                                        {channel.messageBot ?
+                                        <input
+                                            type="checkbox"
+                                            name={channel.id}
+                                            value="ng_message_type"
+                                            defaultChecked
+                                            onChange={handleBotCheckChage}
+                                        />
+                                        :
+                                        <input
+                                            type="checkbox"
+                                            name={channel.id}
+                                            value="ng_message_type"
+                                            onChange={handleBotCheckChage}
+                                        />
+                                        }
+                                        <label>:botのメッセージを送信しない</label>
+
+                                        <h5>送信しないメッセージの種類:</h5>
+                                        <Select
+                                            options={messageTypeOption}
+                                            defaultValue={handleMessageTypeSet(channel.ngMessageType)}
+                                            onChange={(value) => {
+                                                if(value){
+                                                    handleMessageTypeChenge(
+                                                        [...value],
+                                                        "None",
+                                                        channel.id
+                                                    )
+                                                }else{
+                                                    null
+                                                };
+                                            }}
+                                            isMulti // trueに
+                                        ></Select>
+
+                                        <h5>メッセージを送信しないユーザー</h5>
+                                        <Select
+                                            options={userIdSelect}
+                                            defaultValue={handleUserSet(channel.ngUsers)}
+                                            onChange={(value) => {
+                                                if(value){
+                                                    handleUserChenge(
+                                                        [...value],
+                                                        "None",
+                                                        channel.id
+                                                    )
+                                                }else{
+                                                    null
+                                                };
+                                            }}
+                                            isMulti // trueに
+                                        ></Select>
                                     </details>
                                 ))}
                                 </ul>
