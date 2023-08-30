@@ -7,6 +7,8 @@ import { DiscordLinePost,SelectOption,Channel } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
+import BoxCheck from "./CheckBoxForm";
+
 interface LinePostData {
     channels: {
         [key: string]: Channel[]; // インデックスシグネチャを使用
@@ -405,41 +407,21 @@ const LinePost = () => {
                                                 {channel.name}
                                             </strong>
                                         </summary>
-                                        {channel.lineNgChannel ?
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value={categoryChannel.id}
-                                            defaultChecked
-                                            onChange={handleNgCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value={categoryChannel.id}
-                                            onChange={handleNgCheckChage}
-                                        />
-                                        }
-                                        <label>:LINEへ送信しない</label>
+                                        <BoxCheck
+                                            channelBool={channel.lineNgChannel}
+                                            channelId={channel.id}
+                                            categoryChannelId={categoryChannel.id}
+                                            labelText=":LINEへ送信しない"
+                                            checkBoxCallback={handleNgCheckChage}
+                                        ></BoxCheck>
 
-                                        {channel.messageBot ?
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="ng_message_type"
-                                            defaultChecked
-                                            onChange={handleBotCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="ng_message_type"
-                                            onChange={handleBotCheckChage}
-                                        />
-                                        }
-                                        <label>:botのメッセージを送信しない</label>
+                                        <BoxCheck
+                                            channelBool={channel.messageBot}
+                                            channelId={channel.id}
+                                            categoryChannelId={categoryChannel.id}
+                                            labelText=":botのメッセージを送信しない"
+                                            checkBoxCallback={handleBotCheckChage}
+                                        ></BoxCheck>
 
                                         <h5>送信しないメッセージの種類:</h5>
                                         <Select
