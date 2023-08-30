@@ -23,7 +23,7 @@ export interface SelectOption {
     label:string
 };
 
-interface Channel {
+export interface Channel {
     id: string;
     name: string;
     type: string;

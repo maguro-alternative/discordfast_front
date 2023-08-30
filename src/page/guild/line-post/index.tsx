@@ -3,20 +3,9 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
-import { DiscordLinePost,SelectOption } from '../../../store';
+import { DiscordLinePost,SelectOption,Channel } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
-
-// JSONデータの型定義
-interface Channel {
-    id: string;
-    name: string;
-    type: string;
-    lineNgChannel: boolean;
-    ngMessageType: string[];
-    messageBot: boolean;
-    ngUsers: string[];
-}
 
 interface LinePostData {
     channels: {
@@ -28,11 +17,8 @@ interface LinePostData {
 const LinePost = () => {
     const { id } = useParams(); // パラメータを取得
 
-    const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
-    const [selectedNgMessageType,setSelectedNgMessageType] = useState<SelectOption[]>();
     const [linePostData, setLinePostData] = useState<DiscordLinePost>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
-    const [isStateing, setIsStateing] = useState(true); // サーバーからデータを取得する前か
 
     const users = linePostData && linePostData.users !== undefined ? linePostData.users : [];
 
@@ -395,8 +381,6 @@ const LinePost = () => {
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = JSON.parse(JSON.stringify(discordChannel));
-
-        const users = linePostData && linePostData.users !== undefined ? linePostData.users : [];
 
         return(
             <>
