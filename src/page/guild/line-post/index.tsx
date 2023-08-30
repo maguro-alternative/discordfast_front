@@ -63,7 +63,6 @@ const LinePost = () => {
                 channels: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     };
@@ -97,7 +96,6 @@ const LinePost = () => {
                 channels: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     };
@@ -144,7 +142,6 @@ const LinePost = () => {
                 channels: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     }
@@ -191,7 +188,6 @@ const LinePost = () => {
                 channels: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     }
@@ -225,7 +221,6 @@ const LinePost = () => {
                 threads: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     };
@@ -259,7 +254,6 @@ const LinePost = () => {
                 threads: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     };
@@ -276,8 +270,6 @@ const LinePost = () => {
             const ngMessages = ngMessageType.map((type) => {
                 return type.value
             })
-
-            console.log(updatedChannels);
 
             if (updatedChannels) {
                 const updatedChannelArray = updatedChannels.map(channel => (
@@ -296,7 +288,6 @@ const LinePost = () => {
                 threads: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     }
@@ -331,7 +322,6 @@ const LinePost = () => {
                 threads: updatedChannels,
             };
 
-            console.log(setUpdatedData);
             setLinePostData(setUpdatedData)
         }
     }
@@ -347,7 +337,6 @@ const LinePost = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
                 setLinePostData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
@@ -478,41 +467,20 @@ const LinePost = () => {
                                                 {channel.name}
                                             </strong>
                                         </summary>
-                                        {channel.lineNgChannel ?
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="None"
-                                            defaultChecked
-                                            onChange={handleNgCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="None"
-                                            onChange={handleNgCheckChage}
-                                        />
-                                        }
-                                        <label>:LINEへ送信しない</label>
-
-                                        {channel.messageBot ?
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="ng_message_type"
-                                            defaultChecked
-                                            onChange={handleBotCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={channel.id}
-                                            value="ng_message_type"
-                                            onChange={handleBotCheckChage}
-                                        />
-                                        }
-                                        <label>:botのメッセージを送信しない</label>
+                                        <BoxCheck
+                                            channelBool={channel.lineNgChannel}
+                                            channelId={channel.id}
+                                            categoryChannelId="None"
+                                            labelText=":LINEへ送信しない"
+                                            checkBoxCallback={handleNgCheckChage}
+                                        ></BoxCheck>
+                                        <BoxCheck
+                                            channelBool={channel.messageBot}
+                                            channelId={channel.id}
+                                            categoryChannelId="None"
+                                            labelText=":botのメッセージを送信しない"
+                                            checkBoxCallback={handleBotCheckChage}
+                                        ></BoxCheck>
 
                                         <h5>送信しないメッセージの種類:</h5>
                                         <Select
@@ -564,39 +532,20 @@ const LinePost = () => {
                                     <summary>
                                         <strong>{thread.name}</strong>
                                     </summary>
-                                        {thread.lineNgChannel ?
-                                        <input
-                                            type="checkbox"
-                                            name={thread.id}
-                                            defaultChecked
-                                            onChange={handleThreadNgCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={thread.id}
-                                            onChange={handleThreadNgCheckChage}
-                                        />
-                                        }
-                                        <label>:LINEへ送信しない</label>
-
-                                        {thread.messageBot ?
-                                        <input
-                                            type="checkbox"
-                                            name={thread.id}
-                                            value="ng_message_type"
-                                            defaultChecked
-                                            onChange={handleThreadBotCheckChage}
-                                        />
-                                        :
-                                        <input
-                                            type="checkbox"
-                                            name={thread.id}
-                                            value="ng_message_type"
-                                            onChange={handleThreadBotCheckChage}
-                                        />
-                                        }
-                                        <label>:botのメッセージを送信しない</label>
+                                        <BoxCheck
+                                            channelBool={thread.lineNgChannel}
+                                            channelId={thread.id}
+                                            categoryChannelId=""
+                                            labelText=":LINEへ送信しない"
+                                            checkBoxCallback={handleThreadNgCheckChage}
+                                        ></BoxCheck>
+                                        <BoxCheck
+                                            channelBool={thread.messageBot}
+                                            channelId={thread.id}
+                                            categoryChannelId=""
+                                            labelText=":botのメッセージを送信しない"
+                                            checkBoxCallback={handleThreadBotCheckChage}
+                                        ></BoxCheck>
 
                                         <h5>送信しないメッセージの種類:</h5>
                                         <Select
