@@ -22,6 +22,7 @@ interface LinePostData {
     channels: {
         [key: string]: Channel[]; // インデックスシグネチャを使用
     };
+    threads: Channel[];
 }
 
 const LinePost = () => {
@@ -206,6 +207,40 @@ const LinePost = () => {
             setLinePostData(setUpdatedData)
         }
     }
+
+    const handleThreadNgCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        name    :channel id
+        value   :category id
+        checked :bool
+        */
+        const { name, value, checked } = e.target;
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            let updatedChannels:LinePostData['threads'] = { ...linePostData.threads }; // channels オブジェクトのコピーを作成
+
+            if (updatedChannels) {
+                const updatedChannelArray = updatedChannels.map(channel => (
+                    channel.id === name ? {
+                        ...channel,
+                        lineNgChannel: checked
+                    }
+                    :channel
+                ));
+
+                updatedChannels = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                threads: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    };
 
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -457,6 +492,75 @@ const LinePost = () => {
                                     <summary>
                                         <strong>{thread.name}</strong>
                                     </summary>
+                                        {thread.lineNgChannel ?
+                                        <input
+                                            type="checkbox"
+                                            name={thread.id}
+                                            defaultChecked
+                                            onChange={handleThreadNgCheckChage}
+                                        />
+                                        :
+                                        <input
+                                            type="checkbox"
+                                            name={thread.id}
+                                            onChange={handleThreadNgCheckChage}
+                                        />
+                                        }
+                                        <label>:LINEへ送信しない</label>
+
+                                        {thread.messageBot ?
+                                        <input
+                                            type="checkbox"
+                                            name={thread.id}
+                                            value="ng_message_type"
+                                            defaultChecked
+                                            onChange={handleBotCheckChage}
+                                        />
+                                        :
+                                        <input
+                                            type="checkbox"
+                                            name={thread.id}
+                                            value="ng_message_type"
+                                            onChange={handleBotCheckChage}
+                                        />
+                                        }
+                                        <label>:botのメッセージを送信しない</label>
+
+                                        <h5>送信しないメッセージの種類:</h5>
+                                        <Select
+                                            options={messageTypeOption}
+                                            defaultValue={handleMessageTypeSet(thread.ngMessageType)}
+                                            onChange={(value) => {
+                                                if(value){
+                                                    handleMessageTypeChenge(
+                                                        [...value],
+                                                        "None",
+                                                        thread.id
+                                                    )
+                                                }else{
+                                                    null
+                                                };
+                                            }}
+                                            isMulti // trueに
+                                        ></Select>
+
+                                        <h5>メッセージを送信しないユーザー</h5>
+                                        <Select
+                                            options={userIdSelect}
+                                            defaultValue={handleUserSet(thread.ngUsers)}
+                                            onChange={(value) => {
+                                                if(value){
+                                                    handleUserChenge(
+                                                        [...value],
+                                                        "None",
+                                                        thread.id
+                                                    )
+                                                }else{
+                                                    null
+                                                };
+                                            }}
+                                            isMulti // trueに
+                                        ></Select>
                                 </details>
                             ))}
                             </ul>
