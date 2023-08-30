@@ -218,7 +218,7 @@ const LinePost = () => {
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
-            let updatedChannels:LinePostData['threads'] = { ...linePostData.threads }; // channels オブジェクトのコピーを作成
+            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
 
             if (updatedChannels) {
                 const updatedChannelArray = updatedChannels.map(channel => (
@@ -241,6 +241,112 @@ const LinePost = () => {
             setLinePostData(setUpdatedData)
         }
     };
+
+    const handleThreadBotCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        name    :channel id
+        value   :category id
+        checked :bool
+        */
+        const { name, value, checked } = e.target;
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
+
+            if (updatedChannels) {
+                const updatedChannelArray = updatedChannels.map(channel => (
+                    channel.id === name ? {
+                        ...channel,
+                        messageBot: checked
+                    }
+                    :channel
+                ));
+
+                updatedChannels = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                threads: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    };
+
+    const handleThreadMessageTypeChenge = (
+        ngMessageType:MultiValue<SelectOption>,
+        channelId:string
+    ) => {
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
+
+            const ngMessages = ngMessageType.map((type) => {
+                return type.value
+            })
+
+            console.log(updatedChannels);
+
+            if (updatedChannels) {
+                const updatedChannelArray = updatedChannels.map(channel => (
+                    channel.id === channelId ? {
+                        ...channel,
+                        ngMessageType: [...ngMessages]
+                    }
+                    :channel
+                ));
+
+                updatedChannels = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                threads: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    }
+
+    const handleThreadUserChenge = (
+        ngUser:MultiValue<SelectOption>,
+        channelId:string
+    ) => {
+        if (!linePostData) {
+            return; // もし linePostData が null または undefined なら何もしない
+        } else {
+            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
+
+            const ngUsers = ngUser.map((type) => {
+                return type.value
+            })
+
+            if (updatedChannels) {
+                const updatedChannelArray = updatedChannels.map(channel => (
+                    channel.id === channelId ? {
+                        ...channel,
+                        ngUsers: [...ngUsers]
+                    }
+                    :channel
+                ));
+
+                updatedChannels = updatedChannelArray;
+            }
+
+            const setUpdatedData: DiscordLinePost = {
+                ...linePostData,
+                threads: updatedChannels,
+            };
+
+            console.log(setUpdatedData);
+            setLinePostData(setUpdatedData)
+        }
+    }
 
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -514,14 +620,14 @@ const LinePost = () => {
                                             name={thread.id}
                                             value="ng_message_type"
                                             defaultChecked
-                                            onChange={handleBotCheckChage}
+                                            onChange={handleThreadBotCheckChage}
                                         />
                                         :
                                         <input
                                             type="checkbox"
                                             name={thread.id}
                                             value="ng_message_type"
-                                            onChange={handleBotCheckChage}
+                                            onChange={handleThreadBotCheckChage}
                                         />
                                         }
                                         <label>:botのメッセージを送信しない</label>
@@ -532,9 +638,8 @@ const LinePost = () => {
                                             defaultValue={handleMessageTypeSet(thread.ngMessageType)}
                                             onChange={(value) => {
                                                 if(value){
-                                                    handleMessageTypeChenge(
+                                                    handleThreadMessageTypeChenge(
                                                         [...value],
-                                                        "None",
                                                         thread.id
                                                     )
                                                 }else{
@@ -550,9 +655,8 @@ const LinePost = () => {
                                             defaultValue={handleUserSet(thread.ngUsers)}
                                             onChange={(value) => {
                                                 if(value){
-                                                    handleUserChenge(
+                                                    handleThreadUserChenge(
                                                         [...value],
-                                                        "None",
                                                         thread.id
                                                     )
                                                 }else{
