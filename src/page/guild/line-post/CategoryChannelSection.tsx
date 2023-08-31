@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React from "react";
+
 import Select,{ MultiValue } from "react-select";
 
 import {
@@ -9,8 +8,6 @@ import {
     Channels,
     CategoryChannelType
 } from '../../../store';
-
-import { UserIdComprehension } from "../../../units/dictComprehension";
 
 import BoxCheck from "./CheckBoxForm";
 

@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import React from "react";
+
 import Select,{ MultiValue } from "react-select";
 
 import {
-    DiscordLinePost,
     SelectOption,
     Channels
 } from '../../../store';
