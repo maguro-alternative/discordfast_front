@@ -9,6 +9,10 @@ import { UserIdComprehension } from "../../../units/dictComprehension";
 
 import BoxCheck from "./CheckBoxForm";
 
+import CategoryChannelSelection from "./CategoryChannelSection";
+import NoneCategoryChannelSelection from "./NoneCategoryChannelSelection";
+import ThreadCategoryChannelSelection from "./ThreadChannelSelection";
+
 interface LinePostData {
     channels: {
         [key: string]: Channel[]; // インデックスシグネチャを使用
@@ -34,78 +38,85 @@ const LinePost = () => {
         { value: "MessageType.pins_add", label: "ピン止め" },
     ];
 
-    const handleNgCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
         name    :channel id
         value   :category id
         checked :bool
         */
-        const { name, value, checked } = e.target;
+        const { name, value, checked, id } = e.target;
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
-            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+            if (id.includes('Thread')){
+                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
 
-            if (updatedChannels[value]) {
-                const updatedChannelArray = updatedChannels[value].map(channel => (
-                    channel.id === name ? {
-                        ...channel,
-                        lineNgChannel: checked
-                    }
-                    :channel
-                ));
+                if (updatedChannels) {
+                    const updatedChannelArray = updatedChannels.map(channel => (
+                        id.includes('Channel') ?
+                            channel.id === name ? {
+                                ...channel,
+                                lineNgChannel: checked
+                            }
+                            :channel
+                        :
+                        channel.id === name ? {
+                            ...channel,
+                            messageBot: checked
+                        }
+                        :channel
+                    ));
 
-                updatedChannels[value] = updatedChannelArray;
+                    updatedChannels = updatedChannelArray;
+                }
+
+                const setUpdatedData: DiscordLinePost = {
+                    ...linePostData,
+                    threads: updatedChannels,
+                };
+
+                setLinePostData(setUpdatedData)
+            } else {
+                const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+
+                if (updatedChannels[value]) {
+                    const updatedChannelArray = updatedChannels[value].map(channel => (
+                        id.includes('Channel') ?
+                            channel.id === name ? {
+                                ...channel,
+                                lineNgChannel: checked
+                            }
+                            :channel
+                        :
+                            channel.id === name ? {
+                                ...channel,
+                                messageBot: checked
+                            }
+                            :channel
+                    ));
+
+                    updatedChannels[value] = updatedChannelArray;
+                }
+
+                const setUpdatedData: DiscordLinePost = {
+                    ...linePostData,
+                    channels: updatedChannels,
+                };
+
+                setLinePostData(setUpdatedData)
             }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                channels: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
         }
     };
 
-    const handleBotCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        /*
-        name    :channel id
-        value   :category id
-        checked :bool
-        */
-        const { name, value, checked } = e.target;
-        if (!linePostData) {
-            return; // もし linePostData が null または undefined なら何もしない
-        } else {
-            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
-
-            if (updatedChannels[value]) {
-                const updatedChannelArray = updatedChannels[value].map(channel => (
-                    channel.id === name ? {
-                        ...channel,
-                        messageBot: checked
-                    }
-                    :channel
-                ));
-
-                updatedChannels[value] = updatedChannelArray;
-            }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                channels: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
-        }
-    };
-
-    const handleMessageTypeSet = (ngMessageType:string[]) => {
-        return ngMessageType.map(messageType => (
+    const handleSelectSet = (
+        setTypes:string[],
+        selectOptions:SelectOption[]
+    ) => {
+        return setTypes.map(setType => (
             {
-                value:messageType,
-                label:messageTypeOption[messageTypeOption.findIndex(type => {
-                    return type.value === messageType ? type.label:''
+                value:setType,
+                label:selectOptions[selectOptions.findIndex(type => {
+                    return type.value === setType ? type.label:''
                 })].label
             }
         ))
@@ -119,42 +130,58 @@ const LinePost = () => {
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
-            const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+            if (categoryId.includes('Thread')){
+                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
 
-            const ngMessages = ngMessageType.map((type) => {
-                return type.value
-            })
+                const ngMessages = ngMessageType.map((type) => {
+                    return type.value
+                })
 
-            if (updatedChannels[categoryId]) {
-                const updatedChannelArray = updatedChannels[categoryId].map(channel => (
-                    channel.id === channelId ? {
-                        ...channel,
-                        ngMessageType: [...ngMessages]
-                    }
-                    :channel
-                ));
+                if (updatedChannels) {
+                    const updatedChannelArray = updatedChannels.map(channel => (
+                        channel.id === channelId ? {
+                            ...channel,
+                            ngMessageType: [...ngMessages]
+                        }
+                        :channel
+                    ));
 
-                updatedChannels[categoryId] = updatedChannelArray;
+                    updatedChannels = updatedChannelArray;
+                }
+
+                const setUpdatedData: DiscordLinePost = {
+                    ...linePostData,
+                    threads: updatedChannels,
+                };
+
+                setLinePostData(setUpdatedData);
+            }else{
+                const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
+
+                const ngMessages = ngMessageType.map((type) => {
+                    return type.value
+                })
+
+                if (updatedChannels[categoryId]) {
+                    const updatedChannelArray = updatedChannels[categoryId].map(channel => (
+                        channel.id === channelId ? {
+                            ...channel,
+                            ngMessageType: [...ngMessages]
+                        }
+                        :channel
+                    ));
+
+                    updatedChannels[categoryId] = updatedChannelArray;
+                }
+
+                const setUpdatedData: DiscordLinePost = {
+                    ...linePostData,
+                    channels: updatedChannels,
+                };
+
+                setLinePostData(setUpdatedData);
             }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                channels: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
         }
-    }
-
-    const handleUserSet = (ngUser:string[]) => {
-        return ngUser.map(user => (
-            {
-                value:user,
-                label:userIdSelect[userIdSelect.findIndex(type => {
-                    return type.value === user ? type.label:''
-                })].label
-            }
-        ))
     }
 
     const handleUserChenge = (
@@ -191,141 +218,6 @@ const LinePost = () => {
             setLinePostData(setUpdatedData)
         }
     }
-
-    const handleThreadNgCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        /*
-        name    :channel id
-        value   :category id
-        checked :bool
-        */
-        const { name, value, checked } = e.target;
-        if (!linePostData) {
-            return; // もし linePostData が null または undefined なら何もしない
-        } else {
-            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
-
-            if (updatedChannels) {
-                const updatedChannelArray = updatedChannels.map(channel => (
-                    channel.id === name ? {
-                        ...channel,
-                        lineNgChannel: checked
-                    }
-                    :channel
-                ));
-
-                updatedChannels = updatedChannelArray;
-            }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                threads: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
-        }
-    };
-
-    const handleThreadBotCheckChage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        /*
-        name    :channel id
-        value   :category id
-        checked :bool
-        */
-        const { name, value, checked } = e.target;
-        if (!linePostData) {
-            return; // もし linePostData が null または undefined なら何もしない
-        } else {
-            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
-
-            if (updatedChannels) {
-                const updatedChannelArray = updatedChannels.map(channel => (
-                    channel.id === name ? {
-                        ...channel,
-                        messageBot: checked
-                    }
-                    :channel
-                ));
-
-                updatedChannels = updatedChannelArray;
-            }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                threads: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
-        }
-    };
-
-    const handleThreadMessageTypeChenge = (
-        ngMessageType:MultiValue<SelectOption>,
-        channelId:string
-    ) => {
-        if (!linePostData) {
-            return; // もし linePostData が null または undefined なら何もしない
-        } else {
-            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
-
-            const ngMessages = ngMessageType.map((type) => {
-                return type.value
-            })
-
-            if (updatedChannels) {
-                const updatedChannelArray = updatedChannels.map(channel => (
-                    channel.id === channelId ? {
-                        ...channel,
-                        ngMessageType: [...ngMessages]
-                    }
-                    :channel
-                ));
-
-                updatedChannels = updatedChannelArray;
-            }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                threads: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
-        }
-    }
-
-    const handleThreadUserChenge = (
-        ngUser:MultiValue<SelectOption>,
-        channelId:string
-    ) => {
-        if (!linePostData) {
-            return; // もし linePostData が null または undefined なら何もしない
-        } else {
-            let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
-
-            const ngUsers = ngUser.map((type) => {
-                return type.value
-            })
-
-            if (updatedChannels) {
-                const updatedChannelArray = updatedChannels.map(channel => (
-                    channel.id === channelId ? {
-                        ...channel,
-                        ngUsers: [...ngUsers]
-                    }
-                    :channel
-                ));
-
-                updatedChannels = updatedChannelArray;
-            }
-
-            const setUpdatedData: DiscordLinePost = {
-                ...linePostData,
-                threads: updatedChannels,
-            };
-
-            setLinePostData(setUpdatedData)
-        }
-    }
-
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -371,7 +263,7 @@ const LinePost = () => {
         const discordCategoryChannel = linePostData && linePostData.categorys !== undefined ? linePostData.categorys : [];
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
-        const channelJson = JSON.parse(JSON.stringify(discordChannel));
+        const channelJson = discordChannel;
 
         return(
             <>
@@ -381,209 +273,42 @@ const LinePost = () => {
                             <strong>チャンネル一覧</strong>
                         </summary>
                         <ul>
-                        {discordCategoryChannel.map((categoryChannel,index) => (
-                            <details key={categoryChannel.id}>
-                                <summary>
-                                    <strong>{categoryChannel.name}</strong>
-                                </summary>
-                                <ul>
-                                {channelJson[discordCategoryChannel[index].id].map((channel:Channel,i:number) => (
-                                    <details key={channel.id}>
-                                        <summary>
-                                            <strong>
-                                                {channel.type === 'VoiceChannel' && `🔊:`}
-                                                {channel.type === 'TextChannel' && `#:`}
-                                                {channel.name}
-                                            </strong>
-                                        </summary>
-                                        <BoxCheck
-                                            channelBool={channel.lineNgChannel}
-                                            channelId={channel.id}
-                                            categoryChannelId={categoryChannel.id}
-                                            labelText=":LINEへ送信しない"
-                                            checkBoxCallback={handleNgCheckChage}
-                                        ></BoxCheck>
+                            <CategoryChannelSelection
+                                discordCategoryChannel={discordCategoryChannel}
+                                channelJson={channelJson}
+                                userIdSelect={userIdSelect}
+                                messageTypeOption={messageTypeOption}
+                                handleNgCheckChenge={handleCheckChange}
+                                handleBotCheckChenge={handleCheckChange}
+                                handleMessageTypeChenge={handleMessageTypeChenge}
+                                handleUserChenge={handleUserChenge}
+                                handleMessageTypeSet={handleSelectSet}
+                                handleUserSet={handleSelectSet}
+                            ></CategoryChannelSelection>
 
-                                        <BoxCheck
-                                            channelBool={channel.messageBot}
-                                            channelId={channel.id}
-                                            categoryChannelId={categoryChannel.id}
-                                            labelText=":botのメッセージを送信しない"
-                                            checkBoxCallback={handleBotCheckChage}
-                                        ></BoxCheck>
+                            <NoneCategoryChannelSelection
+                                channelJson={channelJson}
+                                userIdSelect={userIdSelect}
+                                messageTypeOption={messageTypeOption}
+                                handleNgCheckChenge={handleCheckChange}
+                                handleBotCheckChenge={handleCheckChange}
+                                handleMessageTypeChenge={handleMessageTypeChenge}
+                                handleUserChenge={handleUserChenge}
+                                handleMessageTypeSet={handleSelectSet}
+                                handleUserSet={handleSelectSet}
+                            ></NoneCategoryChannelSelection>
 
-                                        <h5>送信しないメッセージの種類:</h5>
-                                        <Select
-                                            options={messageTypeOption}
-                                            defaultValue={handleMessageTypeSet(channel.ngMessageType)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleMessageTypeChenge(
-                                                        [...value],
-                                                        categoryChannel.id,
-                                                        channel.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-
-                                        <h5>メッセージを送信しないユーザー</h5>
-                                        <Select
-                                            options={userIdSelect}
-                                            defaultValue={handleUserSet(channel.ngUsers)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleUserChenge(
-                                                        [...value],
-                                                        categoryChannel.id,
-                                                        channel.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-                                    </details>
-                                ))}
-                                </ul>
-                            </details>
-                        ))}
-                        {channelJson["None"].length > 0 ? (
-                            <details>
-                                <summary>
-                                    <strong>カテゴリーなし</strong>
-                                </summary>
-                                <ul>
-                                {channelJson["None"].map((channel:Channel,i:number) => (
-                                    <details key={channel.id}>
-                                        <summary>
-                                            <strong>
-                                                {channel.type === 'VoiceChannel' && `🔊:`}
-                                                {channel.type === 'TextChannel' && `#:`}
-                                                {channel.name}
-                                            </strong>
-                                        </summary>
-                                        <BoxCheck
-                                            channelBool={channel.lineNgChannel}
-                                            channelId={channel.id}
-                                            categoryChannelId="None"
-                                            labelText=":LINEへ送信しない"
-                                            checkBoxCallback={handleNgCheckChage}
-                                        ></BoxCheck>
-                                        <BoxCheck
-                                            channelBool={channel.messageBot}
-                                            channelId={channel.id}
-                                            categoryChannelId="None"
-                                            labelText=":botのメッセージを送信しない"
-                                            checkBoxCallback={handleBotCheckChage}
-                                        ></BoxCheck>
-
-                                        <h5>送信しないメッセージの種類:</h5>
-                                        <Select
-                                            options={messageTypeOption}
-                                            defaultValue={handleMessageTypeSet(channel.ngMessageType)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleMessageTypeChenge(
-                                                        [...value],
-                                                        "None",
-                                                        channel.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-
-                                        <h5>メッセージを送信しないユーザー</h5>
-                                        <Select
-                                            options={userIdSelect}
-                                            defaultValue={handleUserSet(channel.ngUsers)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleUserChenge(
-                                                        [...value],
-                                                        "None",
-                                                        channel.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-                                    </details>
-                                ))}
-                                </ul>
-                            </details>
-                        ):(<></>)}
-                        <details>
-                            <summary>
-                                <strong>スレッド一覧</strong>
-                            </summary>
-                            <ul>
-                            {discordThreads.map((thread,index) => (
-                                <details key={thread.id}>
-                                    <summary>
-                                        <strong>{thread.name}</strong>
-                                    </summary>
-                                        <BoxCheck
-                                            channelBool={thread.lineNgChannel}
-                                            channelId={thread.id}
-                                            categoryChannelId=""
-                                            labelText=":LINEへ送信しない"
-                                            checkBoxCallback={handleThreadNgCheckChage}
-                                        ></BoxCheck>
-                                        <BoxCheck
-                                            channelBool={thread.messageBot}
-                                            channelId={thread.id}
-                                            categoryChannelId=""
-                                            labelText=":botのメッセージを送信しない"
-                                            checkBoxCallback={handleThreadBotCheckChage}
-                                        ></BoxCheck>
-
-                                        <h5>送信しないメッセージの種類:</h5>
-                                        <Select
-                                            options={messageTypeOption}
-                                            defaultValue={handleMessageTypeSet(thread.ngMessageType)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleThreadMessageTypeChenge(
-                                                        [...value],
-                                                        thread.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-
-                                        <h5>メッセージを送信しないユーザー</h5>
-                                        <Select
-                                            options={userIdSelect}
-                                            defaultValue={handleUserSet(thread.ngUsers)}
-                                            onChange={(value) => {
-                                                if(value){
-                                                    handleThreadUserChenge(
-                                                        [...value],
-                                                        thread.id
-                                                    )
-                                                }else{
-                                                    null
-                                                };
-                                            }}
-                                            isMulti // trueに
-                                        ></Select>
-                                </details>
-                            ))}
-                            </ul>
-                            </details>
+                            <ThreadCategoryChannelSelection
+                                discordThreads={discordThreads}
+                                userIdSelect={userIdSelect}
+                                messageTypeOption={messageTypeOption}
+                                handleThreadNgCheckChenge={handleCheckChange}
+                                handleThreadBotCheckChenge={handleCheckChange}
+                                handleThreadMessageTypeChenge={handleMessageTypeChenge}
+                                handleThreadUserChenge={handleUserChenge}
+                                handleMessageTypeSet={handleSelectSet}
+                                handleUserSet={handleSelectSet}
+                            ></ThreadCategoryChannelSelection>
                         </ul>
                     </details>
                     <button type="submit">Submit</button>

@@ -1,6 +1,7 @@
 import React from "react";
 
 interface BoxCheckFormProps {
+    tagId:string;
     channelBool:boolean;
     channelId:string;
     categoryChannelId:string;
@@ -9,6 +10,7 @@ interface BoxCheckFormProps {
 }
 
 const BoxCheck: React.FC<BoxCheckFormProps> = ({
+    tagId,
     channelBool,
     channelId,
     categoryChannelId,
@@ -20,6 +22,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
             {channelBool ?
             <input
                 type="checkbox"
+                id={tagId}
                 name={channelId}
                 value={categoryChannelId}
                 defaultChecked
@@ -28,6 +31,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
             :
             <input
                 type="checkbox"
+                id={tagId}
                 name={channelId}
                 value={categoryChannelId}
                 onChange={checkBoxCallback}

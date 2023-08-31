@@ -6,16 +6,14 @@ import Select,{ MultiValue } from "react-select";
 import {
     DiscordLinePost,
     SelectOption,
-    Channels,
-    CategoryChannelType
+    Channels
 } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
 import BoxCheck from "./CheckBoxForm";
 
-interface CategoryChannelSectionProps {
-    discordCategoryChannel:CategoryChannelType[];
+interface NoneCategoryChannelSectionProps {
     channelJson:Channels;
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
@@ -41,9 +39,8 @@ interface CategoryChannelSectionProps {
     ) => SelectOption[];
 }
 
-const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
+const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = (
     {
-        discordCategoryChannel,
         channelJson,
         userIdSelect,
         messageTypeOption,
@@ -57,13 +54,13 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
 ) => {
     return(
         <>
-            {discordCategoryChannel.map((categoryChannel,index) => (
-                <details key={categoryChannel.id}>
+            {channelJson["None"].length > 0 ? (
+                <details>
                     <summary>
-                        <strong>{categoryChannel.name}</strong>
+                        <strong>カテゴリーなし</strong>
                     </summary>
                     <ul>
-                        {channelJson[discordCategoryChannel[index].id].map((channel) => (
+                        {channelJson["None"].map((channel) => (
                             <details key={channel.id}>
                                 <summary>
                                     <strong>
@@ -76,7 +73,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                     tagId={`ngChannel${channel.id}`}
                                     channelBool={channel.lineNgChannel}
                                     channelId={channel.id}
-                                    categoryChannelId={categoryChannel.id}
+                                    categoryChannelId={"None"}
                                     labelText=":LINEへ送信しない"
                                     checkBoxCallback={handleNgCheckChenge}
                                 ></BoxCheck>
@@ -85,7 +82,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                     tagId={`ngBot${channel.id}`}
                                     channelBool={channel.messageBot}
                                     channelId={channel.id}
-                                    categoryChannelId={categoryChannel.id}
+                                    categoryChannelId={"None"}
                                     labelText=":botのメッセージを送信しない"
                                     checkBoxCallback={handleBotCheckChenge}
                                 ></BoxCheck>
@@ -101,7 +98,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                         if(value){
                                             handleMessageTypeChenge(
                                                 [...value],
-                                                categoryChannel.id,
+                                                "None",
                                                 channel.id
                                             )
                                         }else{
@@ -122,7 +119,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                         if(value){
                                             handleUserChenge(
                                                 [...value],
-                                                categoryChannel.id,
+                                                "None",
                                                 channel.id
                                             )
                                         }else{
@@ -135,9 +132,9 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                         ))}
                     </ul>
                 </details>
-            ))}
+            ):(<></>)}
         </>
     )
 }
 
-export default CategoryChannelSelection;
+export default NoneCategoryChannelSelection;

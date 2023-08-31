@@ -33,14 +33,18 @@ export interface Channel {
     ngUsers: string[];
 }
 
+export interface Channels {
+    [id:string]:Channel[];
+}
+
+export interface CategoryChannelType {
+    id:string;
+    name:string;
+}
+
 export type DiscordLinePost = {
-    categorys: {
-        id: string;
-        name: string;
-    }[];
-    channels: {
-        [id: string]: Channel[];
-    };
+    categorys: CategoryChannelType[];
+    channels: Channels;
     threads: {
         id: string;
         name: string;
