@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
-import { DiscordLinePost,SelectOption,Channel } from '../../../store';
+import { DiscordLinePost,SelectOption,LinePostChannel } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
@@ -15,9 +15,9 @@ import ThreadCategoryChannelSelection from "./ThreadChannelSelection";
 
 interface LinePostData {
     channels: {
-        [key: string]: Channel[]; // インデックスシグネチャを使用
+        [key: string]: LinePostChannel[]; // インデックスシグネチャを使用
     };
-    threads: Channel[];
+    threads: LinePostChannel[];
 }
 
 const LinePost = () => {
@@ -233,6 +233,7 @@ const LinePost = () => {
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
+                return (<>サーバー側でエラーが出ました。</>);
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }

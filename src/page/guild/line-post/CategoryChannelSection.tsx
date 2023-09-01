@@ -5,7 +5,7 @@ import Select,{ MultiValue } from "react-select";
 import {
     DiscordLinePost,
     SelectOption,
-    Channels,
+    LinePostChannels,
     CategoryChannelType
 } from '../../../store';
 
@@ -13,7 +13,7 @@ import BoxCheck from "./CheckBoxForm";
 
 interface CategoryChannelSectionProps {
     discordCategoryChannel:CategoryChannelType[];
-    channelJson:Channels;
+    channelJson:LinePostChannels;
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
     handleNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;

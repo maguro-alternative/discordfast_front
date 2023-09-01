@@ -13,7 +13,6 @@ export type DiscordOAuthResponse = typeof discordOAuthResponse
 export type DiscordGuilds = typeof discordGuilds
 export type DiscordGuildID = typeof discordGuildID
 export type DiscordAdmin = typeof discordAdmin
-export type DiscordLineSet = typeof discordLineSet
 export type DiscordVcSignal = typeof discordVcSignal
 export type DiscordWebhook = typeof discordWebhook
 export type LineGroup = typeof lineGroup
@@ -23,7 +22,7 @@ export interface SelectOption {
     label:string
 };
 
-export interface Channel {
+export interface LinePostChannel {
     id: string;
     name: string;
     type: string;
@@ -33,8 +32,18 @@ export interface Channel {
     ngUsers: string[];
 }
 
-export interface Channels {
-    [id:string]:Channel[];
+export interface LinePostChannels {
+    [id:string]:LinePostChannel[];
+}
+
+export interface LineSetChannel {
+    id: string;
+    name: string;
+    type: string;
+}
+
+export interface LineSetChannels {
+    [id:string]:LineSetChannel[];
 }
 
 export interface CategoryChannelType {
@@ -44,7 +53,7 @@ export interface CategoryChannelType {
 
 export type DiscordLinePost = {
     categorys: CategoryChannelType[];
-    channels: Channels;
+    channels: LinePostChannels;
     threads: {
         id: string;
         name: string;
@@ -60,4 +69,22 @@ export type DiscordLinePost = {
         userDisplayName: string;
     }[];
     chengePermission: boolean;
+}
+
+export type DiscordLineSet = {
+    categorys: CategoryChannelType[];
+    channels: LineSetChannels;
+    threads: {
+        id: string;
+        name: string;
+    }[];
+    chengePermission: boolean;
+    lineNotifyToken: string;
+    lineBotToken: string;
+    lineBotSecret: string;
+    lineGroupId: string;
+    lineClientId: string;
+    lineClientSecret: string;
+    defalutChannelId: string;
+    debugMode: boolean;
 }

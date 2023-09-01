@@ -4,7 +4,7 @@ import Select,{ MultiValue } from "react-select";
 
 import {
     SelectOption,
-    Channels
+    LinePostChannels
 } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
@@ -12,7 +12,7 @@ import { UserIdComprehension } from "../../../units/dictComprehension";
 import BoxCheck from "./CheckBoxForm";
 
 interface NoneCategoryChannelSectionProps {
-    channelJson:Channels;
+    channelJson:LinePostChannels;
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
     handleNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;

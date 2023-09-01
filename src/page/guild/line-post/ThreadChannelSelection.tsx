@@ -4,14 +4,14 @@ import Select,{ MultiValue } from "react-select";
 
 import {
     SelectOption,
-    Channel
+    LinePostChannel
 } from '../../../store';
 
 
 import BoxCheck from "./CheckBoxForm";
 
 interface ThreadChannelSectionProps {
-    discordThreads:Channel[];
+    discordThreads:LinePostChannel[];
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
     handleThreadNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
