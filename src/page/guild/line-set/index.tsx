@@ -44,6 +44,17 @@ const LineSet = () => {
         defalutChannelId: "0",
         debugMode: false
     });
+    const [submitData,setSubmitData] = useState({
+        guild_id:id,
+        line_notify_token:'',
+        line_bot_token:'',
+        line_bot_secret:'',
+        line_group_id:'',
+        line_client_id:'',
+        line_client_secret:'',
+        default_channel_id:'',
+        debug_mode:false
+    });
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +63,12 @@ const LineSet = () => {
         if (!lineSetData) {
             return;
         } else {
-            setLineSetData((inputDate) => ({
+            setSubmitData((inputDate) => ({
                 ...inputDate,
                 [name]:value,
             }));
         }
+        console.log(submitData)
     };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -109,7 +121,6 @@ const LineSet = () => {
             defalutChannelId,
             threadAndChannels
         )
-        console.log(selectedDefalutId);
 
         return(
             <>
@@ -142,6 +153,14 @@ const LineSet = () => {
                     <Select
                         options={threadAndChannels}
                         defaultValue={selectedDefalutId}
+                        onChange={(value) => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    default_channel_id:value.value,
+                                }));
+                            }
+                        }}
                     ></Select>
                 </form>
             </>
