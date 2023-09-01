@@ -1,4 +1,10 @@
-import { DiscordLinePost,DiscordAdmin,SelectOption } from '../store';
+import {
+    DiscordLinePost,
+    DiscordAdmin,
+    SelectOption,
+    CategoryChannelType,
+    LineSetChannels
+} from '../store';
 
 export function MemberIdComprehension(
     userList:DiscordAdmin["guildMembers"]
@@ -138,3 +144,55 @@ export function RoleIdIndexOptionComprehension(
     });
     return optionList;
 }
+
+export const selectChannelAndThread = (
+    categoryChannel:CategoryChannelType[],
+    allChannel:LineSetChannels,
+    activeThreads:{id:string,name:string}[]
+) => {
+    let selectChannel:SelectOption[] = [];
+    let selectChannelTmp:SelectOption[] = [{value:'',label:''}];
+    for (let category of categoryChannel) {
+        selectChannelTmp = allChannel[category.id].map(channel => (
+            {
+                value:channel.id,
+                label:`${category.name}:${channel.name}`
+            }
+        ))
+        Array.prototype.push.apply(selectChannel,selectChannelTmp);
+    }
+    selectChannelTmp = allChannel["None"].map(channel => (
+        {
+            value:channel.id,
+            label:`カテゴリーなし:${channel.name}`
+        }
+    ))
+    Array.prototype.push.apply(selectChannel,selectChannelTmp);
+    selectChannelTmp = activeThreads.map(thread => (
+        {
+            value:thread.id,
+            label:`スレッド:${thread.name}`
+        }
+    ))
+    Array.prototype.push.apply(selectChannel,selectChannelTmp);
+    return selectChannel;
+};
+
+export const defalutChannelIdSelected = (
+    defalutChannelId:string,
+    threadAndChannels:SelectOption[]
+) => {
+    let selectOption = {
+        value:'',
+        label:''
+    };
+    threadAndChannels.forEach(channelOption => {
+        if(channelOption.value === defalutChannelId){
+            selectOption = {
+                value:defalutChannelId,
+                label:channelOption.label
+            }
+        }
+    })
+    return selectOption;
+};
