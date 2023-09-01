@@ -4,12 +4,60 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { DiscordLineSet,LineSetChannels,CategoryChannelType, SelectOption } from '../../../store';
+import {
+    selectChannelAndThread,
+    defalutChannelIdSelected
+} from "../../../units/dictComprehension";
 
 const LineSet = () => {
     const { id } = useParams(); // パラメータを取得
 
-    const [lineSetData, setLineSetData] = useState<DiscordLineSet>();
+    const [lineSetData, setLineSetData] = useState<DiscordLineSet>({
+        categorys: [
+            {
+                "id": "123456789012345678",
+                "name": ""
+            }
+        ],
+        channels: {
+            "0000": [
+                {
+                "id": "123456789012345678",
+                "name": "eeee",
+                "type": "TextChannel"
+                }
+            ]
+        },
+        threads: [
+            {
+                "id": "",
+                "name": "seikinfromthefareast"
+            }
+        ],
+        chengePermission: false,
+        lineNotifyToken: "",
+        lineBotToken: "",
+        lineBotSecret: "",
+        lineGroupId: "",
+        lineClientId: "",
+        lineClientSecret: "",
+        defalutChannelId: "0",
+        debugMode: false
+    });
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value} = e.target;
+
+        if (!lineSetData) {
+            return;
+        } else {
+            setLineSetData((inputDate) => ({
+                ...inputDate,
+                [name]:value,
+            }));
+        }
+    };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -37,39 +85,6 @@ const LineSet = () => {
         };
     },[]);
 
-    const selectChannelAndThread = (
-        categoryChannel:CategoryChannelType[],
-        allChannel:LineSetChannels,
-        activeThreads:{id:string,name:string}[]
-    ) => {
-        let selectChannel:SelectOption[] = [];
-        let selectChannelTmp:SelectOption[] = [{value:'',label:''}];
-        for (let category of categoryChannel) {
-            selectChannelTmp = allChannel[category.id].map(channel => (
-                {
-                    value:channel.id,
-                    label:`${category.name}:${channel.name}`
-                }
-            ))
-            Array.prototype.push.apply(selectChannel,selectChannelTmp);
-        }
-        selectChannelTmp = allChannel["None"].map(channel => (
-            {
-                value:channel.id,
-                label:`カテゴリーなし:${channel.name}`
-            }
-        ))
-        Array.prototype.push.apply(selectChannel,selectChannelTmp);
-        selectChannelTmp = activeThreads.map(thread => (
-            {
-                value:thread.id,
-                label:`スレッド:${thread.name}`
-            }
-        ))
-        Array.prototype.push.apply(selectChannel,selectChannelTmp);
-        return selectChannel;
-    }
-
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
@@ -90,37 +105,43 @@ const LineSet = () => {
             allChannel,
             activeThreads
         );
+        const selectedDefalutId = defalutChannelIdSelected(
+            defalutChannelId,
+            threadAndChannels
+        )
+        console.log(selectedDefalutId);
 
         return(
             <>
                 <form>
-                    <h3>LINE Notifyのトークン</h3>
-                    <input type="password" name="line_notify_token"/>
+                    <h3>新しいLINE Notifyのトークン</h3>
+                    <input type="password" name="line_notify_token" onChange={handleInputChange}/>
                     <h6>先頭3文字:{notifyToken}</h6>
 
-                    <h3>LINE Botのトークン</h3>
-                    <input type="password" name="line_bot_token"/>
+                    <h3>新しいLINE Botのトークン</h3>
+                    <input type="password" name="line_bot_token" onChange={handleInputChange}/>
                     <h6>先頭3文字:{botToken}</h6>
 
-                    <h3>LINE Botのシークレットキー</h3>
-                    <input type="password" name="line_bot_secret"/>
+                    <h3>新しいLINE Botのシークレットキー</h3>
+                    <input type="password" name="line_bot_secret" onChange={handleInputChange}/>
                     <h6>先頭3文字:{botSecret}</h6>
 
-                    <h3>LINEグループのid</h3>
-                    <input type="password" name="line_group_id"/>
+                    <h3>新しいLINEグループのid</h3>
+                    <input type="password" name="line_group_id" onChange={handleInputChange}/>
                     <h6>先頭3文字:{groupId}</h6>
 
-                    <h3>LINEログインのクライアントid</h3>
-                    <input type="password" name="line_client_id"/>
+                    <h3>新しいLINEログインのクライアントid</h3>
+                    <input type="password" name="line_client_id" onChange={handleInputChange}/>
                     <h6>先頭3文字:{clinetId}</h6>
 
-                    <h3>LINEログインのクライアントシークレットキー</h3>
-                    <input type="password" name="line_client_secret"/>
+                    <h3>新しいLINEログインのクライアントシークレットキー</h3>
+                    <input type="password" name="line_client_secret" onChange={handleInputChange}/>
                     <h6>先頭3文字:{clientSecret}</h6>
 
                     <h3>通知の送信先チャンネル</h3>
                     <Select
                         options={threadAndChannels}
+                        defaultValue={selectedDefalutId}
                     ></Select>
                 </form>
             </>
