@@ -12,46 +12,9 @@ import {
 const LineSet = () => {
     const { id } = useParams(); // パラメータを取得
 
-    const [lineSetData, setLineSetData] = useState<DiscordLineSet>({
-        categorys: [
-            {
-                "id": "123456789012345678",
-                "name": ""
-            }
-        ],
-        channels: {
-            "0000": [
-                {
-                "id": "123456789012345678",
-                "name": "eeee",
-                "type": "TextChannel"
-                }
-            ]
-        },
-        threads: [
-            {
-                "id": "",
-                "name": "seikinfromthefareast"
-            }
-        ],
-        chengePermission: false,
-        lineNotifyToken: "",
-        lineBotToken: "",
-        lineBotSecret: "",
-        lineGroupId: "",
-        lineClientId: "",
-        lineClientSecret: "",
-        defalutChannelId: "0",
-        debugMode: false
-    });
+    const [lineSetData, setLineSetData] = useState<DiscordLineSet>();
     const [submitData,setSubmitData] = useState({
         guild_id:id,
-        line_notify_token:'',
-        line_bot_token:'',
-        line_bot_secret:'',
-        line_group_id:'',
-        line_client_id:'',
-        line_client_secret:'',
         default_channel_id:'',
         debug_mode:false
     });
@@ -71,6 +34,18 @@ const LineSet = () => {
         console.log(submitData)
     };
 
+    const handleFormSubmit = async(e: React.FormEvent) => {
+        e.preventDefault();
+        // json文字列に変換(guild_id)はstrに変換
+        const jsonData = JSON.stringify(submitData,(key, value) => {
+            if (typeof value === 'bigint') {
+                return value.toString();
+            }
+            return value;
+        });
+        console.log(submitData,JSON.parse(jsonData));
+    };
+
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
         let ignore = false;
@@ -83,6 +58,11 @@ const LineSet = () => {
                 const responseData = response.data;
                 console.log(responseData);
                 setLineSetData(responseData);
+                // 送信先チャンネルを設定
+                setSubmitData((inputDate) => ({
+                    ...inputDate,
+                    default_channel_id:responseData.defalutChannelId
+                }))
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -124,7 +104,7 @@ const LineSet = () => {
 
         return(
             <>
-                <form>
+                <form onSubmit={handleFormSubmit}>
                     <h3>新しいLINE Notifyのトークン</h3>
                     <input type="password" name="line_notify_token" onChange={handleInputChange}/>
                     <h6>先頭3文字:{notifyToken}</h6>
@@ -173,6 +153,7 @@ const LineSet = () => {
                             }));
                         }
                     })}/>
+                    <button type="submit">Submit</button>
                 </form>
             </>
         )
