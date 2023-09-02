@@ -30,6 +30,7 @@ interface VcChannelSelectionProps {
         categoryId:string,
         channelId:string
     ) => void;
+    handleCheckChange:(e:React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
@@ -39,7 +40,8 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
     roles,
     activeThreads,
     vcChannelSelect,
-    vcRoleChannelSelect
+    vcRoleChannelSelect,
+    handleCheckChange
 }) => {
     const threadAndChannels = selectChannelAndThread(
         discordCategoryChannel,
@@ -86,6 +88,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                         {vcChannel.name}
                                     </strong>
                                 </summary>
+                                <h3>通知の送信先チャンネル</h3>
                                 <Select
                                     options={threadAndChannels}
                                     defaultValue={defalutChannelIdSelected(
@@ -101,6 +104,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                         )
                                     ))}
                                 ></Select>
+                                <h3>通知するロールの追加</h3>
                                 <Select
                                     options={roles.map((role) => ({
                                         value:role.id,
@@ -120,6 +124,24 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                     ))}
                                     isMulti // trueに
                                 ></Select>
+
+                                <BoxCheck
+                                    tagId={`everyoneMention${vcChannel.id}`}
+                                    channelBool={vcChannel.everyoneMention}
+                                    channelId={vcChannel.id}
+                                    categoryChannelId={categoryChannel.id}
+                                    labelText=":everyoneで通知をする"
+                                    checkBoxCallback={handleCheckChange}
+                                ></BoxCheck>
+
+                                <BoxCheck
+                                    tagId={`joinBot${vcChannel.id}`}
+                                    channelBool={vcChannel.joinBot}
+                                    channelId={vcChannel.id}
+                                    categoryChannelId={categoryChannel.id}
+                                    labelText=":Botが入室したら通知をする"
+                                    checkBoxCallback={handleCheckChange}
+                                ></BoxCheck>
                             </details>
                         ))}
                     </ul>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import Select,{ MultiValue } from "react-select";
+import { MultiValue } from "react-select";
 import axios from 'axios';
 
 import {
@@ -14,6 +14,7 @@ const VcSignal = () => {
 
     const [vcSignalData, setVcSignalData] = useState<DiscordVcSignal>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
+    const [vcSubmitData, setVcSubmitData] = useState<DiscordVcSignal>();
 
     const vcChannelSelect = (
         vcChannelSelect:SelectOption,
@@ -39,6 +40,8 @@ const VcSignal = () => {
             }
 
             console.log(vcChannel,setUpdatedData);
+
+            setVcSubmitData(setUpdatedData);
         };
     };
 
@@ -69,8 +72,44 @@ const VcSignal = () => {
             }
 
             console.log(vcChannel,setUpdatedData);
+
+            setVcSubmitData(setUpdatedData);
         };
     };
+
+    const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        name    :channel id
+        value   :category id
+        checked :bool
+        */
+        const { name, value, checked, id } = e.target;
+
+        if (!vcSignalData){
+            return;
+        } else {
+            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+
+            const vcChannel = updateVcChannel[value].map((vc) => (
+                vc.id === name && id.includes("everyoneMention") ? {
+                    ...vc,
+                    everyoneMention:checked
+                }
+                : vc.id === name && id.includes("joinBot") ? {
+                    ...vc,
+                    joinBot:checked
+                }
+                :vc
+            ));
+
+            const setUpdatedData:DiscordVcSignal = {
+                ...vcSignalData,
+                vcChannels:{[value]:vcChannel}
+            }
+
+            setVcSubmitData(setUpdatedData);
+        }
+    }
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -122,6 +161,7 @@ const VcSignal = () => {
                                 activeThreads={discordThreads}
                                 vcChannelSelect={vcChannelSelect}
                                 vcRoleChannelSelect={vcRoleChannelSelect}
+                                handleCheckChange={handleCheckChange}
                             ></VcChannelSelection>
                         </ul>
                     </details>
