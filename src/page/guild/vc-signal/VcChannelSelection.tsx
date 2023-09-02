@@ -13,7 +13,6 @@ import {
 import Select,{ MultiValue } from "react-select";
 
 import BoxCheck from "./CheckBoxForm";
-import { CategoryChannel } from "discord.js";
 
 interface VcChannelSelectionProps {
     discordCategoryChannel:CategoryChannelType[];
@@ -26,6 +25,11 @@ interface VcChannelSelectionProps {
         categoryId:string,
         channelId:string
     ) => void;
+    vcRoleChannelSelect:(
+        vcRoleSelect:MultiValue<SelectOption>,
+        categoryId:string,
+        channelId:string
+    ) => void;
 }
 
 const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
@@ -34,7 +38,8 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
     channelJson,
     roles,
     activeThreads,
-    vcChannelSelect
+    vcChannelSelect,
+    vcRoleChannelSelect
 }) => {
     const threadAndChannels = selectChannelAndThread(
         discordCategoryChannel,
@@ -105,6 +110,14 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                         vcChannel.mentionRoleId,
                                         roles
                                     )}
+                                    onChange={(value => (
+                                        value &&
+                                        vcRoleChannelSelect(
+                                            [...value],
+                                            categoryChannel.id,
+                                            vcChannel.id
+                                        )
+                                    ))}
                                     isMulti // trueに
                                 ></Select>
                             </details>

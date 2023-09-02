@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import Select,{ MultiValue } from "react-select";
 import axios from 'axios';
 
 import {
@@ -28,6 +29,36 @@ const VcSignal = () => {
                 vc.id === channelId ? {
                     ...vc,
                     sendChannelId:vcChannelSelect.value
+                }
+                :vc
+            ));
+
+            const setUpdatedData:DiscordVcSignal = {
+                ...vcSignalData,
+                vcChannels:{categoryId:vcChannel}
+            }
+
+            console.log(vcChannel,setUpdatedData);
+        };
+    };
+
+    const vcRoleChannelSelect = (
+        vcRoleSelect:MultiValue<SelectOption>,
+        categoryId:string,
+        channelId:string
+    ) => {
+        if (!vcSignalData){
+            return;
+        } else {
+            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+            const roleIds = vcRoleSelect.map(roleId => {
+                return roleId.value
+            })
+
+            const vcChannel = updateVcChannel[categoryId].map((vc) => (
+                vc.id === channelId ? {
+                    ...vc,
+                    mentionRoleId:[...roleIds]
                 }
                 :vc
             ));
@@ -90,6 +121,7 @@ const VcSignal = () => {
                                 roles={roles}
                                 activeThreads={discordThreads}
                                 vcChannelSelect={vcChannelSelect}
+                                vcRoleChannelSelect={vcRoleChannelSelect}
                             ></VcChannelSelection>
                         </ul>
                     </details>
