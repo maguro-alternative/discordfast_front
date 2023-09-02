@@ -12,12 +12,20 @@ import {
 } from "../../../units/dictComprehension";
 import Select,{ MultiValue } from "react-select";
 
+import BoxCheck from "./CheckBoxForm";
+import { CategoryChannel } from "discord.js";
+
 interface VcChannelSelectionProps {
     discordCategoryChannel:CategoryChannelType[];
     vcChannelJson:VcSignalChannels;
     channelJson:LineSetChannels;
     roles:{id:string,name:string}[];
     activeThreads:{id:string,name:string}[];
+    vcChannelSelect:(
+        vcChannelSelect:SelectOption,
+        categoryId:string,
+        channelId:string
+    ) => void;
 }
 
 const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
@@ -25,7 +33,8 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
     vcChannelJson,
     channelJson,
     roles,
-    activeThreads
+    activeThreads,
+    vcChannelSelect
 }) => {
     const threadAndChannels = selectChannelAndThread(
         discordCategoryChannel,
@@ -56,6 +65,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
         });
         return optionList;
     }
+
     return (
         <>
             {discordCategoryChannel.map((categoryChannel,index) => (
@@ -77,6 +87,14 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                         vcChannel.sendChannelId,
                                         threadAndChannels
                                     )}
+                                    onChange={(value => (
+                                        value &&
+                                        vcChannelSelect(
+                                            value,
+                                            categoryChannel.id,
+                                            vcChannel.id
+                                        )
+                                    ))}
                                 ></Select>
                                 <Select
                                     options={roles.map((role) => ({

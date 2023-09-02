@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import {
     DiscordVcSignal,
-    VcSignalChannels
+    SelectOption
 } from '../../../store';
 import VcChannelSelection from "./VcChannelSelection";
 
@@ -13,6 +13,33 @@ const VcSignal = () => {
 
     const [vcSignalData, setVcSignalData] = useState<DiscordVcSignal>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
+
+    const vcChannelSelect = (
+        vcChannelSelect:SelectOption,
+        categoryId:string,
+        channelId:string
+    ) => {
+        if (!vcSignalData){
+            return;
+        } else {
+            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+
+            const vcChannel = updateVcChannel[categoryId].map((vc) => (
+                vc.id === channelId ? {
+                    ...vc,
+                    sendChannelId:vcChannelSelect.value
+                }
+                :vc
+            ));
+
+            const setUpdatedData:DiscordVcSignal = {
+                ...vcSignalData,
+                vcChannels:{categoryId:vcChannel}
+            }
+
+            console.log(vcChannel,setUpdatedData);
+        };
+    };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -62,6 +89,7 @@ const VcSignal = () => {
                                 channelJson={channelJson}
                                 roles={roles}
                                 activeThreads={discordThreads}
+                                vcChannelSelect={vcChannelSelect}
                             ></VcChannelSelection>
                         </ul>
                     </details>
