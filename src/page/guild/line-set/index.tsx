@@ -162,6 +162,17 @@ const LineSet = () => {
                             }
                         }}
                     ></Select>
+
+                    <h3>デバッグモード</h3>
+                    <h6>有効にすると、LINEグループにグループIDを送信します。(トークンとシークレットキーは必須)</h6>
+                    <input type="checkbox" name="debug_mode" onChange={(value => {
+                        if(value){
+                            setSubmitData((inputDate) => ({
+                                ...inputDate,
+                                debug_mode:value.target.checked,
+                            }));
+                        }
+                    })}/>
                 </form>
             </>
         )
