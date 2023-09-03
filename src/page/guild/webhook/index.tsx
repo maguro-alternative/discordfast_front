@@ -35,7 +35,9 @@ const Webhook = () => {
     },[]);
 
     return(
-        <></>
+        <>
+            <form></form>
+        </>
     )
 }
 
