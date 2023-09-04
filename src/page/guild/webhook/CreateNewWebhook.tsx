@@ -34,10 +34,17 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
         value:user.id,
         label:`${user.userDisplayName}:${user.name}`
     }))
+
+    const newCreateWebhook = webhookSet.webhookSet.filter((newWebhook) => {
+        if (newUuids.includes(newWebhook.uuid)){
+            return newWebhook
+        }
+    })
+
     return(
         <>
-            {newUuids.map((uuid) => (
-                <div key={uuid}>
+            {newCreateWebhook.map((newWebhook) => (
+                <div key={newWebhook.uuid}>
                     <h6>WebHook</h6>
                     <Select
                         options={webhookSelects}
@@ -45,10 +52,10 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     ></Select>
 
                     <h6>サブスクリプションタイプ(例:twitter,niconico)</h6>
-                    <input type="text" id={`subscType${uuid}`} name="subscType_1"/>
+                    <input type="text" id={`subscType${newWebhook.uuid}`} name="subscType_1"/>
 
                     <h6>サブスクリプションid(例:twitter:@ユーザ名(@は含まない),niconico:/user/userId)</h6>
-                    <input type="text" id={`subscId${uuid}`} name="subscId_1"/>
+                    <input type="text" id={`subscId${newWebhook.uuid}`} name="subscId_1"/>
 
                     <h6>メンションするロールの選択</h6>
                     <Select
@@ -63,6 +70,16 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         onChange={handleNewWebhookUserChange}
                         isMulti // trueに
                     ></Select>
+
+                    <h3>ワードカスタム(niconicoには反映されません)</h3>
+                    <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
+                    {newWebhook.mention_or_word.map((mOrWord,index) => (
+                        <div key={mOrWord}>
+                            <label>検索条件:{index}</label>
+                            <input type="text"></input>
+                        </div>
+                    ))}
+                    <button type="button">条件追加</button>
                 </div>
             ))}
         </>
