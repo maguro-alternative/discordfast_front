@@ -22,6 +22,9 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
     handleNewWebhookUserChange,
     handleNewWebhookInputChange
 }) => {
+    if (newUuids.length === 0){
+        newWebhookSetting();
+    }
     const webhookSelects = webhookSet.webhooks.map((webhook) => ({
         value:webhook.id,
         label:`${webhook.channelName}:${webhook.name}`
@@ -76,7 +79,7 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     {newWebhook.mention_or_word.map((mOrWord,index) => (
                         <div key={mOrWord}>
                             <label>検索条件:{index}</label>
-                            <input type="text"></input>
+                            <input id={`searchOrWord${newWebhook.uuid}`} type="text"></input>
                         </div>
                     ))}
                     <button type="button">条件追加</button>
@@ -85,3 +88,5 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
         </>
     );
 }
+
+export default CreateNewWebhookSelection;

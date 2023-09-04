@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DiscordWebhook } from '../../../store';
 
+import CreateNewWebhookSelection from "./CreateNewWebhook";
+
 const Webhook = () => {
     const { id } = useParams(); // パラメータを取得
 
@@ -52,7 +54,7 @@ const Webhook = () => {
     });
     const [newUuids, setNewUuids] = useState<string[]>([uuidv4().toString()]);
 
-    const addNewWebhookUuid = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newWebhookSetting = () => {
         const newUuid = uuidv4().toString();
         const guildId = id && id !== undefined ? id : ''
         setNewUuids([
@@ -83,9 +85,15 @@ const Webhook = () => {
         }));
     };
 
+    const handleNewWebhookChange = () => {};
+
+    const handleNewWebhookRoleChange = () => {};
+    const handleNewWebhookUserChange = () => {};
+
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
         name:検索用語
+        value:キーワード
         */
         const { name, value, type, id } = e.target;
         const uuids = webhookData.webhookSet.map((webhook) => {
@@ -98,7 +106,7 @@ const Webhook = () => {
                 ...prevData,
                 search_or_word:[
                     ...prevData.webhookSet[uuidIndex].search_or_word,
-                    name
+                    value
                 ]
             }));
         } else if (id.includes("searchAndWord")){
@@ -108,7 +116,7 @@ const Webhook = () => {
                 ...prevData,
                 search_and_word:[
                     ...prevData.webhookSet[uuidIndex].search_and_word,
-                    name
+                    value
                 ]
             }));
         } else if (id.includes("mentionOrWord")){
@@ -118,7 +126,7 @@ const Webhook = () => {
                 ...prevData,
                 mention_or_word:[
                     ...prevData.webhookSet[uuidIndex].mention_or_word,
-                    name
+                    value
                 ]
             }));
         } else if (id.includes("mentionAndWord")){
@@ -128,7 +136,7 @@ const Webhook = () => {
                 ...prevData,
                 mention_and_word:[
                     ...prevData.webhookSet[uuidIndex].mention_and_word,
-                    name
+                    value
                 ]
             }));
         } else if (id.includes("ngOrWord")){
@@ -138,7 +146,7 @@ const Webhook = () => {
                 ...prevData,
                 ng_or_word:[
                     ...prevData.webhookSet[uuidIndex].ng_or_word,
-                    name
+                    value
                 ]
             }));
         } else if (id.includes("ngAndWord")){
@@ -148,7 +156,7 @@ const Webhook = () => {
                 ...prevData,
                 ng_and_word:[
                     ...prevData.webhookSet[uuidIndex].ng_and_word,
-                    name
+                    value
                 ]
             }));
         }
@@ -166,6 +174,7 @@ const Webhook = () => {
                 const responseData = response.data;
                 console.log(responseData);
                 setWebhookData(responseData);
+                newWebhookSetting();
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 //throw new Error('ログインに失敗しました。 - ', error);
@@ -181,7 +190,17 @@ const Webhook = () => {
 
     return(
         <>
-            <form></form>
+            <form>
+                <CreateNewWebhookSelection
+                    newUuids={newUuids}
+                    webhookSet={webhookData}
+                    newWebhookSetting={newWebhookSetting}
+                    handleNewWebhookChange={handleNewWebhookChange}
+                    handleNewWebhookRoleChange={handleNewWebhookRoleChange}
+                    handleNewWebhookUserChange={handleNewWebhookUserChange}
+                    handleNewWebhookInputChange={handleNewWebhookInputChange}
+                ></CreateNewWebhookSelection>
+            </form>
         </>
     )
 }
