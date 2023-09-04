@@ -36,12 +36,12 @@ const Webhook = () => {
         webhookSet: [
             {
                 uuid: "b0389d11-5485-4c10-b510-1019fe667601",
-                guild_id: "123456789012345678",
-                webhook_id: "123456789012345678",
+                guild_id: "",
+                webhook_id: "",
                 subscription_type: "twitter",
                 subscription_id: "sigumataityouda",
-                mention_roles: ["123456789012345678"],
-                mention_members: ["123456789012345678"],
+                mention_roles: [""],
+                mention_members: [""],
                 ng_or_word: [""],
                 ng_and_word: [""],
                 search_or_word: [""],
@@ -99,15 +99,19 @@ const Webhook = () => {
         const uuids = webhookData.webhookSet.map((webhook) => {
             return webhook.uuid;
         })
+        console.log(value,webhookData);
         if (id.includes("searchOrWord")){
-            const idReplace = id.replace("searchOrWord","");
-            const uuidIndex = uuids.indexOf(idReplace);
+            const uuIdReplace = id.replace("searchOrWord","");
+            const uuidIndex = uuids.indexOf(uuIdReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                search_or_word:[
-                    ...prevData.webhookSet[uuidIndex].search_or_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    search_or_word: prevData.webhookSet[uuidIndex].search_or_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         } else if (id.includes("searchAndWord")){
             const idReplace = id.replace("searchAndWord","");
