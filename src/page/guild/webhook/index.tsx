@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import Select,{ MultiValue } from "react-select";
+import { MultiValue } from "react-select";
 
 import { DiscordWebhook,SelectOption } from '../../../store';
 
@@ -86,10 +86,19 @@ const Webhook = () => {
         }));
     };
 
-    const handleNewWebhookChange = (webhookKind:SelectOption) => {};
+    const handleNewWebhookChange = (
+        webhookKind:SelectOption,
+        uuid:string
+    ) => {};
 
-    const handleNewWebhookRoleChange = (webhookRoles:MultiValue<SelectOption>) => {};
-    const handleNewWebhookUserChange = (webhookUsers:MultiValue<SelectOption>) => {};
+    const handleNewWebhookRoleChange = (
+        webhookRoles:MultiValue<SelectOption>,
+        uuid:string
+    ) => {};
+    const handleNewWebhookUserChange = (
+        webhookUsers:MultiValue<SelectOption>,
+        uuid:string
+    ) => {};
 
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*

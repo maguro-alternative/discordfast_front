@@ -7,9 +7,18 @@ interface CreateNewWebhookSelectionProps {
     newUuids:string[],
     webhookSet:DiscordWebhook,
     newWebhookSetting:() => void;
-    handleNewWebhookChange:(webhookKind:SelectOption) => void;
-    handleNewWebhookRoleChange:(webhookRoles:MultiValue<SelectOption>) => void;
-    handleNewWebhookUserChange:(webhookUsers:MultiValue<SelectOption>) => void;
+    handleNewWebhookChange:(
+        webhookKind:SelectOption,
+        uuid:string
+    ) => void;
+    handleNewWebhookRoleChange:(
+        webhookRoles:MultiValue<SelectOption>,
+        uuid:string
+    ) => void;
+    handleNewWebhookUserChange:(
+        webhookUsers:MultiValue<SelectOption>,
+        uuid:string
+    ) => void;
     handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -56,7 +65,10 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         options={webhookSelects}
                         onChange={(value) => {
                             if(value){
-                                handleNewWebhookChange(value)
+                                handleNewWebhookChange(
+                                    value,
+                                    newWebhook.uuid
+                                )
                             }
                         }}
                     ></Select>
@@ -72,7 +84,10 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         options={webhookRoles}
                         onChange={(value) => {
                             if(value){
-                                handleNewWebhookRoleChange([...value])
+                                handleNewWebhookRoleChange(
+                                    [...value],
+                                    newWebhook.uuid
+                                )
                             }
                         }}
                         isMulti // trueに
@@ -83,7 +98,10 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         options={webhookUsers}
                         onChange={(value) => {
                             if(value){
-                                handleNewWebhookUserChange([...value])
+                                handleNewWebhookUserChange(
+                                    [...value],
+                                    newWebhook.uuid
+                                )
                             }
                         }}
                         isMulti // trueに
