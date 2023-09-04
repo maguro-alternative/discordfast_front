@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import Select,{ MultiValue } from "react-select";
 
-import { DiscordWebhook } from '../../../store';
+import { DiscordWebhook,SelectOption } from '../../../store';
 
 import CreateNewWebhookSelection from "./CreateNewWebhook";
 
@@ -85,14 +86,14 @@ const Webhook = () => {
         }));
     };
 
-    const handleNewWebhookChange = () => {};
+    const handleNewWebhookChange = (webhookKind:SelectOption) => {};
 
-    const handleNewWebhookRoleChange = () => {};
-    const handleNewWebhookUserChange = () => {};
+    const handleNewWebhookRoleChange = (webhookRoles:MultiValue<SelectOption>) => {};
+    const handleNewWebhookUserChange = (webhookUsers:MultiValue<SelectOption>) => {};
 
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
-        name:検索用語
+        name:入力されたindex
         value:キーワード
         */
         const { name, value, type, id } = e.target;
@@ -114,54 +115,69 @@ const Webhook = () => {
                 })),
             }));
         } else if (id.includes("searchAndWord")){
-            const idReplace = id.replace("searchAndWord","");
-            const uuidIndex = uuids.indexOf(idReplace);
+            const uuIdReplace = id.replace("searchAndWord","");
+            const uuidIndex = uuids.indexOf(uuIdReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                search_and_word:[
-                    ...prevData.webhookSet[uuidIndex].search_and_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    search_and_word: prevData.webhookSet[uuidIndex].search_and_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         } else if (id.includes("mentionOrWord")){
-            const idReplace = id.replace("mentionOrWord","");
-            const uuidIndex = uuids.indexOf(idReplace);
+            const uuIdReplace = id.replace("mentionOrWord","");
+            const uuidIndex = uuids.indexOf(uuIdReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                mention_or_word:[
-                    ...prevData.webhookSet[uuidIndex].mention_or_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    mention_or_word: prevData.webhookSet[uuidIndex].mention_or_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         } else if (id.includes("mentionAndWord")){
-            const idReplace = id.replace("mentionAndWord","");
-            const uuidIndex = uuids.indexOf(idReplace);
+            const uuIdReplace = id.replace("mentionAndWord","");
+            const uuidIndex = uuids.indexOf(uuIdReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                mention_and_word:[
-                    ...prevData.webhookSet[uuidIndex].mention_and_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    mention_and_word: prevData.webhookSet[uuidIndex].mention_and_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         } else if (id.includes("ngOrWord")){
             const idReplace = id.replace("ngOrWord","");
             const uuidIndex = uuids.indexOf(idReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                ng_or_word:[
-                    ...prevData.webhookSet[uuidIndex].ng_or_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    ng_or_word: prevData.webhookSet[uuidIndex].ng_or_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         } else if (id.includes("ngAndWord")){
             const idReplace = id.replace("ngAndWord","");
             const uuidIndex = uuids.indexOf(idReplace);
             setWebhookData((prevData) => ({
                 ...prevData,
-                ng_and_word:[
-                    ...prevData.webhookSet[uuidIndex].ng_and_word,
-                    value
-                ]
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    ng_and_word: prevData.webhookSet[uuidIndex].ng_and_word.map((words,index) => (
+                        index === Number(name) ?
+                        value : words[index]
+                    )) // 新しい値で上書き
+                })),
             }));
         }
     };

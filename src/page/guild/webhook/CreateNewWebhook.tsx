@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Select,{ MultiValue } from "react-select";
 
-import { DiscordWebhook } from '../../../store';
+import { DiscordWebhook,SelectOption } from '../../../store';
 
 interface CreateNewWebhookSelectionProps {
     newUuids:string[],
     webhookSet:DiscordWebhook,
     newWebhookSetting:() => void;
-    handleNewWebhookChange:() => void;
-    handleNewWebhookRoleChange:() => void;
-    handleNewWebhookUserChange:() => void;
+    handleNewWebhookChange:(webhookKind:SelectOption) => void;
+    handleNewWebhookRoleChange:(webhookRoles:MultiValue<SelectOption>) => void;
+    handleNewWebhookUserChange:(webhookUsers:MultiValue<SelectOption>) => void;
     handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -54,7 +54,11 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     <h6>WebHook</h6>
                     <Select
                         options={webhookSelects}
-                        onChange={handleNewWebhookChange}
+                        onChange={(value) => {
+                            if(value){
+                                handleNewWebhookChange(value)
+                            }
+                        }}
                     ></Select>
 
                     <h6>サブスクリプションタイプ(例:twitter,niconico)</h6>
@@ -66,14 +70,22 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     <h6>メンションするロールの選択</h6>
                     <Select
                         options={webhookRoles}
-                        onChange={handleNewWebhookRoleChange}
+                        onChange={(value) => {
+                            if(value){
+                                handleNewWebhookRoleChange([...value])
+                            }
+                        }}
                         isMulti // trueに
                     ></Select>
 
                     <h6>メンションするメンバーの選択</h6>
                     <Select
                         options={webhookUsers}
-                        onChange={handleNewWebhookUserChange}
+                        onChange={(value) => {
+                            if(value){
+                                handleNewWebhookUserChange([...value])
+                            }
+                        }}
                         isMulti // trueに
                     ></Select>
 
@@ -81,8 +93,13 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
                     {newWebhook.mention_or_word.map((mOrWord,index) => (
                         <div key={mOrWord}>
-                            <label>検索条件:{index}</label>
-                            <input id={`searchOrWord${newWebhook.uuid}`} name={`${index}`} type="text" onChange={handleNewWebhookInputChange}></input>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`searchOrWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
                         </div>
                     ))}
                     <button type="button">条件追加</button>
