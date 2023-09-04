@@ -4,21 +4,23 @@ import Select,{ MultiValue } from "react-select";
 import { DiscordWebhook } from '../../../store';
 
 interface CreateNewWebhookSelectionProps {
-    uuids:string[],
+    newUuids:string[],
     webhookSet:DiscordWebhook,
     newWebhookSetting:() => void;
     handleNewWebhookChange:() => void;
     handleNewWebhookRoleChange:() => void;
     handleNewWebhookUserChange:() => void;
+    handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
-    uuids,
+    newUuids,
     webhookSet,
     newWebhookSetting,
     handleNewWebhookChange,
     handleNewWebhookRoleChange,
-    handleNewWebhookUserChange
+    handleNewWebhookUserChange,
+    handleNewWebhookInputChange
 }) => {
     const webhookSelects = webhookSet.webhooks.map((webhook) => ({
         value:webhook.id,
@@ -34,7 +36,7 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
     }))
     return(
         <>
-            {uuids.map((uuid) => (
+            {newUuids.map((uuid) => (
                 <div key={uuid}>
                     <h6>WebHook</h6>
                     <Select
