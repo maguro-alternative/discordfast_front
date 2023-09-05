@@ -66,6 +66,9 @@ const Admin = () => {
     }, [guildRole]);
 
     const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押したときの処理
+        */
         e.preventDefault();
         // json文字列に変換(guild_id)はstrに変換
         const jsonData = JSON.stringify(formAdminData,(key, value) => {
@@ -124,6 +127,9 @@ const Admin = () => {
     ) => {
         /*
         LINEへの送信設定のuser、roleのidをそれぞれ格納
+
+        selectedValues: 選択された値
+        selectType: userかroleか
         */
         if (selectType === 'user'){
             formAdminData.line_user_id_permission = [];
@@ -144,6 +150,9 @@ const Admin = () => {
     ) => {
         /*
         LINEBotおよびグループ設定のuser、roleのidをそれぞれ格納
+
+        selectedValues: 選択された値
+        selectType: userかroleか
         */
         if (selectType === 'user'){
             formAdminData.line_bot_user_id_permission = [];
@@ -164,6 +173,9 @@ const Admin = () => {
     ) => {
         /*
         ボイスチャンネルの通知設定のuser、roleのidをそれぞれ格納
+
+        selectedValues: 選択された値
+        selectType: userかroleか
         */
         if (selectType === 'user'){
             formAdminData.vc_user_id_permission = [];
@@ -184,6 +196,9 @@ const Admin = () => {
     ) => {
         /*
         Webhookの通知設定のuser、roleのidをそれぞれ格納
+
+        selectedValues: 選択された値
+        selectType: userかroleか
         */
         if (selectType === 'user'){
             formAdminData.webhook_user_id_permission = [];
@@ -199,6 +214,9 @@ const Admin = () => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        textのinputの値を格納
+        */
         const { name, value, type } = e.target;
 
         console.log(name);

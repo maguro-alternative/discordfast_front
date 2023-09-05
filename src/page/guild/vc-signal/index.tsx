@@ -21,7 +21,14 @@ const VcSignal = () => {
         categoryId:string,
         channelId:string
     ) => {
-        if (!vcSignalData){
+        /*
+        セレクトボックスの値が変更されたら、vcChannelsのsendChannelIdを更新する
+
+        vcChannelSelect:変更されたセレクトボックスの値
+        categoryId:カテゴリーのid
+        channelId:チャンネルのid
+        */
+        if (!vcSignalData){ // データがない場合は何もしない
             return;
         } else {
             const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
@@ -50,6 +57,13 @@ const VcSignal = () => {
         categoryId:string,
         channelId:string
     ) => {
+        /*
+        セレクトのロールが変更されたら、vcChannelsのmentionRoleIdを更新する
+
+        vcRoleSelect:変更されたセレクトボックスの値
+        categoryId:カテゴリーのid
+        channelId:チャンネルのid
+        */
         if (!vcSignalData){
             return;
         } else {
@@ -79,6 +93,8 @@ const VcSignal = () => {
 
     const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
+        チェックボックスの値が変更されたら、vcChannelsのeveryoneMentionかjoinBotを更新する
+
         name    :channel id
         value   :category id
         checked :bool

@@ -49,6 +49,19 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
         handleUserSet
     }
 ) => {
+    /*
+    スレッドのチャンネル選択
+
+    discordThreads:スレッドのチャンネル情報
+    userIdSelect:ユーザーの選択肢
+    messageTypeOption:メッセージタイプの選択肢
+    handleThreadNgCheckChenge:スレッドのチェックボックスの変更
+    handleThreadBotCheckChenge:スレッドのbotチェックボックスの変更
+    handleThreadMessageTypeChenge:スレッドのメッセージタイプの変更
+    handleThreadUserChenge:スレッドのユーザーの変更
+    handleMessageTypeSet:メッセージタイプの初期値
+    handleUserSet:ユーザーの初期値
+    */
     return(
         <details>
             <summary>

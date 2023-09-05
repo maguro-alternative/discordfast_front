@@ -21,6 +21,9 @@ const LineSet = () => {
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        /*
+        textの入力を受け取る
+        */
         const { name, value} = e.target;
 
         if (!lineSetData) {
@@ -35,6 +38,9 @@ const LineSet = () => {
     };
 
     const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押したときの処理
+        */
         e.preventDefault();
         // json文字列に変換(guild_id)はstrに変換
         const jsonData = JSON.stringify(submitData,(key, value) => {
@@ -92,12 +98,12 @@ const LineSet = () => {
         const allChannel = lineSetData && lineSetData.channels !== undefined ? lineSetData.channels : {"0000": [{id: "123456789012345678",name: "eeee",type: "TextChannel"}]};
         const activeThreads = lineSetData && lineSetData.threads !== undefined ? lineSetData.threads : [];
 
-        const threadAndChannels = selectChannelAndThread(
+        const threadAndChannels = selectChannelAndThread(   // チャンネルとスレッドを結合
             categoryChannel,
             allChannel,
             activeThreads
         );
-        const selectedDefalutId = defalutChannelIdSelected(
+        const selectedDefalutId = defalutChannelIdSelected( // デフォルトチャンネルを選択
             defalutChannelId,
             threadAndChannels
         )

@@ -17,6 +17,17 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
     labelText,
     checkBoxCallback
 }) => {
+    /*
+    チェックボックスのフォーム
+    すでにチェックが入っているかどうかも判断する
+
+    tagId:チェックボックスのid
+    channelBool:チェックボックスの初期値
+    channelId:チェックボックスのname
+    categoryChannelId:チェックボックスのvalue
+    labelText:チェックボックスのラベル
+    checkBoxCallback:チェックボックスのコールバック関数
+    */
     return(
         <>
             {channelBool ?

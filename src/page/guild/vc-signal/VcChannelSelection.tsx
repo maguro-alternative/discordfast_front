@@ -43,6 +43,18 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
     vcRoleChannelSelect,
     handleCheckChange
 }) => {
+    /*
+    ボイスチャンネルの選択
+
+    discordCategoryChannel:カテゴリーのリスト
+    vcChannelJson:ボイスチャンネルのリスト
+    channelJson:チャンネルのリスト
+    roles:ロールのリスト
+    activeThreads:アクティブなスレッドのリスト
+    vcChannelSelect:ボイスチャンネルの選択
+    vcRoleChannelSelect:ボイスチャンネルのロールの選択
+    handleCheckChange:チェックボックスの変更
+    */
     const threadAndChannels = selectChannelAndThread(
         discordCategoryChannel,
         channelJson,

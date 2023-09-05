@@ -52,6 +52,20 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
         handleUserSet
     }
 ) => {
+    /*
+    カテゴリー内のチャンネルを表示する
+
+    discordCategoryChannel:カテゴリーのリスト
+    channelJson:チャンネルのリスト
+    userIdSelect:ユーザーのリスト
+    messageTypeOption:メッセージの種類のリスト
+    handleNgCheckChenge:LINEへ送信しないチェックボックスの変更時の関数
+    handleBotCheckChenge:botのメッセージを送信しないチェックボックスの変更時の関数
+    handleMessageTypeChenge:送信しないメッセージの種類の変更時の関数
+    handleUserChenge:送信しないユーザーの変更時の関数
+    handleMessageTypeSet:送信しないメッセージの種類の初期値の設定
+    handleUserSet:送信しないユーザーの初期値の設定
+    */
     return(
         <>
             {discordCategoryChannel.map((categoryChannel,index) => (

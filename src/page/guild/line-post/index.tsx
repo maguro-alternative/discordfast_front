@@ -40,6 +40,8 @@ const LinePost = () => {
 
     const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
+        チェックボックスの変更を検知して、チェックボックスの値を更新する
+
         name    :channel id
         value   :category id
         checked :bool
@@ -48,18 +50,18 @@ const LinePost = () => {
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
-            if (id.includes('Thread')){
-                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
+            if (id.includes('Thread')){ // スレッドの項目かどうか
+                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // threads オブジェクトのコピーを作成
 
                 if (updatedChannels) {
                     const updatedChannelArray = updatedChannels.map(channel => (
-                        id.includes('Channel') ?
+                        id.includes('Channel') ?    // LINEに送信するチャンネルの項目かどうか
                             channel.id === name ? {
                                 ...channel,
                                 lineNgChannel: checked
                             }
                             :channel
-                        :
+                        :   // Botのメッセージを送信するかどうか
                         channel.id === name ? {
                             ...channel,
                             messageBot: checked
@@ -67,27 +69,27 @@ const LinePost = () => {
                         :channel
                     ));
 
-                    updatedChannels = updatedChannelArray;
+                    updatedChannels = updatedChannelArray;  // 更新した配列を代入
                 }
 
-                const setUpdatedData: DiscordLinePost = {
+                const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
                     ...linePostData,
                     threads: updatedChannels,
                 };
 
-                setLinePostData(setUpdatedData)
-            } else {
+                setLinePostData(setUpdatedData) // 更新したデータを代入
+            } else {    // チャンネルの項目の場合
                 const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
 
                 if (updatedChannels[value]) {
                     const updatedChannelArray = updatedChannels[value].map(channel => (
-                        id.includes('Channel') ?
+                        id.includes('Channel') ?    // LINEに送信するチャンネルの項目かどうか
                             channel.id === name ? {
                                 ...channel,
                                 lineNgChannel: checked
                             }
                             :channel
-                        :
+                        :   // Botのメッセージを送信するかどうか
                             channel.id === name ? {
                                 ...channel,
                                 messageBot: checked
@@ -98,7 +100,7 @@ const LinePost = () => {
                     updatedChannels[value] = updatedChannelArray;
                 }
 
-                const setUpdatedData: DiscordLinePost = {
+                const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
                     ...linePostData,
                     channels: updatedChannels,
                 };
@@ -112,6 +114,12 @@ const LinePost = () => {
         setTypes:string[],
         selectOptions:SelectOption[]
     ) => {
+        /*
+        ユーザとメッセージタイプのセレクトボックスの初期値を設定する
+
+        setTypes    :設定する値の配列
+        selectOptions   :セレクトボックスのオプション
+        */
         return setTypes.map(setType => (
             {
                 value:setType,
@@ -127,11 +135,18 @@ const LinePost = () => {
         categoryId:string,
         channelId:string
     ) => {
+        /*
+        メッセージタイプのセレクトボックスの変更を検知して、セレクトの値を更新する
+
+        ngMessageType   :セレクトボックスの値
+        categoryId      :カテゴリーID
+        channelId       :チャンネルID
+        */
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
-            if (categoryId.includes('Thread')){
-                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // channels オブジェクトのコピーを作成
+            if (categoryId.includes('Thread')){ // スレッドの項目かどうか
+                let updatedChannels:LinePostData['threads'] = [ ...linePostData.threads ]; // threads オブジェクトのコピーを作成
 
                 const ngMessages = ngMessageType.map((type) => {
                     return type.value
@@ -149,20 +164,20 @@ const LinePost = () => {
                     updatedChannels = updatedChannelArray;
                 }
 
-                const setUpdatedData: DiscordLinePost = {
+                const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
                     ...linePostData,
                     threads: updatedChannels,
                 };
 
                 setLinePostData(setUpdatedData);
-            }else{
+            }else{  // チャンネルの項目の場合
                 const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
 
                 const ngMessages = ngMessageType.map((type) => {
                     return type.value
                 })
 
-                if (updatedChannels[categoryId]) {
+                if (updatedChannels[categoryId]) {  // もしカテゴリーIDが存在するなら
                     const updatedChannelArray = updatedChannels[categoryId].map(channel => (
                         channel.id === channelId ? {
                             ...channel,
@@ -174,7 +189,7 @@ const LinePost = () => {
                     updatedChannels[categoryId] = updatedChannelArray;
                 }
 
-                const setUpdatedData: DiscordLinePost = {
+                const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
                     ...linePostData,
                     channels: updatedChannels,
                 };
@@ -189,6 +204,13 @@ const LinePost = () => {
         categoryId:string,
         channelId:string
     ) => {
+        /*
+        ユーザ項目のセレクトボックスの変更を検知して、セレクトの値を更新する
+
+        ngUser      :セレクトボックスの値
+        categoryId  :カテゴリーID
+        channelId   :チャンネルID
+        */
         if (!linePostData) {
             return; // もし linePostData が null または undefined なら何もしない
         } else {
@@ -198,7 +220,7 @@ const LinePost = () => {
                 return type.value
             })
 
-            if (updatedChannels[categoryId]) {
+            if (updatedChannels[categoryId]) {  // もしカテゴリーIDが存在するなら
                 const updatedChannelArray = updatedChannels[categoryId].map(channel => (
                     channel.id === channelId ? {
                         ...channel,
@@ -210,7 +232,7 @@ const LinePost = () => {
                 updatedChannels[categoryId] = updatedChannelArray;
             }
 
-            const setUpdatedData: DiscordLinePost = {
+            const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
                 ...linePostData,
                 channels: updatedChannels,
             };
@@ -247,6 +269,9 @@ const LinePost = () => {
 
 
     const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押した時の処理
+        */
         e.preventDefault();
         // json文字列に変換(guild_id)はstrに変換
         const jsonData = JSON.stringify(linePostData,(key, value) => {

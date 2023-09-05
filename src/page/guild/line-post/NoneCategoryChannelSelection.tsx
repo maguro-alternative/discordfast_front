@@ -50,6 +50,19 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
         handleUserSet
     }
 ) => {
+    /*
+    カテゴリーなしのチャンネルを表示する
+
+    channelJson:カテゴリーなしのチャンネルの項目
+    userIdSelect:ユーザーのリスト
+    messageTypeOption:メッセージの種類のリスト
+    handleNgCheckChenge:LINEへ送信しないのチェックボックスの変更
+    handleBotCheckChenge:botのメッセージを送信しないのチェックボックスの変更
+    handleMessageTypeChenge:メッセージの種類の変更
+    handleUserChenge:ユーザーの変更
+    handleMessageTypeSet:メッセージの種類の初期値の設定
+    handleUserSet:ユーザーの初期値の設定
+    */
     return(
         <>
             {channelJson["None"].length > 0 ? (

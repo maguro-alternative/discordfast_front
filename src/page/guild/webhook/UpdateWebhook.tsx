@@ -35,20 +35,20 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
     handleUpdateWebhookInputChange,
     handleUpdateWebhookInputArray
 }) => {
-    const webhookSelects = webhookSet.webhooks.map((webhook) => ({
+    const webhookSelects = webhookSet.webhooks.map((webhook) => ({  //webhookのselectの選択肢を作成
         value:webhook.id,
         label:`${webhook.channelName}:${webhook.name}`
     }));
-    const webhookRoles = webhookSet.guildRoles.map((role) => ({
+    const webhookRoles = webhookSet.guildRoles.map((role) => ({     //roleのselectの選択肢を作成
         value:role.id,
         label:role.name
     }));
-    const webhookUsers = webhookSet.guildUsers.map((user) => ({
+    const webhookUsers = webhookSet.guildUsers.map((user) => ({     //userのselectの選択肢を作成
         value:user.id,
         label:`${user.userDisplayName}:${user.name}`
     }))
 
-    const updateWebhook = webhookSet.webhookSet.filter((updateWebhook) => {
+    const updateWebhook = webhookSet.webhookSet.filter((updateWebhook) => { //更新するwebhookのみを抽出
         if (updateUuids.includes(updateWebhook.uuid)){
             return updateWebhook
         }
