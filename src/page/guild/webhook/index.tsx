@@ -69,11 +69,11 @@ const Webhook = () => {
                 {
                     uuid:newUuid,
                     guild_id:guildId,
-                    webhook_id: "123456789012345678",
+                    webhook_id: "",
                     subscription_type: "twitter",
                     subscription_id: "sigumataityouda",
-                    mention_roles: ["123456789012345678"],
-                    mention_members: ["123456789012345678"],
+                    mention_roles: [""],
+                    mention_members: [""],
                     ng_or_word: [""],
                     ng_and_word: [""],
                     search_or_word: [""],
@@ -144,6 +144,20 @@ const Webhook = () => {
                     :webhook.search_or_word
                 })
             )}));
+        }else if (inputName === "searchAndWord"){
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    search_and_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.search_and_word,
+                            ""
+                        ]:
+                        webhook.search_and_word.filter((word,index) => index !== popIndex)
+                    :webhook.search_and_word
+                })
+            )}));
         }else if (inputName === "mentionOrWord"){
             setWebhookData((prevData) => ({
                 ...prevData,
@@ -156,6 +170,48 @@ const Webhook = () => {
                         ]:
                         webhook.mention_or_word.filter((word,index) => index !== popIndex)
                     :webhook.mention_or_word
+                })
+            )}));
+        }else if (inputName === "mentionAndWord"){
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    mention_and_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.mention_and_word,
+                            ""
+                        ]:
+                        webhook.mention_and_word.filter((word,index) => index !== popIndex)
+                    :webhook.mention_and_word
+                })
+            )}));
+        }else if (inputName === "ngOrWord"){
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    ng_or_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.ng_or_word,
+                            ""
+                        ]:
+                        webhook.ng_or_word.filter((word,index) => index !== popIndex)
+                    :webhook.ng_or_word
+                })
+            )}));
+        }else if (inputName === "ngAndWord"){
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    ng_and_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.ng_and_word,
+                            ""
+                        ]:
+                        webhook.ng_and_word.filter((word,index) => index !== popIndex)
+                    :webhook.ng_and_word
                 })
             )}));
         }
