@@ -115,6 +115,90 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                     <h3>ワードカスタム(niconicoには反映されません)</h3>
                     <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
+                    {newWebhook.search_or_word.map((sOrWord,index) => (
+                        <div key={`${sOrWord}${index}`}>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`searchOrWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                value={sOrWord}
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "searchOrWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
+
+                    <h6>キーワードAND検索(すべての単語が含まれている場合、送信)</h6>
+                    {newWebhook.search_and_word.map((sAndWord,index) => (
+                        <div key={`${sAndWord}${index}`}>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`searchAndWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                value={sAndWord}
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "searchAndWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
+
+                    <h6>NGワードOR検索(いずれかの言葉が含まれている場合、送信しない)</h6>
+                    {newWebhook.ng_or_word.map((nOrWord,index) => (
+                        <div key={`${nOrWord}${index}`}>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`ngOrWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                value={nOrWord}
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "ngOrWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
+
+                    <h6>NGワードAND検索(すべての単語が含まれている場合、送信しない)</h6>
+                    {newWebhook.ng_and_word.map((nAndWord,index) => (
+                        <div key={`${nAndWord}${index}`}>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`ngAndWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                value={nAndWord}
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "ngAndWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
+
+                    <h6>メンションOR検索(いずれかの言葉が含まれている場合、メンションを付けて送信)</h6>
                     {newWebhook.mention_or_word.map((mOrWord,index) => (
                         <div key={`${mOrWord}${index}`}>
                             <label>検索条件:{index + 1}</label>
@@ -131,6 +215,27 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         type="button"
                         onClick={() => handleNewWebhookInputArray(
                             "mentionOrWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
+
+                    <h6>メンションAND検索(すべての単語が含まれている場合、メンションを付けて送信)</h6>
+                    {newWebhook.mention_and_word.map((mAndWord,index) => (
+                        <div key={`${mAndWord}${index}`}>
+                            <label>検索条件:{index + 1}</label>
+                            <input
+                                id={`mentionAndWord${newWebhook.uuid}`}
+                                name={`${index}`}
+                                type="text"
+                                value={mAndWord}
+                                onChange={handleNewWebhookInputChange}
+                            ></input>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "mentionAndWord",
                             newWebhook.uuid
                         )}
                     >条件追加</button>

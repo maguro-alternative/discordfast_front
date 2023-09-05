@@ -130,7 +130,6 @@ const Webhook = () => {
         popIndex?:number
     ) => {
         if (inputName === "searchOrWord"){
-            console.log(inputName,popIndex,webhookData)
             setWebhookData((prevData) => ({
                 ...prevData,
                 webhookSet: prevData.webhookSet.map((webhook) => ({
