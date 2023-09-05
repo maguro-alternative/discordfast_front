@@ -273,14 +273,37 @@ const LinePost = () => {
         送信ボタンを押した時の処理
         */
         e.preventDefault();
-        // json文字列に変換(guild_id)はstrに変換
-        const jsonData = JSON.stringify(linePostData,(key, value) => {
+        if(linePostData){
+            const linePostList = Object.keys(linePostData.channels).map((categoryId) => {
+                return linePostData.channels[categoryId].map((channel) => {
+                    return {
+                        channel_id:channel.id,
+                        line_ng_channel:channel.lineNgChannel,
+                        ng_message_type:channel.ngMessageType,
+                        message_bot:channel.messageBot,
+                        ng_users:channel.ngUsers
+                    }
+                })
+            })
+            const json = {
+                guild_id:id,
+                channel_list:linePostList.flat()
+            }
+            // json文字列に変換(guild_id)はstrに変換
+        const jsonData = JSON.stringify(json,(key, value) => {
             if (typeof value === 'bigint') {
                 return value.toString();
             }
             return value;
         });
-        console.log(linePostData,JSON.parse(jsonData));
+        console.log(json,JSON.parse(jsonData));
+        // サーバー側に送信
+        const linePostJson = await axios.post(
+            `${SERVER_BASE_URL}/api/line-post-success-json`,
+            JSON.parse(jsonData),
+            { withCredentials: true }
+        );
+        }
     };
 
     if (isLoading) {
