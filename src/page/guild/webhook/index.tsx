@@ -90,6 +90,12 @@ const Webhook = () => {
         webhookKind:SelectOption,
         uuid:string
     ) => {
+        /*
+        サーバー内のwebhook一覧をselectで選択できるよう変換する
+
+        webhookKind:webhookの種類
+        uuid:uuid
+        */
         setWebhookData((prevData) => ({
             ...prevData,
             webhookSet: prevData.webhookSet.map((webhook) => ({
@@ -103,6 +109,12 @@ const Webhook = () => {
         webhookRoles:MultiValue<SelectOption>,
         uuid:string
     ) => {
+        /*
+        サーバー内のロールをselectで選択できるよう変換する
+
+        webhookRoles:ロール一覧
+        uuid:uuid
+        */
         setWebhookData((prevData) => ({
             ...prevData,
             webhookSet: prevData.webhookSet.map((webhook) => ({
@@ -115,6 +127,12 @@ const Webhook = () => {
         webhookUsers:MultiValue<SelectOption>,
         uuid:string
     ) => {
+        /*
+        サーバー内のユーザーをselectで選択できるよう変換する
+
+        webhookUsers:ユーザー一覧
+        uuid:uuid
+        */
         setWebhookData((prevData) => ({
             ...prevData,
             webhookSet: prevData.webhookSet.map((webhook) => ({
@@ -129,17 +147,24 @@ const Webhook = () => {
         uuid:string,
         popIndex?:number
     ) => {
+        /*
+        ボタンがクリックされた場合、textタグの項目追加、削除を行う
+
+        inputName:追加、削除する項目の名前
+        uuid:uuid
+        popIndex:削除する項目の番号(配列名、含まれない場合追加と判断)
+        */
         if (inputName === "searchOrWord"){
             setWebhookData((prevData) => ({
                 ...prevData,
                 webhookSet: prevData.webhookSet.map((webhook) => ({
                     ...webhook,
-                    search_or_word: uuid === webhook.uuid ?
-                        popIndex === undefined ? [
+                    search_or_word: uuid === webhook.uuid ? // uuidと一致する項目があった場合
+                        popIndex === undefined ? [  // popIndexが含まれない場合、追加
                             ...webhook.search_or_word,
                             ""
                         ]:
-                        webhook.search_or_word.filter((word,index) => index !== popIndex)
+                        webhook.search_or_word.filter((word,index) => index !== popIndex)   // popIndexが含まれる場合、削除
                     :webhook.search_or_word
                 })
             )}));
@@ -218,23 +243,26 @@ const Webhook = () => {
 
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
-        name:入力されたindex
-        value:キーワード
+        テキストボックスの内容を変更する
+
+        name:入力されたindex番号(配列の番号)
+        value:入力された値
+        id:入力された項目の名前 {項目名}{uuid}で構成される
         */
-        const { name, value, type, id } = e.target;
+        const { name, value, id } = e.target;
         const uuids = webhookData.webhookSet.map((webhook) => {
             return webhook.uuid;
         })
-        console.log(value,webhookData);
+        //console.log(value,webhookData);
         if (id.includes("searchOrWord")){
-            const uuIdReplace = id.replace("searchOrWord","");
-            const uuidIndex = uuids.indexOf(uuIdReplace);
+            const uuIdReplace = id.replace("searchOrWord","");  // 項目名を削除
+            const uuidIndex = uuids.indexOf(uuIdReplace);   // uuidのindex番号を取得
             setWebhookData((prevData) => ({
                 ...prevData,
                 webhookSet: prevData.webhookSet.map((webhook) => ({
                     ...webhook,
-                    search_or_word: uuIdReplace === webhook.uuid ? prevData.webhookSet[uuidIndex].search_or_word.map((word,index) => (
-                        index === Number(name) ?
+                    search_or_word: uuIdReplace === webhook.uuid ? prevData.webhookSet[uuidIndex].search_or_word.map((word,index) => (  // uuidが一致した場合
+                        index === Number(name) ?    // index番号が一致した場合
                         value : word
                     )) // 新しい値で上書き
                     :webhook.search_or_word
