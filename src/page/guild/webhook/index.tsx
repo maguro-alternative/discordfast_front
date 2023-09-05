@@ -124,6 +124,43 @@ const Webhook = () => {
         )}));
     };
 
+    const handleNewWebhookInputArray = (
+        inputName:string,
+        uuid:string,
+        popIndex?:number
+    ) => {
+        if (inputName === "searchOrWord"){
+            console.log(inputName,popIndex,webhookData)
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    search_or_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.search_or_word,
+                            ""
+                        ]:
+                        webhook.search_or_word.filter((word,index) => index !== popIndex)
+                    :webhook.search_or_word
+                })
+            )}));
+        }else if (inputName === "mentionOrWord"){
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    mention_or_word: uuid === webhook.uuid ?
+                        popIndex === undefined ? [
+                            ...webhook.mention_or_word,
+                            ""
+                        ]:
+                        webhook.mention_or_word.filter((word,index) => index !== popIndex)
+                    :webhook.mention_or_word
+                })
+            )}));
+        }
+    }
+
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
         name:入力されたindex
@@ -167,10 +204,11 @@ const Webhook = () => {
                 ...prevData,
                 webhookSet: prevData.webhookSet.map((webhook) => ({
                     ...webhook,
-                    mention_or_word: prevData.webhookSet[uuidIndex].mention_or_word.map((words,index) => (
+                    mention_or_word: uuIdReplace === webhook.uuid ? prevData.webhookSet[uuidIndex].mention_or_word.map((word,index) => (
                         index === Number(name) ?
-                        value : words[index]
+                        value : word
                     )) // 新しい値で上書き
+                    :webhook.mention_or_word
                 })),
             }));
         } else if (id.includes("mentionAndWord")){
@@ -252,6 +290,7 @@ const Webhook = () => {
                     handleNewWebhookRoleChange={handleNewWebhookRoleChange}
                     handleNewWebhookUserChange={handleNewWebhookUserChange}
                     handleNewWebhookInputChange={handleNewWebhookInputChange}
+                    handleNewWebhookInputArray={handleNewWebhookInputArray}
                 ></CreateNewWebhookSelection>
             </form>
         </>

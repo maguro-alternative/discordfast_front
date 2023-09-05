@@ -20,6 +20,11 @@ interface CreateNewWebhookSelectionProps {
         uuid:string
     ) => void;
     handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleNewWebhookInputArray:(
+        inputName:string,
+        uuid:string,
+        popIndex?:number
+    ) => void;
 }
 
 const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
@@ -29,7 +34,8 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
     handleNewWebhookChange,
     handleNewWebhookRoleChange,
     handleNewWebhookUserChange,
-    handleNewWebhookInputChange
+    handleNewWebhookInputChange,
+    handleNewWebhookInputArray
 }) => {
     if (newUuids.length === 0){
         newWebhookSetting();
@@ -110,17 +116,24 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                     <h3>ワードカスタム(niconicoには反映されません)</h3>
                     <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
                     {newWebhook.mention_or_word.map((mOrWord,index) => (
-                        <div key={mOrWord}>
+                        <div key={`${mOrWord}${index}`}>
                             <label>検索条件:{index + 1}</label>
                             <input
-                                id={`searchOrWord${newWebhook.uuid}`}
+                                id={`mentionOrWord${newWebhook.uuid}`}
                                 name={`${index}`}
                                 type="text"
+                                value={mOrWord}
                                 onChange={handleNewWebhookInputChange}
                             ></input>
                         </div>
                     ))}
-                    <button type="button">条件追加</button>
+                    <button
+                        type="button"
+                        onClick={() => handleNewWebhookInputArray(
+                            "mentionOrWord",
+                            newWebhook.uuid
+                        )}
+                    >条件追加</button>
                 </div>
             ))}
         </details>
