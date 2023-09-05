@@ -139,7 +139,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                             <h3>ワードカスタム(niconicoには反映されません)</h3>
                             <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
                             {updateWebhook.search_or_word.map((sOrWord,index) => (
-                                <div key={`${sOrWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
                                         id={`searchOrWord${updateWebhook.uuid}`}

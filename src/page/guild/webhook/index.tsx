@@ -7,6 +7,7 @@ import { MultiValue } from "react-select";
 import { DiscordWebhook,SelectOption } from '../../../store';
 
 import CreateNewWebhookSelection from "./CreateNewWebhook";
+import UpdateWebhookSelection from "./UpdateWebhook";
 
 const Webhook = () => {
     const { id } = useParams(); // パラメータを取得
@@ -54,15 +55,19 @@ const Webhook = () => {
         ]
     });
     const [newUuids, setNewUuids] = useState<string[]>([uuidv4().toString()]);
+    const [updateUuids,setUpdateUuids] = useState<string[]>([]);
 
     const newWebhookSetting = () => {
-        const newUuid = uuidv4().toString();
+        /*
+        新しくwebhookでの投稿内容を追加する
+        */
+        const newUuid = uuidv4().toString();    // uuidを生成
         const guildId = id && id !== undefined ? id : ''
-        setNewUuids([
+        setNewUuids([   // uuidを追加
             ...newUuids,
             newUuid
         ]);
-        setWebhookData((prevData) => ({
+        setWebhookData((prevData) => ({ //webhookの初期値を追加
             ...prevData,
             webhookSet:[
                 ...prevData.webhookSet,
@@ -86,12 +91,12 @@ const Webhook = () => {
         }));
     };
 
-    const handleNewWebhookChange = (
+    const handleWebhookChange = (
         webhookKind:SelectOption,
         uuid:string
     ) => {
         /*
-        サーバー内のwebhook一覧をselectで選択できるよう変換する
+        サーバー内のwebhook一覧から選択されたwebhookを格納する
 
         webhookKind:webhookの種類
         uuid:uuid
@@ -105,12 +110,12 @@ const Webhook = () => {
         )}));
     };
 
-    const handleNewWebhookRoleChange = (
+    const handleWebhookRoleChange = (
         webhookRoles:MultiValue<SelectOption>,
         uuid:string
     ) => {
         /*
-        サーバー内のロールをselectで選択できるよう変換する
+        サーバー内のロール一覧から選択されたロールを格納する
 
         webhookRoles:ロール一覧
         uuid:uuid
@@ -123,12 +128,12 @@ const Webhook = () => {
             })
         )}));
     };
-    const handleNewWebhookUserChange = (
+    const handleWebhookUserChange = (
         webhookUsers:MultiValue<SelectOption>,
         uuid:string
     ) => {
         /*
-        サーバー内のユーザーをselectで選択できるよう変換する
+        サーバー内のユーザー一覧から選択されたユーザーを格納する
 
         webhookUsers:ユーザー一覧
         uuid:uuid
@@ -142,7 +147,7 @@ const Webhook = () => {
         )}));
     };
 
-    const handleNewWebhookInputArray = (
+    const handleWebhookInputArray = (
         inputName:string,
         uuid:string,
         popIndex?:number
@@ -241,7 +246,7 @@ const Webhook = () => {
         }
     }
 
-    const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
         テキストボックスの内容を変更する
 
@@ -346,14 +351,15 @@ const Webhook = () => {
         let ignore = false;
         async function fetchData() {
             try {
-                const response = await axios.get<DiscordWebhook>(
+                const response = await axios.get<DiscordWebhook>(   // サーバーからデータを取得
                     `${SERVER_BASE_URL}/guild/${id}/webhook/view`,
                     { withCredentials: true }
                 );
                 const responseData = response.data;
                 console.log(responseData);
-                setWebhookData(responseData);
-                newWebhookSetting();
+                setWebhookData(responseData);   // webhookのデータを格納
+                setUpdateUuids(responseData.webhookSet.map((webhook) => webhook.uuid));    // 更新用のuuidを格納
+                newWebhookSetting();    // webhookの初期値を追加
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 //throw new Error('ログインに失敗しました。 - ', error);
@@ -374,12 +380,21 @@ const Webhook = () => {
                     newUuids={newUuids}
                     webhookSet={webhookData}
                     newWebhookSetting={newWebhookSetting}
-                    handleNewWebhookChange={handleNewWebhookChange}
-                    handleNewWebhookRoleChange={handleNewWebhookRoleChange}
-                    handleNewWebhookUserChange={handleNewWebhookUserChange}
-                    handleNewWebhookInputChange={handleNewWebhookInputChange}
-                    handleNewWebhookInputArray={handleNewWebhookInputArray}
+                    handleNewWebhookChange={handleWebhookChange}
+                    handleNewWebhookRoleChange={handleWebhookRoleChange}
+                    handleNewWebhookUserChange={handleWebhookUserChange}
+                    handleNewWebhookInputChange={handleWebhookInputChange}
+                    handleNewWebhookInputArray={handleWebhookInputArray}
                 ></CreateNewWebhookSelection>
+                <UpdateWebhookSelection
+                    updateUuids={updateUuids}
+                    webhookSet={webhookData}
+                    handleUpdateWebhookChange={handleWebhookChange}
+                    handleUpdateWebhookRoleChange={handleWebhookRoleChange}
+                    handleUpdateWebhookUserChange={handleWebhookUserChange}
+                    handleUpdateWebhookInputChange={handleWebhookInputChange}
+                    handleUpdateWebhookInputArray={handleWebhookInputArray}
+                ></UpdateWebhookSelection>
             </form>
         </>
     )
