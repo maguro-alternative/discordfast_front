@@ -125,15 +125,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                             <h3>ワードカスタム(niconicoには反映されません)</h3>
                             <h6>キーワードOR検索(いずれかの言葉が含まれている場合、送信)</h6>
                             {newWebhook.search_or_word.map((sOrWord,index) => (
-                                <div key={`${sOrWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`searchOrWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={sOrWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={sOrWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -146,15 +145,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>キーワードAND検索(すべての単語が含まれている場合、送信)</h6>
                             {newWebhook.search_and_word.map((sAndWord,index) => (
-                                <div key={`${sAndWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`searchAndWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={sAndWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={sAndWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -167,15 +165,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>NGワードOR検索(いずれかの言葉が含まれている場合、送信しない)</h6>
                             {newWebhook.ng_or_word.map((nOrWord,index) => (
-                                <div key={`${nOrWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`ngOrWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={nOrWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={nOrWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -188,15 +185,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>NGワードAND検索(すべての単語が含まれている場合、送信しない)</h6>
                             {newWebhook.ng_and_word.map((nAndWord,index) => (
-                                <div key={`${nAndWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`ngAndWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={nAndWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={nAndWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -209,15 +205,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>メンションOR検索(いずれかの言葉が含まれている場合、メンションを付けて送信)</h6>
                             {newWebhook.mention_or_word.map((mOrWord,index) => (
-                                <div key={`${mOrWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`mentionOrWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={mOrWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={mOrWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -230,15 +225,14 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>メンションAND検索(すべての単語が含まれている場合、メンションを付けて送信)</h6>
                             {newWebhook.mention_and_word.map((mAndWord,index) => (
-                                <div key={`${mAndWord}${index}`}>
+                                <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
-                                    <input
+                                    <InputForm
                                         id={`mentionAndWord${newWebhook.uuid}`}
-                                        name={`${index}`}
-                                        type="text"
-                                        value={mAndWord}
-                                        onChange={handleNewWebhookInputChange}
-                                    ></input>
+                                        index={index}
+                                        valueWord={mAndWord}
+                                        handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                    ></InputForm>
                                 </div>
                             ))}
                             <button
@@ -257,3 +251,25 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 }
 
 export default CreateNewWebhookSelection;
+
+const InputForm: React.FC<{
+    id:string,
+    index:number,
+    valueWord:string,
+    handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void
+}> = ({
+    id,
+    index,
+    valueWord,
+    handleNewWebhookInputChange
+}) => {
+    return (
+        <input
+            id={id}
+            name={`${index}`}
+            type="text"
+            value={valueWord}
+            onChange={handleNewWebhookInputChange}
+        ></input>
+    )
+}
