@@ -89,16 +89,40 @@ const Webhook = () => {
     const handleNewWebhookChange = (
         webhookKind:SelectOption,
         uuid:string
-    ) => {};
+    ) => {
+        setWebhookData((prevData) => ({
+            ...prevData,
+            webhookSet: prevData.webhookSet.map((webhook) => ({
+                ...webhook,
+                webhook_id: webhook.uuid === uuid ? webhookKind.value : webhook.webhook_id
+            })
+        )}));
+    };
 
     const handleNewWebhookRoleChange = (
         webhookRoles:MultiValue<SelectOption>,
         uuid:string
-    ) => {};
+    ) => {
+        setWebhookData((prevData) => ({
+            ...prevData,
+            webhookSet: prevData.webhookSet.map((webhook) => ({
+                ...webhook,
+                mention_roles: webhook.uuid === uuid ? webhookRoles.map((role) => role.value) : webhook.mention_roles
+            })
+        )}));
+    };
     const handleNewWebhookUserChange = (
         webhookUsers:MultiValue<SelectOption>,
         uuid:string
-    ) => {};
+    ) => {
+        setWebhookData((prevData) => ({
+            ...prevData,
+            webhookSet: prevData.webhookSet.map((webhook) => ({
+                ...webhook,
+                mention_members: webhook.uuid === uuid ? webhookUsers.map((user) => user.value) : webhook.mention_members
+            })
+        )}));
+    };
 
     const handleNewWebhookInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         /*
