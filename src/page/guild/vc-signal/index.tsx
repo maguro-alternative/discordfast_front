@@ -14,7 +14,6 @@ const VcSignal = () => {
 
     const [vcSignalData, setVcSignalData] = useState<DiscordVcSignal>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
-    const [vcSubmitData, setVcSubmitData] = useState<DiscordVcSignal>();
 
     const vcChannelSelect = (
         vcChannelSelect:SelectOption,
@@ -48,7 +47,8 @@ const VcSignal = () => {
 
             console.log(vcChannel,setUpdatedData);
 
-            setVcSubmitData(setUpdatedData);
+            //setVcSubmitData(setUpdatedData);
+            setVcSignalData(setUpdatedData);
         };
     };
 
@@ -87,7 +87,8 @@ const VcSignal = () => {
 
             console.log(vcChannel,setUpdatedData);
 
-            setVcSubmitData(setUpdatedData);
+            //setVcSubmitData(setUpdatedData);
+            setVcSignalData(setUpdatedData);
         };
     };
 
@@ -123,7 +124,8 @@ const VcSignal = () => {
                 vcChannels:{[value]:vcChannel}
             }
 
-            setVcSubmitData(setUpdatedData);
+            //setVcSubmitData(setUpdatedData);
+            setVcSignalData(setUpdatedData);
         }
     }
 
@@ -139,7 +141,7 @@ const VcSignal = () => {
                 const responseData = response.data;
                 console.log(responseData);
                 setVcSignalData(responseData);
-                setVcSubmitData(responseData);
+                //setVcSubmitData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -159,31 +161,32 @@ const VcSignal = () => {
         送信ボタンを押したときの処理
         */
         e.preventDefault();
-        // json文字列に変換(guild_id)はstrに変換
-        const jsonData = JSON.stringify(vcSubmitData,(key, value) => {
-            if (typeof value === 'bigint') {
-                return value.toString();
-            }
-            return value;
-        });
-        console.log(vcSubmitData,JSON.parse(jsonData));
-        if(vcSubmitData){
+        if(vcSignalData){
+            const vcChannelList = Object.keys(vcSignalData.vcChannels).map((categoryId) => {
+                return vcSignalData.vcChannels[categoryId].map((vcChannel) => {
+                    return {
+                        vc_channel_id:vcChannel.id,
+                        send_channel_id:vcChannel.sendChannelId,
+                        send_signal:vcChannel.sendSignal,
+                        everyone_mention:vcChannel.everyoneMention,
+                        join_bot:vcChannel.joinBot,
+                        mention_role_id:vcChannel.mentionRoleId
+                    }
+                })
+            })
             const json = {
                 guild_id:id,
-                vc_channel_list:Object.keys(vcSubmitData.vcChannels).map((categoryId) => {
-                    return vcSubmitData.vcChannels[categoryId].map((vcChannel) => {
-                        return {
-                            vc_channel_id:vcChannel.id,
-                            send_channel_id:vcChannel.sendChannelId,
-                            send_signal:vcChannel.sendSignal,
-                            everyone_mention:vcChannel.everyoneMention,
-                            join_bot:vcChannel.joinBot,
-                            mention_role_id:vcChannel.mentionRoleId
-                        }
-                    })
-                })
+                vc_channel_list:vcChannelList.flat()
             }
-    }
+            // json文字列に変換(guild_id)はstrに変換
+            const jsonData = JSON.stringify(json,(key, value) => {
+                if (typeof value === 'bigint') {
+                    return value.toString();
+                }
+                return value;
+            });
+            console.log(vcSignalData,JSON.parse(jsonData));
+        }
     };
 
     if (isLoading) {
