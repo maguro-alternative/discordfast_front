@@ -165,7 +165,7 @@ const VcSignal = () => {
             const vcChannelList = Object.keys(vcSignalData.vcChannels).map((categoryId) => {
                 return vcSignalData.vcChannels[categoryId].map((vcChannel) => {
                     return {
-                        vc_channel_id:vcChannel.id,
+                        vc_id:vcChannel.id,
                         send_channel_id:vcChannel.sendChannelId,
                         send_signal:vcChannel.sendSignal,
                         everyone_mention:vcChannel.everyoneMention,
