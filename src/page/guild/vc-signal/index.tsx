@@ -139,6 +139,7 @@ const VcSignal = () => {
                 const responseData = response.data;
                 console.log(responseData);
                 setVcSignalData(responseData);
+                setVcSubmitData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -153,6 +154,38 @@ const VcSignal = () => {
         };
     },[]);
 
+    const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押したときの処理
+        */
+        e.preventDefault();
+        // json文字列に変換(guild_id)はstrに変換
+        const jsonData = JSON.stringify(vcSubmitData,(key, value) => {
+            if (typeof value === 'bigint') {
+                return value.toString();
+            }
+            return value;
+        });
+        console.log(vcSubmitData,JSON.parse(jsonData));
+        if(vcSubmitData){
+            const json = {
+                guild_id:id,
+                vc_channel_list:Object.keys(vcSubmitData.vcChannels).map((categoryId) => {
+                    return vcSubmitData.vcChannels[categoryId].map((vcChannel) => {
+                        return {
+                            vc_channel_id:vcChannel.id,
+                            send_channel_id:vcChannel.sendChannelId,
+                            send_signal:vcChannel.sendSignal,
+                            everyone_mention:vcChannel.everyoneMention,
+                            join_bot:vcChannel.joinBot,
+                            mention_role_id:vcChannel.mentionRoleId
+                        }
+                    })
+                })
+            }
+    }
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     } else {
@@ -163,7 +196,7 @@ const VcSignal = () => {
         const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles:[{ id: "", name: "", type: ""}];
         return(
             <>
-                <form>
+                <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>
                             <strong>チャンネル一覧</strong>
@@ -181,6 +214,7 @@ const VcSignal = () => {
                             ></VcChannelSelection>
                         </ul>
                     </details>
+                    <button type="submit">Submit</button>
                 </form>
             </>
         )
