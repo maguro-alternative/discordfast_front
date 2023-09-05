@@ -54,8 +54,9 @@ const Webhook = () => {
             }
         ]
     });
-    const [newUuids, setNewUuids] = useState<string[]>([uuidv4().toString()]);
-    const [updateUuids,setUpdateUuids] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
+    const [newUuids, setNewUuids] = useState<string[]>([uuidv4().toString()]);  // 新しく追加するwebhookのuuid
+    const [updateUuids,setUpdateUuids] = useState<string[]>([]);    // 更新するwebhookのuuid
 
     const newWebhookSetting = () => {
         /*
@@ -77,14 +78,14 @@ const Webhook = () => {
                     webhook_id: "",
                     subscription_type: "twitter",
                     subscription_id: "sigumataityouda",
-                    mention_roles: [""],
-                    mention_members: [""],
-                    ng_or_word: [""],
-                    ng_and_word: [""],
-                    search_or_word: [""],
-                    search_and_word: [""],
-                    mention_or_word: [""],
-                    mention_and_word: [""],
+                    mention_roles: [],
+                    mention_members: [],
+                    ng_or_word: [],
+                    ng_and_word: [],
+                    search_or_word: [],
+                    search_and_word: [],
+                    mention_or_word: [],
+                    mention_and_word: [],
                     created_at: "Wed Jun 14 00:01:27 +0000 2023"
                 }
             ]
@@ -360,6 +361,7 @@ const Webhook = () => {
                 setWebhookData(responseData);   // webhookのデータを格納
                 setUpdateUuids(responseData.webhookSet.map((webhook) => webhook.uuid));    // 更新用のuuidを格納
                 newWebhookSetting();    // webhookの初期値を追加
+                setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 //throw new Error('ログインに失敗しました。 - ', error);
@@ -373,31 +375,78 @@ const Webhook = () => {
         };
     },[]);
 
-    return(
-        <>
-            <form>
-                <CreateNewWebhookSelection
-                    newUuids={newUuids}
-                    webhookSet={webhookData}
-                    newWebhookSetting={newWebhookSetting}
-                    handleNewWebhookChange={handleWebhookChange}
-                    handleNewWebhookRoleChange={handleWebhookRoleChange}
-                    handleNewWebhookUserChange={handleWebhookUserChange}
-                    handleNewWebhookInputChange={handleWebhookInputChange}
-                    handleNewWebhookInputArray={handleWebhookInputArray}
-                ></CreateNewWebhookSelection>
-                <UpdateWebhookSelection
-                    updateUuids={updateUuids}
-                    webhookSet={webhookData}
-                    handleUpdateWebhookChange={handleWebhookChange}
-                    handleUpdateWebhookRoleChange={handleWebhookRoleChange}
-                    handleUpdateWebhookUserChange={handleWebhookUserChange}
-                    handleUpdateWebhookInputChange={handleWebhookInputChange}
-                    handleUpdateWebhookInputArray={handleWebhookInputArray}
-                ></UpdateWebhookSelection>
-            </form>
-        </>
-    )
+    const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押したときの処理
+        */
+        e.preventDefault();
+        if(webhookData){
+            const webhookList = webhookData.webhookSet.filter((webhook) => {
+                if(webhook.webhook_id !== "" &&
+                    webhook.subscription_id !== "" &&
+                    webhook.guild_id !== ""
+                ){  // webhook_id,subscription_id,guild_idが空でない場合
+                    return {
+                        webhook_uuid:webhook.uuid,
+                        webhook_id:webhook.webhook_id,
+                        subscription_type:webhook.subscription_type,
+                        subscription_id:webhook.subscription_id,
+                        mention_roles:webhook.mention_roles,
+                        mention_members:webhook.mention_members,
+                        ng_or_word:webhook.ng_or_word,
+                        ng_and_word:webhook.ng_and_word,
+                        search_or_word:webhook.search_or_word,
+                        search_and_word:webhook.search_and_word,
+                        mention_or_word:webhook.mention_or_word,
+                        mention_and_word:webhook.mention_and_word,
+                    }
+                }
+            })
+            const json = {
+                guild_id:id,
+                webhook_list:webhookList
+            }
+            // json文字列に変換(guild_id)はstrに変換
+            const jsonData = JSON.stringify(json,(key, value) => {
+                if (typeof value === 'bigint') {
+                    return value.toString();
+                }
+                return value;
+            });
+            console.log(webhookData,JSON.parse(jsonData));
+        }
+    };
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    } else {
+        return(
+            <>
+                <form onSubmit={handleFormSubmit}>
+                    <CreateNewWebhookSelection
+                        newUuids={newUuids}
+                        webhookSet={webhookData}
+                        newWebhookSetting={newWebhookSetting}
+                        handleNewWebhookChange={handleWebhookChange}
+                        handleNewWebhookRoleChange={handleWebhookRoleChange}
+                        handleNewWebhookUserChange={handleWebhookUserChange}
+                        handleNewWebhookInputChange={handleWebhookInputChange}
+                        handleNewWebhookInputArray={handleWebhookInputArray}
+                    ></CreateNewWebhookSelection>
+                    <UpdateWebhookSelection
+                        updateUuids={updateUuids}
+                        webhookSet={webhookData}
+                        handleUpdateWebhookChange={handleWebhookChange}
+                        handleUpdateWebhookRoleChange={handleWebhookRoleChange}
+                        handleUpdateWebhookUserChange={handleWebhookUserChange}
+                        handleUpdateWebhookInputChange={handleWebhookInputChange}
+                        handleUpdateWebhookInputArray={handleWebhookInputArray}
+                    ></UpdateWebhookSelection>
+                    <button type="submit">Submit</button>
+                </form>
+            </>
+        )
+    }
 }
 
 export default Webhook;
