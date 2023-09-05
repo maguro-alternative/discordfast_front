@@ -414,6 +414,12 @@ const Webhook = () => {
                 return value;
             });
             console.log(webhookData,JSON.parse(jsonData));
+            // サーバー側に送信
+            const webhookJson = await axios.post(
+                `${SERVER_BASE_URL}/api/webhook-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            );
         }
     };
 

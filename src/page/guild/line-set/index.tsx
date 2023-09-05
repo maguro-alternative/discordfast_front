@@ -50,6 +50,12 @@ const LineSet = () => {
             return value;
         });
         console.log(submitData,JSON.parse(jsonData));
+        // サーバー側に送信
+        const lineSetJson = await axios.post(
+            `${SERVER_BASE_URL}/api/line-set-success-json`,
+            JSON.parse(jsonData),
+            { withCredentials: true }
+        );
     };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL

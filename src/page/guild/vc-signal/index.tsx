@@ -139,7 +139,7 @@ const VcSignal = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setVcSignalData(responseData);
                 //setVcSubmitData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
@@ -186,6 +186,12 @@ const VcSignal = () => {
                 return value;
             });
             console.log(vcSignalData,JSON.parse(jsonData));
+            // サーバー側に送信
+            const vcSignalJson = await axios.post(
+                `${SERVER_BASE_URL}/api/vc-signal-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            );
         }
     };
 
