@@ -76,8 +76,8 @@ const Webhook = () => {
                     uuid:newUuid,
                     guild_id:guildId,
                     webhook_id: "",
-                    subscription_type: "twitter",
-                    subscription_id: "sigumataityouda",
+                    subscription_type: "",
+                    subscription_id: "",
                     mention_roles: [],
                     mention_members: [],
                     ng_or_word: [],
@@ -89,6 +89,23 @@ const Webhook = () => {
                     created_at: "Wed Jun 14 00:01:27 +0000 2023"
                 }
             ]
+        }));
+    };
+
+    const handleDeleteWebhookCheckboxChange = (
+        uuid:string,
+        checkState:boolean
+    ) => {
+        const uuids = webhookData.webhookSet.map((webhook) => {
+            return webhook.uuid;
+        })
+        const uuidIndex = uuids.indexOf(uuid);   // uuidのindex番号を取得
+        setWebhookData((prevData) => ({
+            ...prevData,
+            webhookSet: prevData.webhookSet.map((webhook) => ({
+                ...webhook,
+                delete_flag:uuid === webhook.uuid && checkState
+            })),
         }));
     };
 
@@ -384,6 +401,7 @@ const Webhook = () => {
             const webhookList = webhookData.webhookSet.filter((webhook) => {
                 if(webhook.webhook_id !== "" &&
                     webhook.subscription_id !== "" &&
+                    webhook.subscription_type !== "" &&
                     webhook.guild_id !== ""
                 ){  // webhook_id,subscription_id,guild_idが空でない場合
                     return {
@@ -399,6 +417,7 @@ const Webhook = () => {
                         search_and_word:webhook.search_and_word,
                         mention_or_word:webhook.mention_or_word,
                         mention_and_word:webhook.mention_and_word,
+                        delete_flag:webhook.delete_flag
                     }
                 }
             })
@@ -415,11 +434,7 @@ const Webhook = () => {
             });
             console.log(webhookData,JSON.parse(jsonData));
             // サーバー側に送信
-            const webhookJson = await axios.post(
-                `${SERVER_BASE_URL}/api/webhook-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+
         }
     };
 
@@ -447,6 +462,7 @@ const Webhook = () => {
                         handleUpdateWebhookUserChange={handleWebhookUserChange}
                         handleUpdateWebhookInputChange={handleWebhookInputChange}
                         handleUpdateWebhookInputArray={handleWebhookInputArray}
+                        handleDeleteWebhookCheckboxChange={handleDeleteWebhookCheckboxChange}
                     ></UpdateWebhookSelection>
                     <button type="submit">Submit</button>
                 </form>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select,{ MultiValue } from "react-select";
 
 import { DiscordWebhook,SelectOption } from '../../../store';
+import Index from "../..";
 
 interface CreateNewWebhookSelectionProps {
     newUuids:string[],
@@ -128,10 +129,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`searchOrWord${newWebhook.uuid}`}
+                                        textName="searchOrWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={sOrWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -148,10 +151,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`searchAndWord${newWebhook.uuid}`}
+                                        textName="searchAndWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={sAndWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -168,10 +173,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`ngOrWord${newWebhook.uuid}`}
+                                        textName="ngOrWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={nOrWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -188,10 +195,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`ngAndWord${newWebhook.uuid}`}
+                                        textName="ngAndWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={nAndWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -208,10 +217,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`mentionOrWord${newWebhook.uuid}`}
+                                        textName="mentionOrWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={mOrWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -228,10 +239,12 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`mentionAndWord${newWebhook.uuid}`}
+                                        textName="mentionAndWord"
+                                        uuid={newWebhook.uuid}
                                         index={index}
                                         valueWord={mAndWord}
                                         handleNewWebhookInputChange={handleNewWebhookInputChange}
+                                        handleNewWebhookInputArray={handleNewWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -253,23 +266,41 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 export default CreateNewWebhookSelection;
 
 const InputForm: React.FC<{
-    id:string,
+    textName:string,
+    uuid:string,
     index:number,
     valueWord:string,
-    handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void
+    handleNewWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleNewWebhookInputArray:(
+        inputName:string,
+        uuid:string,
+        popIndex?:number
+    ) => void
 }> = ({
-    id,
+    textName,
+    uuid,
     index,
     valueWord,
-    handleNewWebhookInputChange
+    handleNewWebhookInputChange,
+    handleNewWebhookInputArray
 }) => {
     return (
-        <input
-            id={id}
-            name={`${index}`}
-            type="text"
-            value={valueWord}
-            onChange={handleNewWebhookInputChange}
-        ></input>
+        <>
+            <input
+                id={`${textName}${uuid}`}
+                name={`${index}`}
+                type="text"
+                value={valueWord}
+                onChange={handleNewWebhookInputChange}
+            ></input>
+            <button
+                type="button"
+                onClick={() => handleNewWebhookInputArray(
+                    textName,
+                    uuid,
+                    index
+                )}
+            >条件削除</button>
+        </>
     )
 }

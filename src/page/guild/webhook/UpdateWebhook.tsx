@@ -24,6 +24,10 @@ interface UpdateWebhookSelectionProps {
         uuid:string,
         popIndex?:number
     ) => void;
+    handleDeleteWebhookCheckboxChange:(
+        uuid:string,
+        checkState:boolean
+    ) => void;
 }
 
 const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
@@ -33,7 +37,8 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
     handleUpdateWebhookRoleChange,
     handleUpdateWebhookUserChange,
     handleUpdateWebhookInputChange,
-    handleUpdateWebhookInputArray
+    handleUpdateWebhookInputArray,
+    handleDeleteWebhookCheckboxChange
 }) => {
     const webhookSelects = webhookSet.webhooks.map((webhook) => ({  //webhookのselectの選択肢を作成
         value:webhook.id,
@@ -63,9 +68,17 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                 {updateWebhook.map((updateWebhook) => (
                     <details key={updateWebhook.uuid}>
                         <summary>
-                            <strong>新規作成</strong>
+                            <strong>{updateWebhook.subscription_type}:{updateWebhook.subscription_id}</strong>
                         </summary>
                         <ul>
+                            <label>削除</label>
+                            <input
+                                type="checkbox"
+                                onChange={(e) => handleDeleteWebhookCheckboxChange(
+                                    updateWebhook.uuid,
+                                    e.target.checked
+                                )}
+                            ></input>
                             <h6>WebHook</h6>
                             <Select
                                 options={webhookSelects}
@@ -142,10 +155,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`searchOrWord${updateWebhook.uuid}`}
+                                        textName="searchOrWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={sOrWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -162,10 +177,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`searchAndWord${updateWebhook.uuid}`}
+                                        textName="searchAndWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={sAndWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -182,10 +199,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`ngOrWord${updateWebhook.uuid}`}
+                                        textName="ngOrWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={nOrWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -202,10 +221,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`ngAndWord${updateWebhook.uuid}`}
+                                        textName="ngAndWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={nAndWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -222,10 +243,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`mentionOrWord${updateWebhook.uuid}`}
+                                        textName="mentionOrWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={mOrWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -242,10 +265,12 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 <div key={`${index}`}>
                                     <label>検索条件:{index + 1}</label>
                                     <InputForm
-                                        id={`mentionAndWord${updateWebhook.uuid}`}
+                                        textName="mentionAndWord"
+                                        uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={mAndWord}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
+                                        handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
                                 </div>
                             ))}
@@ -267,23 +292,41 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
 export default UpdateWebhookSelection;
 
 const InputForm: React.FC<{
-    id:string,
+    textName:string,
+    uuid:string,
     index:number,
     valueWord:string,
-    handleUpdateWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void
+    handleUpdateWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void,
+    handleUpdateWebhookInputArray:(
+        inputName:string,
+        uuid:string,
+        popIndex?:number
+    ) => void
 }> = ({
-    id,
+    textName,
+    uuid,
     index,
     valueWord,
-    handleUpdateWebhookInputChange
+    handleUpdateWebhookInputChange,
+    handleUpdateWebhookInputArray
 }) => {
     return (
-        <input
-            id={id}
-            name={`${index}`}
-            type="text"
-            value={valueWord}
-            onChange={handleUpdateWebhookInputChange}
-        ></input>
+        <>
+            <input
+                id={`${textName}${uuid}`}
+                name={`${index}`}
+                type="text"
+                value={valueWord}
+                onChange={handleUpdateWebhookInputChange}
+            ></input>
+            <button
+                type="button"
+                onClick={() => handleUpdateWebhookInputArray(
+                    textName,
+                    uuid,
+                    index
+                )}
+            >条件削除</button>
+        </>
     )
 }
