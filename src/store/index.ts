@@ -157,5 +157,6 @@ export type DiscordWebhook = {
         mention_or_word:string[];
         mention_and_word:string[];
         created_at:string;
+        delete_flag?:boolean;
     }[];
 }
