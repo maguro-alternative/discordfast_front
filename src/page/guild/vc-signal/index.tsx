@@ -5,7 +5,8 @@ import axios from 'axios';
 
 import {
     DiscordVcSignal,
-    SelectOption
+    SelectOption,
+    VcSignalChannel
 } from '../../../store';
 import VcChannelSelection from "./VcChannelSelection";
 
@@ -13,6 +14,7 @@ const VcSignal = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [vcSignalData, setVcSignalData] = useState<DiscordVcSignal>();
+    const [vcSubmitData,setVcSubmitData] = useState<VcSignalChannel[]>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
 
     const vcChannelSelect = (
@@ -40,15 +42,8 @@ const VcSignal = () => {
                 :vc
             ));
 
-            const setUpdatedData:DiscordVcSignal = {
-                ...vcSignalData,
-                vcChannels:{categoryId:vcChannel}
-            }
-
-            console.log(vcChannel,setUpdatedData);
-
-            //setVcSubmitData(setUpdatedData);
-            setVcSignalData(setUpdatedData);
+            setVcSubmitData(vcChannel);
+            //setVcSignalData(setUpdatedData);
         };
     };
 
@@ -80,15 +75,8 @@ const VcSignal = () => {
                 :vc
             ));
 
-            const setUpdatedData:DiscordVcSignal = {
-                ...vcSignalData,
-                vcChannels:{categoryId:vcChannel}
-            }
-
-            console.log(vcChannel,setUpdatedData);
-
-            //setVcSubmitData(setUpdatedData);
-            setVcSignalData(setUpdatedData);
+            setVcSubmitData(vcChannel);
+            //setVcSignalData(setUpdatedData);
         };
     };
 
@@ -119,13 +107,8 @@ const VcSignal = () => {
                 :vc
             ));
 
-            const setUpdatedData:DiscordVcSignal = {
-                ...vcSignalData,
-                vcChannels:{[value]:vcChannel}
-            }
-
-            //setVcSubmitData(setUpdatedData);
-            setVcSignalData(setUpdatedData);
+            setVcSubmitData(vcChannel);
+            //setVcSignalData(setUpdatedData);
         }
     }
 
@@ -139,9 +122,8 @@ const VcSignal = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                //console.log(responseData);
+                console.log(responseData);
                 setVcSignalData(responseData);
-                //setVcSubmitData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -161,7 +143,36 @@ const VcSignal = () => {
         送信ボタンを押したときの処理
         */
         e.preventDefault();
-        if(vcSignalData){
+        if(vcSubmitData){
+            const vcChannelList = vcSubmitData.map((vcChannel) => {
+                return {
+                    vc_id:vcChannel.id,
+                    send_channel_id:vcChannel.sendChannelId,
+                    send_signal:vcChannel.sendSignal,
+                    everyone_mention:vcChannel.everyoneMention,
+                    join_bot:vcChannel.joinBot,
+                    mention_role_id:vcChannel.mentionRoleId
+                }
+            })
+            const json = {
+                guild_id:id,
+                vc_channel_list:vcChannelList
+            }
+            // json文字列に変換(guild_id)はstrに変換
+            const jsonData = JSON.stringify(json,(key, value) => {
+                if (typeof value === 'bigint') {
+                    return value.toString();
+                }
+                return value;
+            });
+            console.log(vcSubmitData,JSON.parse(jsonData));
+            // サーバー側に送信
+            const vcSignalJson = await axios.post(
+                `${SERVER_BASE_URL}/api/vc-signal-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            );
+        }else if(vcSignalData){
             const vcChannelList = Object.keys(vcSignalData.vcChannels).map((categoryId) => {
                 return vcSignalData.vcChannels[categoryId].map((vcChannel) => {
                     return {
