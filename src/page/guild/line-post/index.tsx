@@ -98,6 +98,7 @@ const LinePost = () => {
                     ));
 
                     updatedChannels[value] = updatedChannelArray;
+                    console.log(updatedChannelArray);
                 }
 
                 const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
@@ -252,6 +253,7 @@ const LinePost = () => {
                 );
                 const responseData = response.data;
                 setLinePostData(responseData);
+                console.log(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -290,19 +292,19 @@ const LinePost = () => {
                 channel_list:linePostList.flat()
             }
             // json文字列に変換(guild_id)はstrに変換
-        const jsonData = JSON.stringify(json,(key, value) => {
-            if (typeof value === 'bigint') {
-                return value.toString();
-            }
-            return value;
-        });
-        console.log(json,JSON.parse(jsonData));
-        // サーバー側に送信
-        const linePostJson = await axios.post(
-            `${SERVER_BASE_URL}/api/line-post-success-json`,
-            JSON.parse(jsonData),
-            { withCredentials: true }
-        );
+            const jsonData = JSON.stringify(json,(key, value) => {
+                if (typeof value === 'bigint') {
+                    return value.toString();
+                }
+                return value;
+            });
+            console.log(json,JSON.parse(jsonData));
+            // サーバー側に送信
+            const linePostJson = await axios.post(
+                `${SERVER_BASE_URL}/api/line-post-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            );
         }
     };
 
