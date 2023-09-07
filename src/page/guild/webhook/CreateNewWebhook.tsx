@@ -90,10 +90,18 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                             ></Select>
 
                             <h6>サブスクリプションタイプ(例:twitter,niconico)</h6>
-                            <input type="text" id={`subscType${newWebhook.uuid}`} name="subscType_1"/>
+                            <input
+                                type="text"
+                                id={`subscType${newWebhook.uuid}`}
+                                onChange={handleNewWebhookInputChange}
+                            />
 
                             <h6>サブスクリプションid(例:twitter:@ユーザ名(@は含まない),niconico:/user/userId)</h6>
-                            <input type="text" id={`subscId${newWebhook.uuid}`} name="subscId_1"/>
+                            <input
+                                type="text"
+                                id={`subscId${newWebhook.uuid}`}
+                                onChange={handleNewWebhookInputChange}
+                            />
 
                             <h6>メンションするロールの選択</h6>
                             <Select

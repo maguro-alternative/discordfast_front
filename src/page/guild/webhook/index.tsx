@@ -277,7 +277,27 @@ const Webhook = () => {
             return webhook.uuid;
         })
         //console.log(value,webhookData);
-        if (id.includes("searchOrWord")){
+        if (id.includes("subscType")){
+            const uuIdReplace = id.replace("subscType","");  // 項目名を削除
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    subscription_type: uuIdReplace === webhook.uuid ?
+                    value : webhook.subscription_type // uuidが一致した場合、新しい値で上書き
+                })),
+            }));
+        } else if (id.includes("subscId")){
+            const uuIdReplace = id.replace("subscId","");  // 項目名を削除
+            setWebhookData((prevData) => ({
+                ...prevData,
+                webhookSet: prevData.webhookSet.map((webhook) => ({
+                    ...webhook,
+                    subscription_id: uuIdReplace === webhook.uuid ?
+                    value : webhook.subscription_id // uuidが一致した場合、新しい値で上書き
+                })),
+            }));
+        } else if (id.includes("searchOrWord")){
             const uuIdReplace = id.replace("searchOrWord","");  // 項目名を削除
             const uuidIndex = uuids.indexOf(uuIdReplace);   // uuidのindex番号を取得
             setWebhookData((prevData) => ({
@@ -398,6 +418,7 @@ const Webhook = () => {
         */
         e.preventDefault();
         if(webhookData){
+            console.log(webhookData);
             const webhookList = webhookData.webhookSet.filter((webhook) => {
                 if(webhook.webhook_id !== "" &&
                     webhook.subscription_id !== "" &&
@@ -405,7 +426,7 @@ const Webhook = () => {
                     webhook.guild_id !== ""
                 ){  // webhook_id,subscription_id,guild_idが空でない場合
                     return {
-                        webhook_uuid:webhook.uuid,
+                        uuid:webhook.uuid,
                         webhook_id:webhook.webhook_id,
                         subscription_type:webhook.subscription_type,
                         subscription_id:webhook.subscription_id,

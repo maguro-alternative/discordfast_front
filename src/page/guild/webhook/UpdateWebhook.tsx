@@ -97,7 +97,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                             <input
                                 type="text"
                                 id={`subscType${updateWebhook.uuid}`}
-                                name="subscType_1"
+                                onChange={handleUpdateWebhookInputChange}
                                 defaultValue={updateWebhook.subscription_type}
                             />
 
@@ -105,7 +105,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                             <input
                                 type="text"
                                 id={`subscId${updateWebhook.uuid}`}
-                                name="subscId_1"
+                                onChange={handleUpdateWebhookInputChange}
                                 defaultValue={updateWebhook.subscription_id}
                             />
 
