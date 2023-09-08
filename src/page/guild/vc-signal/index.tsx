@@ -6,8 +6,19 @@ import axios from 'axios';
 import {
     DiscordVcSignal,
     SelectOption,
-    VcSignalChannel
+    ChannelsType
 } from '../../../store';
+
+interface VcSignalChannel {
+    id: string;
+    name: string;
+    sendChannelId:string;
+    sendSignal:boolean;
+    everyoneMention:boolean;
+    joinBot:boolean;
+    mentionRoleId:string[];
+}
+
 import VcChannelSelection from "./VcChannelSelection";
 
 const VcSignal = () => {

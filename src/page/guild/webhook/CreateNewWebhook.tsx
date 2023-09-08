@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Select,{ MultiValue } from "react-select";
 
 import { DiscordWebhook,SelectOption } from '../../../store';
-import Index from "../..";
 
 interface CreateNewWebhookSelectionProps {
     newUuids:string[],

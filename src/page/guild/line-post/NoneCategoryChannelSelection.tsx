@@ -3,12 +3,20 @@ import React from "react";
 import Select,{ MultiValue } from "react-select";
 
 import {
-    SelectOption,
-    LinePostChannels
+    SelectOption
 } from '../../../store';
 
-import { UserIdComprehension } from "../../../units/dictComprehension";
-
+interface LinePostChannels {
+    [id:string]: {
+        id: string;
+        name: string;
+        type: string;
+        lineNgChannel: boolean;
+        ngMessageType: string[];
+        messageBot: boolean;
+        ngUsers: string[];
+    }[]
+}
 import BoxCheck from "./CheckBoxForm";
 
 interface NoneCategoryChannelSectionProps {

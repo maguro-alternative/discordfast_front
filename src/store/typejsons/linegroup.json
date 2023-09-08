@@ -1,21 +1,21 @@
 {
     "categorys": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": ""
         }
     ],
     "channels": {
         "0000": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "eeee",
                 "type": "TextChannel"
             }
         ],
         "00000": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "",
                 "type": "VoiceChannel",
                 "lineNgChannel": false,
@@ -26,7 +26,7 @@
         ],
         "None": [
             {
-                "id": 0,
+                "id": "123456789012345678",
                 "name": "test",
                 "type": "TextChannel",
                 "lineNgChannel": true,
@@ -38,10 +38,10 @@
     },
     "threads": [
         {
-            "id": 0,
+            "id": "123456789012345678",
             "name": "seikinfromthefareast"
         }
     ],
-    "defalutChannelId": 0,
+    "defalutChannelId": "123456789012345678",
     "debugMode": false
 }

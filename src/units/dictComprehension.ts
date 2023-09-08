@@ -3,7 +3,7 @@ import {
     DiscordAdmin,
     SelectOption,
     CategoryChannelType,
-    LineSetChannels
+    ChannelsType
 } from '../store';
 
 export function MemberIdComprehension(
@@ -147,7 +147,9 @@ export function RoleIdIndexOptionComprehension(
 
 export const selectChannelAndThread = (
     categoryChannel:CategoryChannelType[],
-    allChannel:LineSetChannels,
+    allChannel: {
+        [id:string]:ChannelsType[]
+    },
     activeThreads:{id:string,name:string}[]
 ) => {
     let selectChannel:SelectOption[] = [];

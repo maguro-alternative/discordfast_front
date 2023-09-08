@@ -3,7 +3,7 @@ import Select,{ MultiValue } from "react-select";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { DiscordLineSet,LineSetChannels,CategoryChannelType, SelectOption } from '../../../store';
+import { DiscordLineSet } from '../../../store';
 import {
     selectChannelAndThread,
     defalutChannelIdSelected
@@ -118,27 +118,129 @@ const LineSet = () => {
             <>
                 <form onSubmit={handleFormSubmit}>
                     <h3>新しいLINE Notifyのトークン</h3>
-                    <input type="password" name="line_notify_token" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_notify_token"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINE Notifyのトークンを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_notify_token_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_notify_token_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{notifyToken}</h6>
 
                     <h3>新しいLINE Botのトークン</h3>
-                    <input type="password" name="line_bot_token" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_bot_token"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINE Botのトークンを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_bot_token_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_bot_token_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{botToken}</h6>
 
                     <h3>新しいLINE Botのシークレットキー</h3>
-                    <input type="password" name="line_bot_secret" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_bot_secret"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINE Botのシークレットキーを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_bot_secret_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_bot_secret_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{botSecret}</h6>
 
                     <h3>新しいLINEグループのid</h3>
-                    <input type="password" name="line_group_id" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_group_id"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINEグループのidを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_group_id_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_group_id_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{groupId}</h6>
 
                     <h3>新しいLINEログインのクライアントid</h3>
-                    <input type="password" name="line_client_id" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_client_id"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINEログインのクライアントidを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_client_id_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_client_id_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{clinetId}</h6>
 
                     <h3>新しいLINEログインのクライアントシークレットキー</h3>
-                    <input type="password" name="line_client_secret" onChange={handleInputChange}/>
+                    <input
+                        type="password"
+                        name="line_client_secret"
+                        onChange={handleInputChange}
+                    />
+                    <label>LINEログインのクライアントシークレットキーを消去する</label>
+                    <input
+                        type="checkbox"
+                        name="line_client_secret_check"
+                        onChange={(value => {
+                            if(value){
+                                setSubmitData((inputDate) => ({
+                                    ...inputDate,
+                                    line_client_secret_check:value.target.checked,
+                                }));
+                            }
+                        })}
+                    />
                     <h6>先頭3文字:{clientSecret}</h6>
 
                     <h3>通知の送信先チャンネル</h3>

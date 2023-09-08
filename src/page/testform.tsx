@@ -4,6 +4,10 @@ import Select from "react-select";
 interface FormData {
     name: string;
     emails: string[]; // 配列としてメールアドレスを保持
+    testop: {
+        value :string,
+        label :string
+    }[];
 }
 
 const InputForm: React.FC = () => {
@@ -12,13 +16,18 @@ const InputForm: React.FC = () => {
         { value: "bar", label: "棒グラフ" },
         { value: "pie", label: "円グラフ" },
     ];
+    console.log(options);
 
     const [formData, setFormData] = useState<FormData>({
         name: '',
         emails: [''], // 初期値として空の配列を設定
+        testop: [{
+            value:'',
+            label:''
+        }]
     });
 
-    const [selectedValue, setSelectedValue] = useState([options[0]]);
+    const [selectedValue, setSelectedValue] = useState([{ value: "line", label: "折れ線グラフ" }]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type } = e.target;
@@ -39,8 +48,10 @@ const InputForm: React.FC = () => {
 
     const handleFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        formData.testop = selectedValue;
         const jsonData = JSON.stringify(formData);
         console.log(jsonData);
+        console.log(selectedValue);
     };
 
     return (
@@ -91,7 +102,13 @@ const InputForm: React.FC = () => {
             <div id='emailInput'>
                 <button
                     type="button"
-                    onClick={() => handleInputChange({ target: { name: 'emails', value: '', type:'add' } } as React.ChangeEvent<HTMLInputElement>)}
+                    onClick={() => handleInputChange({
+                        target: {
+                            name: 'emails',
+                            value: '',
+                            type:'add'
+                        }
+                    } as React.ChangeEvent<HTMLInputElement>)}
                 >
                 Add Email
                 </button>
@@ -101,7 +118,9 @@ const InputForm: React.FC = () => {
                     options={options}
                     defaultValue={selectedValue}
                     onChange={(value) => {
-                    value ? setSelectedValue([...value]) : null;
+                        value ? (
+                            setSelectedValue([...value])
+                        ) :(null);
                     }}
                     isMulti // trueに
                 />

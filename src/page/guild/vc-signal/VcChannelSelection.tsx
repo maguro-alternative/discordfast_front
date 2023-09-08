@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-    DiscordLinePost,
     SelectOption,
-    LineSetChannels,
-    VcSignalChannels,
+    ChannelsType,
     CategoryChannelType
 } from '../../../store';
 import {
@@ -12,12 +10,26 @@ import {
 } from "../../../units/dictComprehension";
 import Select,{ MultiValue } from "react-select";
 
+interface VcSignalChannels {
+    [id:string]:{
+        id: string;
+        name: string;
+        sendChannelId:string;
+        sendSignal:boolean;
+        everyoneMention:boolean;
+        joinBot:boolean;
+        mentionRoleId:string[];
+    }[];
+}
+
 import BoxCheck from "./CheckBoxForm";
 
 interface VcChannelSelectionProps {
     discordCategoryChannel:CategoryChannelType[];
     vcChannelJson:VcSignalChannels;
-    channelJson:LineSetChannels;
+    channelJson:{
+        [id:string]:ChannelsType[]
+    };
     roles:{id:string,name:string}[];
     activeThreads:{id:string,name:string}[];
     vcChannelSelect:(

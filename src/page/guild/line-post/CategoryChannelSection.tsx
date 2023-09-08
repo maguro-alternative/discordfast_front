@@ -3,11 +3,21 @@ import React from "react";
 import Select,{ MultiValue } from "react-select";
 
 import {
-    DiscordLinePost,
     SelectOption,
-    LinePostChannels,
     CategoryChannelType
 } from '../../../store';
+
+interface LinePostChannels {
+    [id:string]: {
+        id: string;
+        name: string;
+        type: string;
+        lineNgChannel: boolean;
+        ngMessageType: string[];
+        messageBot: boolean;
+        ngUsers: string[];
+    }[]
+}
 
 import BoxCheck from "./CheckBoxForm";
 

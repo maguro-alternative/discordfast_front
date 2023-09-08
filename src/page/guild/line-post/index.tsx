@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
-import { DiscordLinePost,SelectOption,LinePostChannel } from '../../../store';
+import { DiscordLinePost,SelectOption,LinePostData } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
@@ -12,13 +12,6 @@ import BoxCheck from "./CheckBoxForm";
 import CategoryChannelSelection from "./CategoryChannelSection";
 import NoneCategoryChannelSelection from "./NoneCategoryChannelSelection";
 import ThreadCategoryChannelSelection from "./ThreadChannelSelection";
-
-interface LinePostData {
-    channels: {
-        [key: string]: LinePostChannel[]; // インデックスシグネチャを使用
-    };
-    threads: LinePostChannel[];
-}
 
 const LinePost = () => {
     const { id } = useParams(); // パラメータを取得

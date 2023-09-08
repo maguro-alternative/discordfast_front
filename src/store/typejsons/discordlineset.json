@@ -10,11 +10,7 @@
             {
             "id": "123456789012345678",
             "name": "eeee",
-            "type": "TextChannel",
-            "lineNgChannel": false,
-            "ngMessageType": ["text"],
-            "messageBot": true,
-            "ngUsers": ["123456789012345678"]
+            "type": "TextChannel"
             }
         ],
         "00000": [

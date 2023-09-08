@@ -2,20 +2,25 @@ import discordCallbackResponse from "./typejsons/discordtype.json"
 import discordOAuthResponse from "./typejsons/discordoauthtoken.json"
 import discordGuilds from './typejsons/discordguild.json'
 import discordGuildID from './typejsons/discordguildid.json'
-import discordAdmin from './typejsons/discordadminper.json'
-import discordLineSet from './typejsons/discordlineset.json'
-import discordVcSignal from './typejsons/discordvcsignal.json'
-import discordWebhook from './typejsons/discordwebhook.json'
+
 import lineGroup from './typejsons/linegroup.json'
-import { type } from "os"
+
+import { DiscordAdminExport } from "./guildtypes/discordadmin"
+import { DiscordLineSetExport } from "./guildtypes/discordlineset"
+import { DiscordLinePostExport, LinePostDataExport } from "./guildtypes/discordlinepost"
+import { DiscordVcSignalExport } from "./guildtypes/discordvcsignal"
+import { DiscordWebhookExport } from "./guildtypes/discordwebhook"
 
 export type DiscordCallbackResponse = typeof discordCallbackResponse
 export type DiscordOAuthResponse = typeof discordOAuthResponse
 export type DiscordGuilds = typeof discordGuilds
 export type DiscordGuildID = typeof discordGuildID
-export type DiscordAdmin = typeof discordAdmin
-//export type DiscordVcSignal = typeof discordVcSignal
-//export type DiscordWebhook = typeof discordWebhook
+export type DiscordAdmin = DiscordAdminExport
+export type DiscordLineSet = DiscordLineSetExport
+export type DiscordLinePost = DiscordLinePostExport
+export type LinePostData = LinePostDataExport
+export type DiscordVcSignal = DiscordVcSignalExport
+export type DiscordWebhook = DiscordWebhookExport
 export type LineGroup = typeof lineGroup
 
 export interface SelectOption {
@@ -23,140 +28,13 @@ export interface SelectOption {
     label:string
 };
 
-export interface VcSignalChannel {
-    id: string;
-    name: string;
-    sendChannelId:string;
-    sendSignal:boolean;
-    everyoneMention:boolean;
-    joinBot:boolean;
-    mentionRoleId:string[];
-}
-
-export interface VcSignalChannels {
-    [id:string]:VcSignalChannel[];
-}
-
-export interface LinePostChannel {
+export interface ChannelsType {
     id: string;
     name: string;
     type: string;
-    lineNgChannel: boolean;
-    ngMessageType: string[];
-    messageBot: boolean;
-    ngUsers: string[];
-}
-
-export interface LinePostChannels {
-    [id:string]:LinePostChannel[];
-}
-
-export interface LineSetChannel {
-    id: string;
-    name: string;
-    type: string;
-}
-
-export interface LineSetChannels {
-    [id:string]:LineSetChannel[];
 }
 
 export interface CategoryChannelType {
     id:string;
     name:string;
-}
-
-export type DiscordVcSignal = {
-    categorys: CategoryChannelType[];
-    channels: LineSetChannels;
-    threads: {
-        id: string;
-        name: string;
-        type: string;
-    }[];
-    vcChannels:VcSignalChannels;
-    users: {
-        id: string;
-        name: string;
-        userDisplayName: string;
-    }[];
-    roles: {
-        id:string;
-        name:string;
-    }[];
-    chengePermission: boolean;
-}
-
-export type DiscordLinePost = {
-    categorys: CategoryChannelType[];
-    channels: LinePostChannels;
-    threads: {
-        id: string;
-        name: string;
-        type: string;
-        lineNgChannel: boolean;
-        ngMessageType: string[];
-        messageBot: boolean;
-        ngUsers: string[];
-    }[];
-    users: {
-        id: string;
-        name: string;
-        userDisplayName: string;
-    }[];
-    chengePermission: boolean;
-}
-
-export type DiscordLineSet = {
-    categorys: CategoryChannelType[];
-    channels: LineSetChannels;
-    threads: {
-        id: string;
-        name: string;
-    }[];
-    chengePermission: boolean;
-    lineNotifyToken: string;
-    lineBotToken: string;
-    lineBotSecret: string;
-    lineGroupId: string;
-    lineClientId: string;
-    lineClientSecret: string;
-    defalutChannelId: string;
-    debugMode: boolean;
-}
-
-export type DiscordWebhook = {
-    webhooks: {
-        id: string;
-        name: string;
-        channelId: number;
-        channelName: string;
-    }[];
-    guildUsers: {
-        id: string;
-        name: string;
-        userDisplayName: string;
-    }[];
-    guildRoles: {
-        id: string;
-        name: string;
-    }[];
-    chengePermission: boolean;
-    webhookSet: {
-        uuid:string;
-        guild_id:string;
-        webhook_id:string;
-        subscription_type:string;
-        subscription_id:string;
-        mention_roles:string[];
-        mention_members:string[];
-        ng_or_word:string[];
-        ng_and_word:string[];
-        search_or_word:string[];
-        search_and_word:string[];
-        mention_or_word:string[];
-        mention_and_word:string[];
-        created_at:string;
-        delete_flag?:boolean;
-    }[];
 }
