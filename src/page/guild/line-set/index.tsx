@@ -3,7 +3,7 @@ import Select,{ MultiValue } from "react-select";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { DiscordLineSet } from '../../../store';
+import { DiscordLineSet,DiscordLineSetSubmitData } from '../../../store';
 import {
     selectChannelAndThread,
     defalutChannelIdSelected
@@ -13,7 +13,7 @@ const LineSet = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [lineSetData, setLineSetData] = useState<DiscordLineSet>();
-    const [submitData,setSubmitData] = useState({
+    const [submitData,setSubmitData] = useState<DiscordLineSetSubmitData>({
         guild_id:id,
         default_channel_id:'',
         debug_mode:false
@@ -131,7 +131,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_notify_token_check:value.target.checked,
+                                    line_notify_token_del_flag:value.target.checked,
                                 }));
                             }
                         })}
@@ -152,7 +152,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_bot_token_check:value.target.checked,
+                                    line_bot_token_del_flag:value.target.checked,
                                 }));
                             }
                         })}
@@ -173,7 +173,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_bot_secret_check:value.target.checked,
+                                    line_bot_secret_del_flag:value.target.checked,
                                 }));
                             }
                         })}
@@ -194,7 +194,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_group_id_check:value.target.checked,
+                                    line_group_id_del_flag:value.target.checked,
                                 }));
                             }
                         })}
@@ -215,7 +215,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_client_id_check:value.target.checked,
+                                    line_client_id_del_flag:value.target.checked,
                                 }));
                             }
                         })}
@@ -236,7 +236,7 @@ const LineSet = () => {
                             if(value){
                                 setSubmitData((inputDate) => ({
                                     ...inputDate,
-                                    line_client_secret_check:value.target.checked,
+                                    line_client_secret_del_flag:value.target.checked,
                                 }));
                             }
                         })}

@@ -6,7 +6,7 @@ import discordGuildID from './typejsons/discordguildid.json'
 import lineGroup from './typejsons/linegroup.json'
 
 import { DiscordAdminExport } from "./guildtypes/discordadmin"
-import { DiscordLineSetExport } from "./guildtypes/discordlineset"
+import { DiscordLineSetExport, DiscordLineSetSubmitDataExport } from "./guildtypes/discordlineset"
 import { DiscordLinePostExport, LinePostDataExport } from "./guildtypes/discordlinepost"
 import { DiscordVcSignalExport } from "./guildtypes/discordvcsignal"
 import { DiscordWebhookExport } from "./guildtypes/discordwebhook"
@@ -17,6 +17,7 @@ export type DiscordGuilds = typeof discordGuilds
 export type DiscordGuildID = typeof discordGuildID
 export type DiscordAdmin = DiscordAdminExport
 export type DiscordLineSet = DiscordLineSetExport
+export type DiscordLineSetSubmitData = DiscordLineSetSubmitDataExport
 export type DiscordLinePost = DiscordLinePostExport
 export type LinePostData = LinePostDataExport
 export type DiscordVcSignal = DiscordVcSignalExport
