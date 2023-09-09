@@ -123,6 +123,7 @@ const LineSet = () => {
                         name="line_notify_token"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINE Notifyのトークンを消去する</label>
                     <input
                         type="checkbox"
@@ -144,6 +145,7 @@ const LineSet = () => {
                         name="line_bot_token"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINE Botのトークンを消去する</label>
                     <input
                         type="checkbox"
@@ -165,6 +167,7 @@ const LineSet = () => {
                         name="line_bot_secret"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINE Botのシークレットキーを消去する</label>
                     <input
                         type="checkbox"
@@ -186,6 +189,7 @@ const LineSet = () => {
                         name="line_group_id"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINEグループのidを消去する</label>
                     <input
                         type="checkbox"
@@ -207,6 +211,7 @@ const LineSet = () => {
                         name="line_client_id"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINEログインのクライアントidを消去する</label>
                     <input
                         type="checkbox"
@@ -228,6 +233,7 @@ const LineSet = () => {
                         name="line_client_secret"
                         onChange={handleInputChange}
                     />
+                    <br/>
                     <label>LINEログインのクライアントシークレットキーを消去する</label>
                     <input
                         type="checkbox"
@@ -259,6 +265,7 @@ const LineSet = () => {
 
                     <h3>デバッグモード</h3>
                     <h6>有効にすると、LINEグループにグループIDを送信します。(トークンとシークレットキーは必須)</h6>
+                    <label>デバッグモードを有効にする</label>
                     <input type="checkbox" name="debug_mode" onChange={(value => {
                         if(value){
                             setSubmitData((inputDate) => ({
@@ -267,6 +274,7 @@ const LineSet = () => {
                             }));
                         }
                     })}/>
+                    <br/>
                     <button type="submit">Submit</button>
                 </form>
             </>
