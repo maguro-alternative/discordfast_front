@@ -18,7 +18,7 @@ const DiscordLogin = () => {
 
     const DiscordLoginRedirect = () => {
         const discordLoginUriState = `${discordLoginUri}&state=${uniqueId}`
-        setCookie('state',uniqueId,7)
+        //setCookie('state',uniqueId,7)
         axios.get(
             `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる

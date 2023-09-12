@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import * as cookie from '../units/cookie'
 import axios from 'axios';
 
-import CryptoJS from 'crypto-js';
-
 import { DiscordCallbackResponse,DiscordOAuthResponse } from '../store';
 
 const DiscordCallback = () => {
