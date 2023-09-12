@@ -10,7 +10,7 @@ const DiscordLogin = () => {
 
     const setCookie = cookie.useSetCookie();
 
-    const redirect_uri = process.env.REACT_APP_DISCORD_CALLBACK_URL
+    const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
 
     const discordLoginUri = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`
