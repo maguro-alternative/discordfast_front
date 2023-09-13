@@ -73,9 +73,7 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedVcUserValue([...value]);
-                        }else{
-                            undefined
-                        };
+                        }
                         selectCallback(selectedVcUserValue,'user');
                     }}
                     isMulti // trueに
@@ -89,9 +87,7 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedVcRoleValue([...value]);
-                        }else{
-                            undefined
-                        };
+                        }
                         selectCallback(selectedVcRoleValue,'role');
                     }}
                     isMulti // trueに

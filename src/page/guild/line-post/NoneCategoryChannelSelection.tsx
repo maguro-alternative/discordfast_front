@@ -120,9 +120,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                                 "None",
                                                 channel.id
                                             )
-                                        }else{
-                                            undefind
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
                                 ></Select>
@@ -141,9 +139,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                                 "None",
                                                 channel.id
                                             )
-                                        }else{
-                                            undefind
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
                                 ></Select>
