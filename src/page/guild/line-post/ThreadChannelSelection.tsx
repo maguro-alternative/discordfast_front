@@ -114,7 +114,7 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                             thread.id
                                         )
                                     }else{
-                                        null
+                                        undefind
                                     };
                                 }}
                                 isMulti // trueに
@@ -135,7 +135,7 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                             thread.id
                                         )
                                     }else{
-                                        null
+                                        undefind
                                     };
                                 }}
                                 isMulti // trueに

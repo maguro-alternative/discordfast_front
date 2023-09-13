@@ -120,7 +120,7 @@ const InputForm: React.FC = () => {
                     onChange={(value) => {
                         value ? (
                             setSelectedValue([...value])
-                        ) :(null);
+                        ) :(undefind);
                     }}
                     isMulti // trueに
                 />

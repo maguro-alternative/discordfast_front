@@ -126,7 +126,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                                 channel.id
                                             )
                                         }else{
-                                            null
+                                            undefind
                                         };
                                     }}
                                     isMulti // trueに
@@ -147,7 +147,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                                 channel.id
                                             )
                                         }else{
-                                            null
+                                            undefind
                                         };
                                     }}
                                     isMulti // trueに

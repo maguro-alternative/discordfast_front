@@ -74,7 +74,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                         if(value){
                             setSelectedLineUserValue([...value]);
                         }else{
-                            null;
+                            undefined
                         };
                         selectCallback(selectedLineUserValue,'user');
                     }}
@@ -90,7 +90,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                         if(value){
                             setSelectedLineRoleValue([...value]);
                         }else{
-                            null
+                            undefined
                         };
                         selectCallback(selectedLineRoleValue,'role');
                     }}

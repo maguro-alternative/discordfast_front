@@ -74,7 +74,7 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                         if(value){
                             setSelectedWebhookUserValue([...value]);
                         }else{
-                            null;
+                            undefined
                         };
                         selectCallback(selectedWebhookUserValue,'user');
                     }}
@@ -90,7 +90,7 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                         if(value){
                             setSelectedWebhookRoleValue([...value]);
                         }else{
-                            null
+                            undefined
                         };
                         selectCallback(selectedWebhookRoleValue,'role');
                     }}

@@ -22,7 +22,7 @@ export function useGetCookie() {
                 return decodeURIComponent(cookie.substring(cookieName.length));
             }
         }
-        return null;
+        return undefind;
     };
     return getCookie;
 }
