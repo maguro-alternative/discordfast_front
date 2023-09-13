@@ -118,9 +118,7 @@ const InputForm: React.FC = () => {
                     options={options}
                     defaultValue={selectedValue}
                     onChange={(value) => {
-                        value ? (
-                            setSelectedValue([...value])
-                        ) :(undefind);
+                        setSelectedValue([...value])
                     }}
                     isMulti // trueに
                 />

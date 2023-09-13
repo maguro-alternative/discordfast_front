@@ -8,6 +8,7 @@ import {
     selectChannelAndThread,
     defalutChannelIdSelected
 } from "../../../units/dictComprehension";
+import BoxCheck from "./CheckBoxForm";
 import Select,{ MultiValue } from "react-select";
 
 interface VcSignalChannels {
@@ -22,7 +23,6 @@ interface VcSignalChannels {
     }[];
 }
 
-import BoxCheck from "./CheckBoxForm";
 
 interface VcChannelSelectionProps {
     discordCategoryChannel:CategoryChannelType[];

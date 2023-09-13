@@ -7,6 +7,8 @@ import {
     CategoryChannelType
 } from '../../../store';
 
+import BoxCheck from "./CheckBoxForm";
+
 interface LinePostChannels {
     [id:string]: {
         id: string;
@@ -19,7 +21,6 @@ interface LinePostChannels {
     }[]
 }
 
-import BoxCheck from "./CheckBoxForm";
 
 interface CategoryChannelSectionProps {
     discordCategoryChannel:CategoryChannelType[];

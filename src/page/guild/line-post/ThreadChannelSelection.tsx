@@ -6,6 +6,8 @@ import {
     SelectOption
 } from '../../../store';
 
+import BoxCheck from "./CheckBoxForm";
+
 interface LinePostChannel {
     id: string;
     name: string;
@@ -16,8 +18,6 @@ interface LinePostChannel {
     ngUsers: string[];
 }
 
-
-import BoxCheck from "./CheckBoxForm";
 
 interface ThreadChannelSectionProps {
     discordThreads:LinePostChannel[];

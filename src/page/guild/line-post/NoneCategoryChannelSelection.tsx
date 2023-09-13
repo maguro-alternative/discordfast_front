@@ -5,6 +5,7 @@ import Select,{ MultiValue } from "react-select";
 import {
     SelectOption
 } from '../../../store';
+import BoxCheck from "./CheckBoxForm";
 
 interface LinePostChannels {
     [id:string]: {
@@ -17,7 +18,6 @@ interface LinePostChannels {
         ngUsers: string[];
     }[]
 }
-import BoxCheck from "./CheckBoxForm";
 
 interface NoneCategoryChannelSectionProps {
     channelJson:LinePostChannels;

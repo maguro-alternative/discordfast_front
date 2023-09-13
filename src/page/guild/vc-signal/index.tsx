@@ -9,6 +9,8 @@ import {
     ChannelsType
 } from '../../../store';
 
+import VcChannelSelection from "./VcChannelSelection";
+
 interface VcSignalChannel {
     id: string;
     name: string;
@@ -19,7 +21,7 @@ interface VcSignalChannel {
     mentionRoleId:string[];
 }
 
-import VcChannelSelection from "./VcChannelSelection";
+
 
 const VcSignal = () => {
     const { id } = useParams(); // パラメータを取得
