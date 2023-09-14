@@ -15,12 +15,14 @@ const Header = () => {
     const [headerData, setHeaderData] = useState<HeaderProps>(); // ヘッダー情報
     const [isLoging, isLoginData] = useState();
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
+    const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
     useEffect(() => {
         let ignore = false;
         async function fetchData() {
             try {
                 const response = await axios.get<HeaderProps>(
-                    `${SERVER_BASE_URL}/index`,
+                    `${SERVER_BASE_URL}/index-discord`,
                     { withCredentials: true }
                 );
                 const responseData = response.data;
@@ -30,6 +32,7 @@ const Header = () => {
                 console.log(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
+                window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
