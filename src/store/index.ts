@@ -3,13 +3,12 @@ import discordOAuthResponse from "./typejsons/discordoauthtoken.json"
 import discordGuilds from './typejsons/discordguild.json'
 import discordGuildID from './typejsons/discordguildid.json'
 
-import lineGroup from './typejsons/linegroup.json'
-
 import { DiscordAdminExport } from "./guildtypes/discordadmin"
 import { DiscordLineSetExport, DiscordLineSetSubmitDataExport } from "./guildtypes/discordlineset"
 import { DiscordLinePostExport, LinePostDataExport } from "./guildtypes/discordlinepost"
 import { DiscordVcSignalExport } from "./guildtypes/discordvcsignal"
 import { DiscordWebhookExport } from "./guildtypes/discordwebhook"
+import { LineGroupExport, LineLoginExport } from "./guildtypes/linegroup"
 
 export type DiscordCallbackResponse = typeof discordCallbackResponse
 export type DiscordOAuthResponse = typeof discordOAuthResponse
@@ -22,7 +21,8 @@ export type DiscordLinePost = DiscordLinePostExport
 export type LinePostData = LinePostDataExport
 export type DiscordVcSignal = DiscordVcSignalExport
 export type DiscordWebhook = DiscordWebhookExport
-export type LineGroup = typeof lineGroup
+export type LineGroup = LineGroupExport
+export type LineBotLogin = LineLoginExport
 
 export interface SelectOption {
     value:string,
