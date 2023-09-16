@@ -47,7 +47,7 @@ const Header = () => {
         return (<></>)
     }else if(headerData){
         return (
-            <div>
+            <div style={{background: "#5865f2", color: "#FFF"}}>
                 Header
                 {headerData.message === undefined ? (
                     <div>
