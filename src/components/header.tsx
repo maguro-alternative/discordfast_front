@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 interface HeaderProps {
@@ -12,14 +10,16 @@ interface HeaderProps {
 
 const Header = () => {
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
-    const [headerData, setHeaderData] = useState<HeaderProps>(); // ヘッダー情報
-    const [isLoging, isLoginData] = useState();
+    const [discordHeaderData, setDiscordHeaderData] = useState<HeaderProps>(); // ヘッダー情報
+    const [lineHeaderData, setLineHeaderData] = useState<HeaderProps>(); // ヘッダー情報
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
+
     useEffect(() => {
         let ignore = false;
-        async function fetchData() {
+        async function discordLoginfFetchData() {
+            const pathname = location.href;
             try {
                 const response = await axios.get<HeaderProps>(
                     `${SERVER_BASE_URL}/index-discord`,
@@ -27,17 +27,40 @@ const Header = () => {
                 );
                 const responseData = response.data;
 
-                setHeaderData(responseData);
+                setDiscordHeaderData(responseData);
+                setIsLoading(false); // データ取得完了後にローディングを解除
+                console.log(pathname);
+            } catch (error: unknown) {
+                console.error('ログインに失敗しました。 -', error);
+                if(pathname.includes("guild")){
+                    window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
+                };
+                //throw new Error('ログインに失敗しました。 - ', error);
+            }
+        }
+        async function lineLoginFetchData() {
+            const pathname = location.href;
+            try {
+                const response = await axios.get<HeaderProps>(
+                    `${SERVER_BASE_URL}/index-line`,
+                    { withCredentials: true }
+                );
+                const responseData = response.data;
+
+                setLineHeaderData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
                 console.log(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
-                window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
+                if(pathname.includes("group")){
+                    window.location.href = `/line-login`;
+                };
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
         if (!ignore){
-            fetchData();
+            discordLoginfFetchData();
+            //lineLoginFetchData();
         }
         return () => {
             ignore = true;
@@ -45,16 +68,15 @@ const Header = () => {
     },[]);
     if(isLoading){
         return (<></>)
-    }else if(headerData){
-        return (
+    } else {
+        return(
             <div style={{background: "#5865f2", color: "#FFF"}}>
-                Header
-                {headerData.message === undefined ? (
+                {discordHeaderData && discordHeaderData.message === undefined ? (
                     <div>
-                        <p>{headerData.message}</p>
-                        <p>{headerData.username}</p>
+                        <p>{discordHeaderData.message}</p>
+                        <p>{discordHeaderData.username}</p>
                         <img
-                            src={`https://cdn.discordapp.com/avatars/${headerData.id}/${headerData.avatar}.webp?size=64`}
+                            src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
                             alt="avatar"
                         />
                     </div>
@@ -63,10 +85,23 @@ const Header = () => {
                         <a href={`${SERVER_BASE_URL}/discord-login`}>Discordでログイン</a>
                     </div>
                 )}
+                {lineHeaderData && lineHeaderData.message === undefined ? (
+                    <div>
+                        <p>{lineHeaderData.message}</p>
+                        <p>{lineHeaderData.username}</p>
+                        <img
+                            src={`${lineHeaderData.avatar}`}
+                            alt="avatar"
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        <a href={`${SERVER_BASE_URL}/line-login`}>LINEでログイン</a>
+                    </div>
+                )}
             </div>
         );
     }
-    return (<></>)
 };
 
 export default Header;
