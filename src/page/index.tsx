@@ -3,7 +3,7 @@ import React from 'react';
 function Index(){
     return(
         <>
-            <a href={`/discord-login`}>Discordでログイン</a>
+            <a href={`/guilds`}>サーバ一覧へ</a>
         </>
     )
 }
