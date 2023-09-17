@@ -7,6 +7,8 @@ const Guilds = () => {
     const [guildsData, setGuildsData] = useState<DiscordGuilds[]>([]);
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
+    const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
 
     useEffect(() => {
         let ignore = false;
@@ -21,6 +23,7 @@ const Guilds = () => {
                 setGuildsData(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
+                window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
@@ -36,7 +39,10 @@ const Guilds = () => {
         <>
             {guildsData.map(guild => (
                 <div key={guild.id}>
-                    <h3>{guild.name}</h3>
+                    <a href={`/guild/${guild.id}`}>
+                        {guild.icon && <img src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`} alt="ギルドアイコン" />}
+                        <h3>{guild.name}</h3>
+                    </a>
                     <p>Features: {guild.features.join(', ')}</p>
                     {/* 他のギルド情報も表示 */}
                 </div>
