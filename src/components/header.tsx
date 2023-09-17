@@ -15,11 +15,11 @@ const Header = () => {
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
+    const pathname = window.location.href;
 
     useEffect(() => {
         let ignore = false;
         async function discordLoginfFetchData() {
-            const pathname = location.href;
             try {
                 const response = await axios.get<HeaderProps>(
                     `${SERVER_BASE_URL}/index-discord`,
@@ -39,7 +39,6 @@ const Header = () => {
             }
         }
         async function lineLoginFetchData() {
-            const pathname = location.href;
             try {
                 const response = await axios.get<HeaderProps>(
                     `${SERVER_BASE_URL}/index-line`,
