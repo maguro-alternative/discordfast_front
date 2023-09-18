@@ -84,6 +84,7 @@ const Header = () => {
                             src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
                             alt="avatar"
                         />
+                        <a href={`${SERVER_BASE_URL}/discord-logout`}>Discord Logout</a>
                     </div>
                 ) : (
                     <div>
@@ -98,6 +99,7 @@ const Header = () => {
                             src={`${lineHeaderData.avatar}`}
                             alt="avatar"
                         />
+                        <a href={`${SERVER_BASE_URL}/line-logout`}>LINE Logout</a>
                     </div>
                 ) : (
                     <div>
