@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 interface HeaderProps {
     id: string | undefined;
@@ -33,7 +34,12 @@ const Header = () => {
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 if(pathname.includes("guild")){
-                    window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
+                    const uniqueId = uuidv4();
+                    await axios.get(
+                        `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
+                        { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
+                    );
+                    window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent}&state=${uniqueId}`;
                 };
                 //throw new Error('ログインに失敗しました。 - ', error);
             }

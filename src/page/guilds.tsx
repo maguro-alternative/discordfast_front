@@ -23,7 +23,6 @@ const Guilds = () => {
                 setGuildsData(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
-                window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
