@@ -76,7 +76,7 @@ const Header = () => {
     } else {
         return(
             <div style={{background: "#5865f2", color: "#FFF"}}>
-                {discordHeaderData && discordHeaderData.message === undefined ? (
+                {discordHeaderData ? (discordHeaderData.message === undefined ? (
                     <div>
                         <p>{discordHeaderData.message}</p>
                         <p>{discordHeaderData.username}</p>
@@ -90,8 +90,12 @@ const Header = () => {
                     <div>
                         <a href={`${SERVER_BASE_URL}/discord-login`}>Discordでログイン</a>
                     </div>
+                )):(
+                    <div>
+                        <a href={`${SERVER_BASE_URL}/discord-login`}>Discordでログイン</a>
+                    </div>
                 )}
-                {lineHeaderData && lineHeaderData.message === undefined ? (
+                {lineHeaderData ? (lineHeaderData.message === undefined ? (
                     <div>
                         <p>{lineHeaderData.message}</p>
                         <p>{lineHeaderData.username}</p>
@@ -102,6 +106,10 @@ const Header = () => {
                         <a href={`${SERVER_BASE_URL}/line-logout`}>LINE Logout</a>
                     </div>
                 ) : (
+                    <div>
+                        <a href={`/line-login`}>LINEでログイン</a>
+                    </div>
+                )):(
                     <div>
                         <a href={`/line-login`}>LINEでログイン</a>
                     </div>
