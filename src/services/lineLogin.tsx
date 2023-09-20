@@ -45,9 +45,7 @@ const LineLogin = () => {
         );
         window.location.href = lineLoginUriState;
     }
-    if(isLoading){
-        return(<>loading</>);
-    }else if(lineLoginData){
+    if(lineLoginData){
         return(
             <>
                 {lineLoginData.map((line) => {
@@ -63,7 +61,19 @@ const LineLogin = () => {
                 })}
             </>
         );
-    };
+    }else if(isLoading){
+        return(
+            <>
+                <h3>LINEログイン情報を取得中</h3>
+            </>
+        );
+    }else{
+        return(
+            <>
+                <h3>ログインできるLINEアカウントがありません</h3>
+            </>
+        );
+    }
 }
 
 export default LineLogin;
