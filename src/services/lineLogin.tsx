@@ -36,15 +36,15 @@ const LineLogin = () => {
         const lineLoginUriState = `${lineLoginUri}&state=${uniqueId}`
         const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
-        await axios.put(
+        await axios.get(
             `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
-        await axios.put(
+        await axios.get(
             `${SERVER_BASE_URL}/oauth_save_nonce/${uniqueId2}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
-        await axios.put(
+        await axios.get(
             `${SERVER_BASE_URL}/oauth_save_guild_id/${guildId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
