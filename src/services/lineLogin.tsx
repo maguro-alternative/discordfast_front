@@ -17,6 +17,7 @@ const LineLogin = () => {
                 { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
             );
             setLineLoginData(result.data);
+            console.log(result.data);
             setIsLoading(false);
         };
         if (!ignore){
