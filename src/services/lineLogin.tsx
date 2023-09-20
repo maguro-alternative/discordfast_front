@@ -45,9 +45,9 @@ const LineLogin = () => {
         );
         window.location.href = lineLoginUriState;
     }
-    if(!lineLoginData){
+    if(isLoading){
         return(<>loading</>);
-    }else{
+    }else if(lineLoginData){
         return(
             <>
                 {lineLoginData.map((line) => {
