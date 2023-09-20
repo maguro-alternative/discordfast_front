@@ -7,7 +7,6 @@ import { LineGroup, SelectOption } from '../../store';
 import { selectChannelAndThread,defalutChannelIdSelected } from "../../units/dictComprehension";
 
 interface ChannelChange{
-    guildId:string;
     defalutChannelId:string;
     chengeAlert:boolean;
 };
@@ -31,7 +30,6 @@ const LineGroupSetting = () => {
                 console.log(responseData);
                 setLineGroupData(responseData);
                 setLineChangeChannel({
-                    guildId:String(id),
                     defalutChannelId:responseData.defalutChannelId,
                     chengeAlert:false
                 })
@@ -70,6 +68,33 @@ const LineGroupSetting = () => {
         };
     }
 
+    const handleFormSubmit = async(e: React.FormEvent) => {
+        /*
+        送信ボタンを押したときの処理
+        */
+        e.preventDefault();
+        if(lineChangeChannel){
+            const json = {
+                guild_id:id,
+                default_channel_id:lineChangeChannel.defalutChannelId,
+                chenge_alert:lineChangeChannel.chengeAlert
+            }
+            // json文字列に変換(guild_id)はstrに変換
+            const jsonData = JSON.stringify(json,(key, value) => {
+                if (typeof value === 'bigint') {
+                    return value.toString();
+                }
+                return value;
+            });
+            // サーバー側に送信
+            const lineGroupJson = await axios.post(
+                `${SERVER_BASE_URL}/api/line-group-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            );
+        }
+    };
+
     if(!lineGroupData){
         return(
             <></>
@@ -85,7 +110,7 @@ const LineGroupSetting = () => {
             selectChannels
         )
         return(
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <h3>LINEからのメッセージの送信先チャンネル</h3>
                 <Select
                     defaultValue={defalutSelectChannel}
