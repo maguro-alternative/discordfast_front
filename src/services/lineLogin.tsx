@@ -29,18 +29,23 @@ const LineLogin = () => {
 
     const LineLoginRedirect = async(
         clientId:string,
-        redirectEncodeUri:string
+        redirectEncodeUri:string,
+        guildId:string
     ) => {
         const lineLoginUri = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectEncodeUri}&state=${uniqueId}&scope=profile%20openid%20email&nonce=${uniqueId2}`
         const lineLoginUriState = `${lineLoginUri}&state=${uniqueId}`
         const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
-        await axios.get(
+        await axios.put(
             `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
-        await axios.get(
+        await axios.put(
             `${SERVER_BASE_URL}/oauth_save_nonce/${uniqueId2}`,
+            { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
+        );
+        await axios.put(
+            `${SERVER_BASE_URL}/oauth_save_guild_id/${guildId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );
         window.location.href = lineLoginUriState;
@@ -53,7 +58,8 @@ const LineLogin = () => {
                     <a onClick={() => {
                         LineLoginRedirect(
                             line.clientId,
-                            line.redirectEncodeUri
+                            line.redirectEncodeUri,
+                            line.guildId
                         )
                     }}>
                         <img src={line.pictureUrl}/>
