@@ -489,7 +489,11 @@ const Webhook = () => {
                         handleUpdateWebhookInputArray={handleWebhookInputArray}
                         handleDeleteWebhookCheckboxChange={handleDeleteWebhookCheckboxChange}
                     ></UpdateWebhookSelection>
-                    <button type="submit">Submit</button>
+                    {webhookData.chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

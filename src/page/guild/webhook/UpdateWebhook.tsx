@@ -78,6 +78,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     updateWebhook.uuid,
                                     e.target.checked
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             ></input>
                             <h6>WebHook</h6>
                             <Select
@@ -91,6 +92,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         )
                                     }
                                 }}
+                                {...webhookSet.chengePermission ? {} : {isDisabled:true}}
                             ></Select>
 
                             <h6>サブスクリプションタイプ(例:twitter,niconico)</h6>
@@ -99,6 +101,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 id={`subscType${updateWebhook.uuid}`}
                                 onChange={handleUpdateWebhookInputChange}
                                 defaultValue={updateWebhook.subscription_type}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             />
 
                             <h6>サブスクリプションid(例:twitter:@ユーザ名(@は含まない),niconico:/user/userId)</h6>
@@ -107,6 +110,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                 id={`subscId${updateWebhook.uuid}`}
                                 onChange={handleUpdateWebhookInputChange}
                                 defaultValue={updateWebhook.subscription_id}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             />
 
                             <h6>メンションするロールの選択</h6>
@@ -127,6 +131,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     }
                                 }}
                                 isMulti // trueに
+                                {...webhookSet.chengePermission ? {} : {isDisabled:true}}
                             ></Select>
 
                             <h6>メンションするメンバーの選択</h6>
@@ -147,6 +152,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     }
                                 }}
                                 isMulti // trueに
+                                {...webhookSet.chengePermission ? {} : {isDisabled:true}}
                             ></Select>
 
                             <h3>ワードカスタム(niconicoには反映されません)</h3>
@@ -159,6 +165,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={sOrWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -170,6 +177,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "searchOrWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
 
                             <h6>キーワードAND検索(すべての単語が含まれている場合、送信)</h6>
@@ -181,6 +189,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={sAndWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -192,6 +201,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "searchAndWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
 
                             <h6>NGワードOR検索(いずれかの言葉が含まれている場合、送信しない)</h6>
@@ -203,6 +213,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={nOrWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -214,6 +225,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "ngOrWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
 
                             <h6>NGワードAND検索(すべての単語が含まれている場合、送信しない)</h6>
@@ -225,6 +237,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={nAndWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -236,6 +249,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "ngAndWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
 
                             <h6>メンションOR検索(いずれかの言葉が含まれている場合、メンションを付けて送信)</h6>
@@ -247,6 +261,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={mOrWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -258,6 +273,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "mentionOrWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
 
                             <h6>メンションAND検索(すべての単語が含まれている場合、メンションを付けて送信)</h6>
@@ -269,6 +285,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                         uuid={updateWebhook.uuid}
                                         index={index}
                                         valueWord={mAndWord}
+                                        chengePermission={webhookSet.chengePermission}
                                         handleUpdateWebhookInputChange={handleUpdateWebhookInputChange}
                                         handleUpdateWebhookInputArray={handleUpdateWebhookInputArray}
                                     ></InputForm>
@@ -280,6 +297,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                                     "mentionAndWord",
                                     updateWebhook.uuid
                                 )}
+                                {...webhookSet.chengePermission ? {} : {disabled:true}}
                             >条件追加</button>
                         </ul>
                     </details>
@@ -296,6 +314,7 @@ const InputForm: React.FC<{
     uuid:string,
     index:number,
     valueWord:string,
+    chengePermission:boolean,
     handleUpdateWebhookInputChange:(e: React.ChangeEvent<HTMLInputElement>) => void,
     handleUpdateWebhookInputArray:(
         inputName:string,
@@ -307,6 +326,7 @@ const InputForm: React.FC<{
     uuid,
     index,
     valueWord,
+    chengePermission,
     handleUpdateWebhookInputChange,
     handleUpdateWebhookInputArray
 }) => {
@@ -318,6 +338,7 @@ const InputForm: React.FC<{
                 type="text"
                 value={valueWord}
                 onChange={handleUpdateWebhookInputChange}
+                {...chengePermission ? {} : {disabled:true}}
             ></input>
             <button
                 type="button"
@@ -326,6 +347,7 @@ const InputForm: React.FC<{
                     uuid,
                     index
                 )}
+                {...chengePermission ? {} : {disabled:true}}
             >条件削除</button>
         </>
     )
