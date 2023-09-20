@@ -49,7 +49,7 @@ const LineLogin = () => {
         console.log(lineLoginData);
         return(
             <>
-                {lineLoginData.map((line) => {
+                {lineLoginData.map((line) => (
                     <a onClick={() => {
                         LineLoginRedirect(
                             line.clientId,
@@ -59,7 +59,7 @@ const LineLogin = () => {
                         <img src={line.pictureUrl}/>
                         <h3>{line.displayName}でログイン</h3>
                     </a>
-                })}
+                ))}
             </>
         );
     }else if(isLoading){
