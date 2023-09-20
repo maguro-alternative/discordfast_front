@@ -65,7 +65,7 @@ const Header = () => {
         }
         if (!ignore){
             discordLoginfFetchData();
-            //lineLoginFetchData();
+            lineLoginFetchData();
         }
         return () => {
             ignore = true;
@@ -103,7 +103,7 @@ const Header = () => {
                     </div>
                 ) : (
                     <div>
-                        <a href={`${SERVER_BASE_URL}/line-login`}>LINEでログイン</a>
+                        <a href={`/line-login`}>LINEでログイン</a>
                     </div>
                 )}
             </div>
