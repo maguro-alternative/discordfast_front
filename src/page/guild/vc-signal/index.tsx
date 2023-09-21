@@ -223,10 +223,11 @@ const VcSignal = () => {
         return <div>Loading...</div>;
     } else {
         const discordCategoryChannel = vcSignalData && vcSignalData.categorys !== undefined ? vcSignalData.categorys : [];
-        const channelJson = vcSignalData && vcSignalData.channels !== undefined ? vcSignalData.channels : {"123456789012345678": [{ id: "", name: "", type: ""}]}
-        const vcChannelJson = vcSignalData && vcSignalData.vcChannels !== undefined ? vcSignalData.vcChannels : {"123456789012345678": [{ id: "", name: "",sendChannelId:"",sendSignal:false,everyoneMention:false,joinBot:false,mentionRoleId:[""]}]};
+        const channelJson = vcSignalData && vcSignalData.channels !== undefined ? vcSignalData.channels : {"123456789012345678" : [{ id: "", name: "", type: ""}]}
+        const vcChannelJson = vcSignalData && vcSignalData.vcChannels !== undefined ? vcSignalData.vcChannels : {"123456789012345678" : [{ id: "", name: "",sendChannelId:"",sendSignal:false,everyoneMention:false,joinBot:false,mentionRoleId:[""]}]};
         const discordThreads = vcSignalData && vcSignalData.threads !== undefined ? vcSignalData.threads : [{ id: "", name: "", type: ""}];
-        const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles:[{ id: "", name: "", type: ""}];
+        const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles : [{ id: "", name: "", type: ""}];
+        const chengePermission = vcSignalData && vcSignalData.chengePermission !== undefined ? vcSignalData.chengePermission : false;
         return(
             <>
                 <form onSubmit={handleFormSubmit}>
@@ -241,13 +242,18 @@ const VcSignal = () => {
                                 channelJson={channelJson}
                                 roles={roles}
                                 activeThreads={discordThreads}
+                                chengePermission={chengePermission}
                                 vcChannelSelect={vcChannelSelect}
                                 vcRoleChannelSelect={vcRoleChannelSelect}
                                 handleCheckChange={handleCheckChange}
                             ></VcChannelSelection>
                         </ul>
                     </details>
-                    <button type="submit">Submit</button>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

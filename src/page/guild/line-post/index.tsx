@@ -308,6 +308,7 @@ const LinePost = () => {
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = discordChannel;
+        const chengePermission = linePostData && linePostData.chengePermission !== undefined ? linePostData.chengePermission : false;
 
         return(
             <>
@@ -322,6 +323,7 @@ const LinePost = () => {
                                 channelJson={channelJson}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleNgCheckChenge={handleCheckChange}
                                 handleBotCheckChenge={handleCheckChange}
                                 handleMessageTypeChenge={handleMessageTypeChenge}
@@ -334,6 +336,7 @@ const LinePost = () => {
                                 channelJson={channelJson}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleNgCheckChenge={handleCheckChange}
                                 handleBotCheckChenge={handleCheckChange}
                                 handleMessageTypeChenge={handleMessageTypeChenge}
@@ -346,6 +349,7 @@ const LinePost = () => {
                                 discordThreads={discordThreads}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleThreadNgCheckChenge={handleCheckChange}
                                 handleThreadBotCheckChenge={handleCheckChange}
                                 handleThreadMessageTypeChenge={handleMessageTypeChenge}
@@ -355,7 +359,11 @@ const LinePost = () => {
                             ></ThreadCategoryChannelSelection>
                         </ul>
                     </details>
-                    <button type="submit">Submit</button>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

@@ -104,6 +104,8 @@ const LineSet = () => {
         const allChannel = lineSetData && lineSetData.channels !== undefined ? lineSetData.channels : {"0000": [{id: "123456789012345678",name: "eeee",type: "TextChannel"}]};
         const activeThreads = lineSetData && lineSetData.threads !== undefined ? lineSetData.threads : [];
 
+        const chengePermission = lineSetData && lineSetData.chengePermission !== undefined ? lineSetData.chengePermission : false;
+
         const threadAndChannels = selectChannelAndThread(   // チャンネルとスレッドを結合
             categoryChannel,
             allChannel,
@@ -122,6 +124,7 @@ const LineSet = () => {
                         type="password"
                         name="line_notify_token"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Notifyのトークンを消去する</label>
@@ -136,6 +139,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{notifyToken}</h6>
 
@@ -144,6 +148,7 @@ const LineSet = () => {
                         type="password"
                         name="line_bot_token"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Botのトークンを消去する</label>
@@ -158,6 +163,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{botToken}</h6>
 
@@ -166,6 +172,7 @@ const LineSet = () => {
                         type="password"
                         name="line_bot_secret"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Botのシークレットキーを消去する</label>
@@ -180,6 +187,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{botSecret}</h6>
 
@@ -188,6 +196,7 @@ const LineSet = () => {
                         type="password"
                         name="line_group_id"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEグループのidを消去する</label>
@@ -202,6 +211,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{groupId}</h6>
 
@@ -210,6 +220,7 @@ const LineSet = () => {
                         type="password"
                         name="line_client_id"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEログインのクライアントidを消去する</label>
@@ -224,6 +235,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{clinetId}</h6>
 
@@ -232,6 +244,7 @@ const LineSet = () => {
                         type="password"
                         name="line_client_secret"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEログインのクライアントシークレットキーを消去する</label>
@@ -246,6 +259,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{clientSecret}</h6>
 
@@ -261,6 +275,7 @@ const LineSet = () => {
                                 }));
                             }
                         }}
+                        {...chengePermission ? {} : {isDisabled:true}}
                     ></Select>
 
                     <h3>デバッグモード</h3>
@@ -273,9 +288,15 @@ const LineSet = () => {
                                 debug_mode:value.target.checked,
                             }));
                         }
-                    })}/>
+                    })}
+                    {...chengePermission ? {} : {disabled:true}}
+                    />
                     <br/>
-                    <button type="submit">Submit</button>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

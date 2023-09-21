@@ -4,8 +4,8 @@ import Select,{ MultiValue } from "react-select";
 import { DiscordWebhook,SelectOption } from '../../../store';
 
 interface UpdateWebhookSelectionProps {
-    updateUuids:string[],
-    webhookSet:DiscordWebhook,
+    updateUuids:string[];
+    webhookSet:DiscordWebhook;
     handleUpdateWebhookChange:(
         webhookKind:SelectOption,
         uuid:string

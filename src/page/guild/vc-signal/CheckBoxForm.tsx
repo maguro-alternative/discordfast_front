@@ -6,6 +6,7 @@ interface BoxCheckFormProps {
     channelId:string;
     categoryChannelId:string;
     labelText:string;
+    chengePermission:boolean;
     checkBoxCallback:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,6 +16,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
     channelId,
     categoryChannelId,
     labelText,
+    chengePermission,
     checkBoxCallback
 }) => {
     return(
