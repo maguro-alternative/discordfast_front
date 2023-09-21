@@ -3,7 +3,10 @@ import React from 'react';
 function Index(){
     return(
         <>
-            <a href={`/guilds`}>サーバ一覧へ</a>
+            <a
+                href={`/guilds`}
+                className="discord-btn"
+            >サーバ一覧へ</a>
         </>
     )
 }

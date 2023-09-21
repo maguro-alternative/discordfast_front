@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
+import '../css/header.css'
+
 interface HeaderProps {
     id: string | undefined;
     username: string | undefined;
@@ -17,6 +19,9 @@ const Header = () => {
     const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
     const pathname = window.location.href;
+
+    const [isDiscordPopoverVisible, setDiscordPopoverVisible] = useState(false);
+    const [isLINEPopoverVisible, setLINEPopoverVisible] = useState(false);
 
     useEffect(() => {
         let ignore = false;
@@ -71,49 +76,128 @@ const Header = () => {
             ignore = true;
         };
     },[]);
+
     if(isLoading){
         return (<></>)
     } else {
         return(
-            <div style={{background: "#5865f2", color: "#FFF"}}>
-                {discordHeaderData ? (discordHeaderData.message === undefined ? (
-                    <div>
-                        <p>{discordHeaderData.message}</p>
-                        <p>{discordHeaderData.username}</p>
-                        <img
-                            src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
-                            alt="avatar"
-                        />
-                        <a href={`${SERVER_BASE_URL}/discord-logout`}>Discord Logout</a>
-                    </div>
-                ) : (
-                    <div>
-                        <a href={`${SERVER_BASE_URL}/discord-login`}>Discordでログイン</a>
-                    </div>
-                )):(
-                    <div>
-                        <a href={`${SERVER_BASE_URL}/discord-login`}>Discordでログイン</a>
-                    </div>
-                )}
-                {lineHeaderData ? (lineHeaderData.message === undefined ? (
-                    <div>
-                        <p>{lineHeaderData.message}</p>
-                        <p>{lineHeaderData.username}</p>
-                        <img
-                            src={`${lineHeaderData.avatar}`}
-                            alt="avatar"
-                        />
-                        <a href={`${SERVER_BASE_URL}/line-logout`}>LINE Logout</a>
-                    </div>
-                ) : (
-                    <div>
-                        <a href={`/line-login`}>LINEでログイン</a>
-                    </div>
-                )):(
-                    <div>
-                        <a href={`/line-login`}>LINEでログイン</a>
-                    </div>
-                )}
+            <div className="header">
+                <div className="popver">
+                    {discordHeaderData ? (discordHeaderData.message === undefined ? (
+                        <div>
+                            {isDiscordPopoverVisible ? (
+                                <div>
+                                    <p>{discordHeaderData.message}</p>
+                                    <p>{discordHeaderData.username}</p>
+                                    <img
+                                        src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
+                                        alt="avatar"
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    />
+                                    <a
+                                        className="discord-btn"
+                                        href={`${SERVER_BASE_URL}/discord-logout`}
+                                    >Discord Logout</a>
+                                </div>
+                            ) : (
+                                <img
+                                    src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
+                                    alt="avatar"
+                                    onClick={() => setDiscordPopoverVisible(true)}
+                                />
+                            )}
+                        </div>
+                    ) : (
+                        <div>
+                            {isDiscordPopoverVisible ? (
+                                <a
+                                    className="discord-btn"
+                                    href={`${SERVER_BASE_URL}/discord-login`}
+                                >Discordでログイン</a>
+                            ) : (
+                                <img
+                                    src={`./images/discord-icon.jpg`}
+                                    alt="avatar"
+                                    onClick={() => setDiscordPopoverVisible(true)}
+                                />
+                            )}
+                        </div>
+                    )):(
+                        <div>
+                            {isDiscordPopoverVisible ? (
+                                <a
+                                    className="discord-btn"
+                                    href={`${SERVER_BASE_URL}/discord-login`}
+                                >Discordでログイン</a>
+                            ) : (
+                                <img
+                                    src={`/images/discord-icon.jpg`}
+                                    alt="avatar"
+                                    onClick={() => setDiscordPopoverVisible(true)}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
+                <div className="popver">
+                    {lineHeaderData ? (lineHeaderData.message === undefined ? (
+                        <div>
+                            {isLINEPopoverVisible ? (
+                                <div>
+                                    <p>{lineHeaderData.message}</p>
+                                    <p>{lineHeaderData.username}</p>
+                                    <img
+                                        src={`${lineHeaderData.avatar}`}
+                                        className="line-avatar"
+                                        alt="avatar"
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    />
+                                    <a
+                                        href={`${SERVER_BASE_URL}/line-logout`}
+                                        className="line-btn"
+                                    >LINE Logout</a>
+                                </div>
+                            ) : (
+                                <img
+                                    src={`${lineHeaderData.avatar}`}
+                                    className="line-avatar"
+                                    alt="avatar"
+                                    onClick={() => setLINEPopoverVisible(true)}
+                                />
+                            )}
+                        </div>
+                    ) : (
+                        <div>
+                            {isLINEPopoverVisible ? (
+                                <a
+                                    href={`/line-login`}
+                                    className="line-btn"
+                                >LINEでログイン</a>
+                            ) : (
+                                <img
+                                    src={`./images/line-icon.jpg`}
+                                    className="line-avatar"
+                                    alt="avatar"
+                                />
+                            )}
+                        </div>
+                    )):(
+                        <div>
+                            {isLINEPopoverVisible ? (
+                                <a
+                                    href={`/line-login`}
+                                    className="line-btn"
+                                >LINEでログイン</a>
+                            ) : (
+                                <img
+                                    src={`/images/line-icon.png`}
+                                    className="line-avatar"
+                                    alt="avatar"
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }

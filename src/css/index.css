@@ -13,3 +13,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+a.discord-btn {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	width: 100px;
+	margin: auto;
+	padding: 1rem 4rem;
+	font-weight: bold;
+	border: 2px solid #27acd9;
+	background: #27acd9;
+	color: #fff;
+    font-size: 20px;
+	border-radius: 5px;
+	transition: 0.5s;
+}
+
+a.discord-btn:hover {
+	color: #27acd9;
+	background: #fff;
+}
+
+a.line-btn {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	width: 100px;
+	margin: auto;
+	padding: 1rem 4rem;
+	font-weight: bold;
+	border: 2px solid #00b900;
+	background: #00b900;
+	color: #fff;
+  font-size: 20px;
+	border-radius: 5px;
+	transition: 0.5s;
+}
+
+a.line-btn:hover {
+	color: #00b900;
+	background: #fff;
+}
