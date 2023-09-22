@@ -247,6 +247,8 @@ const Admin = () => {
         const webhookRoleIds = adminData && adminData.webhookRoleIdPermission !== undefined ? adminData.webhookRoleIdPermission : [];
         return(
             <>
+                <h1>管理者設定</h1>
+                <h4>各項目にアクセスできる権限を設定できます。</h4>
                 <form onSubmit={handleFormSubmit}>
                     <LineAdminForm
                         linePermission={linePermissionCode}
