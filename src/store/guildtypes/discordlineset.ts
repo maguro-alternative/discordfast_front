@@ -5,6 +5,8 @@ interface LineSetChannels {
 }
 
 export type DiscordLineSetExport = {
+    guildIcon:string;
+    guildName:string;
     categorys: CategoryChannelType[];
     channels: LineSetChannels;
     threads: {
