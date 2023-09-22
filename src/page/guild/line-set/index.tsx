@@ -106,6 +106,9 @@ const LineSet = () => {
 
         const chengePermission = lineSetData && lineSetData.chengePermission !== undefined ? lineSetData.chengePermission : false;
 
+        const guildIcon = lineSetData && lineSetData.guildIcon !== undefined ? lineSetData.guildIcon : '';
+        const guildName = lineSetData && lineSetData.guildName !== undefined ? lineSetData.guildName : '';
+
         const threadAndChannels = selectChannelAndThread(   // チャンネルとスレッドを結合
             categoryChannel,
             allChannel,
@@ -118,6 +121,22 @@ const LineSet = () => {
 
         return(
             <>
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
+                <h2>LINEBot設定</h2>
+                <h6>※LINE NotifyのトークンとLINE Botのトークン、シークレットキーは必須です。</h6>
                 <form onSubmit={handleFormSubmit}>
                     <h3>新しいLINE Notifyのトークン</h3>
                     <input

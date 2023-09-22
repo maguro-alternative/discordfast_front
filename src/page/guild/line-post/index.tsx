@@ -310,8 +310,26 @@ const LinePost = () => {
         const channelJson = discordChannel;
         const chengePermission = linePostData && linePostData.chengePermission !== undefined ? linePostData.chengePermission : false;
 
+        const guildIcon = linePostData && linePostData.guildIcon !== undefined ? linePostData.guildIcon : "";
+        const guildName = linePostData && linePostData.guildName !== undefined ? linePostData.guildName : "";
         return(
             <>
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
+                <h1>LINE投稿設定</h1>
+                <p>LINEに投稿するチャンネルを設定します。</p>
                 <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>

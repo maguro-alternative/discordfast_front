@@ -228,8 +228,24 @@ const VcSignal = () => {
         const discordThreads = vcSignalData && vcSignalData.threads !== undefined ? vcSignalData.threads : [{ id: "", name: "", type: ""}];
         const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles : [{ id: "", name: "", type: ""}];
         const chengePermission = vcSignalData && vcSignalData.chengePermission !== undefined ? vcSignalData.chengePermission : false;
+        const guildIcon = vcSignalData && vcSignalData.guildIcon !== undefined ? vcSignalData.guildIcon : "";
+        const guildName = vcSignalData && vcSignalData.guildName !== undefined ? vcSignalData.guildName : "";
         return(
             <>
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
                 <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>

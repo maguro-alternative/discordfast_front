@@ -245,8 +245,25 @@ const Admin = () => {
         const webhookPermissionCode = adminData && adminData.webhookPermission !== undefined ? adminData.webhookPermission : 8;
         const webhookUserIds = adminData && adminData.webhookUserIdPermission !== undefined ? adminData.webhookUserIdPermission : [];
         const webhookRoleIds = adminData && adminData.webhookRoleIdPermission !== undefined ? adminData.webhookRoleIdPermission : [];
+
+        const guildIcon = adminData && adminData.guildIcon !== undefined ? adminData.guildIcon : '';
+        const guildName = adminData && adminData.guildName !== undefined ? adminData.guildName : '';
         return(
             <>
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
                 <h1>管理者設定</h1>
                 <h4>各項目にアクセスできる権限を設定できます。</h4>
                 <form onSubmit={handleFormSubmit}>

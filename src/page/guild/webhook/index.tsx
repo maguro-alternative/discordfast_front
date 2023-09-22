@@ -470,6 +470,20 @@ const Webhook = () => {
     } else {
         return(
             <>
+                <a href={`/guild/${id}`}>
+                    {webhookData.guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${webhookData.guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{webhookData.guildName}</h3>
+                </a>
                 <form onSubmit={handleFormSubmit}>
                     <CreateNewWebhookSelection
                         newUuids={newUuids}
