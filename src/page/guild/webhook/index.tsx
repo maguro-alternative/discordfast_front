@@ -13,6 +13,8 @@ const Webhook = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [webhookData, setWebhookData] = useState<DiscordWebhook>({
+        guildIcon: "",
+        guildName: "",
         webhooks: [
             {
                 id: "123456789012345678",
