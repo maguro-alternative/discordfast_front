@@ -39,7 +39,18 @@ const Guilds = () => {
             {guildsData.map(guild => (
                 <div key={guild.id}>
                     <a href={`/guild/${guild.id}`}>
-                        {guild.icon && <img src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`} alt="ギルドアイコン" />}
+                        {guild.icon ? (
+                            <img
+                                src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
+                                alt="ギルドアイコン"
+                            />
+                        ):(
+                            <img
+                                src={`./images/discord-icon.jpg`}
+                                alt="ギルドアイコン"
+                            />
+                        )
+                        }
                         <h3>{guild.name}</h3>
                     </a>
                     <p>Features: {guild.features.join(', ')}</p>
