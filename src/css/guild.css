@@ -1,0 +1,9 @@
+ul{
+    display: flex;
+}
+@media screen and (max-width: 959px) {
+	ul{
+        display: block;
+        padding-left: 0;
+    }
+}

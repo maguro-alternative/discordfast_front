@@ -14,18 +14,22 @@ code {
     monospace;
 }
 
+a {
+	color: #fff;
+}
+
 a.discord-btn {
 	display: block;
 	text-align: center;
 	text-decoration: none;
-	width: 100px;
+	width: 120px;
 	margin: auto;
 	padding: 1rem 4rem;
 	font-weight: bold;
 	border: 2px solid #27acd9;
 	background: #27acd9;
 	color: #fff;
-	font-size: 20px;
+	/*font-size: 20px;*/
 	border-radius: 5px;
 	transition: 0.5s;
 }
@@ -39,14 +43,14 @@ a.line-btn {
 	display: block;
 	text-align: center;
 	text-decoration: none;
-	width: 100px;
+	width: 120px;
 	margin: auto;
 	padding: 1rem 4rem;
 	font-weight: bold;
 	border: 2px solid #00b900;
 	background: #00b900;
 	color: #fff;
-	font-size: 20px;
+	/*font-size: 20px;*/
 	border-radius: 5px;
 	transition: 0.5s;
 }
@@ -63,4 +67,21 @@ a.line-btn:hover {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+}
+
+@media screen and (max-width: 959px) {
+	a.discord-btn{
+		width: 110px;
+	}
+	a.line-btn{
+		width: 110px;
+	}
+}
+@media screen and (max-width: 480px) {
+	a.discord-btn{
+		margin-left: 0%;
+	}
+	a.line-btn{
+		margin-left: 0%;
+	}
 }

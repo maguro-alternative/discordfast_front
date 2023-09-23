@@ -36,6 +36,7 @@ const Guilds = () => {
 
     return (
         <>
+            <h1>編集、閲覧可能なサーバ一覧</h1>
             {guildsData.map(guild => (
                 <ul key={guild.id}>
                     <a href={`/guild/${guild.id}`}>

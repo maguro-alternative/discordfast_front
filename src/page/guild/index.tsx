@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import '../../css/guild.css'
 
 import { DiscordGuildID } from '../../store';
 
@@ -56,27 +57,31 @@ const GuildID = () => {
                     <h3>{guildData.guildName}</h3>
                 </a>
                 {guildData.permissionCode | 8 &&
-                    <a
-                        href={`/guild/${id}/admin`}
-                        className="discord-btn"
-                    >管理画面</a>
+                    <ul>
+                        <a
+                            href={`/guild/${id}/admin`}
+                            className="discord-btn"
+                        >管理画面</a>
+                    </ul>
                 }
-                <a
-                    href={`/guild/${id}/line-post`}
-                    className="discord-btn"
-                >LINE投稿設定</a>
-                <a
-                    href={`/guild/${id}/line-set`}
-                    className="discord-btn"
-                >LINE設定</a>
-                <a
-                    href={`/guild/${id}/vc-signal`}
-                    className="discord-btn"
-                >VC通知設定</a>
-                <a
-                    href={`/guild/${id}/webhook`}
-                    className="discord-btn"
-                >Webhook設定</a>
+                <ul>
+                    <a
+                        href={`/guild/${id}/line-post`}
+                        className="discord-btn"
+                    >LINE投稿設定</a>
+                    <a
+                        href={`/guild/${id}/line-set`}
+                        className="discord-btn"
+                    >LINE設定</a>
+                    <a
+                        href={`/guild/${id}/vc-signal`}
+                        className="discord-btn"
+                    >VC通知設定</a>
+                    <a
+                        href={`/guild/${id}/webhook`}
+                        className="discord-btn"
+                    >Webhook設定</a>
+                </ul>
             </>
         )
     }
