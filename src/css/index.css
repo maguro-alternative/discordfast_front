@@ -1,16 +1,16 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #36393F;
-  color: #FFF;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #36393F;
+	color: #FFF;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -25,7 +25,7 @@ a.discord-btn {
 	border: 2px solid #27acd9;
 	background: #27acd9;
 	color: #fff;
-  font-size: 20px;
+	font-size: 20px;
 	border-radius: 5px;
 	transition: 0.5s;
 }
@@ -46,7 +46,7 @@ a.line-btn {
 	border: 2px solid #00b900;
 	background: #00b900;
 	color: #fff;
-  font-size: 20px;
+	font-size: 20px;
 	border-radius: 5px;
 	transition: 0.5s;
 }
@@ -54,4 +54,13 @@ a.line-btn {
 a.line-btn:hover {
 	color: #00b900;
 	background: #fff;
+}
+
+.container {
+    width: 100%;
+	max-width: 80%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }

@@ -37,7 +37,7 @@ const Guilds = () => {
     return (
         <>
             {guildsData.map(guild => (
-                <div key={guild.id}>
+                <ul key={guild.id}>
                     <a href={`/guild/${guild.id}`}>
                         {guild.icon ? (
                             <img
@@ -55,7 +55,7 @@ const Guilds = () => {
                     </a>
                     <p>Features: {guild.features.join(', ')}</p>
                     {/* 他のギルド情報も表示 */}
-                </div>
+                </ul>
             ))}
         </>
     );

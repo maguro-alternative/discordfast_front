@@ -91,6 +91,7 @@ const Header = () => {
                                     <p>{discordHeaderData.username}</p>
                                     <img
                                         src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
+                                        className="avatar"
                                         alt="avatar"
                                         onClick={() => setDiscordPopoverVisible(false)}
                                     />
@@ -102,6 +103,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
+                                    className="avatar"
                                     alt="avatar"
                                     onClick={() => setDiscordPopoverVisible(true)}
                                 />
@@ -117,6 +119,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`./images/discord-icon.jpg`}
+                                    className="avatar"
                                     alt="avatar"
                                     onClick={() => setDiscordPopoverVisible(true)}
                                 />
@@ -148,7 +151,7 @@ const Header = () => {
                                     <p>{lineHeaderData.username}</p>
                                     <img
                                         src={`${lineHeaderData.avatar}`}
-                                        className="line-avatar"
+                                        className="avatar"
                                         alt="avatar"
                                         onClick={() => setLINEPopoverVisible(false)}
                                     />
@@ -160,7 +163,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`${lineHeaderData.avatar}`}
-                                    className="line-avatar"
+                                    className="avatar"
                                     alt="avatar"
                                     onClick={() => setLINEPopoverVisible(true)}
                                 />
@@ -176,7 +179,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`./images/line-icon.jpg`}
-                                    className="line-avatar"
+                                    className="avatar"
                                     alt="avatar"
                                 />
                             )}
@@ -191,7 +194,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`/images/line-icon.png`}
-                                    className="line-avatar"
+                                    className="avatar"
                                     alt="avatar"
                                 />
                             )}
