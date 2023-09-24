@@ -9,6 +9,7 @@ interface HeaderProps {
     username: string | undefined;
     avatar: string | undefined;
     message: string | undefined;
+    guildId?:string | undefined;
 }
 
 const Header = () => {
@@ -181,6 +182,7 @@ const Header = () => {
                                     src={`./images/line-icon.jpg`}
                                     className="avatar"
                                     alt="avatar"
+                                    onClick={() => setLINEPopoverVisible(true)}
                                 />
                             )}
                         </div>
@@ -196,6 +198,7 @@ const Header = () => {
                                     src={`/images/line-icon.png`}
                                     className="avatar"
                                     alt="avatar"
+                                    onClick={() => setLINEPopoverVisible(true)}
                                 />
                             )}
                         </div>
