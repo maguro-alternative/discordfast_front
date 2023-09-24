@@ -456,7 +456,7 @@ const Webhook = () => {
                 return value;
             });
             //console.log(webhookData,JSON.parse(jsonData));
-            let check = confirm('送信します。よろしいですか？');
+            let check = window.confirm('送信します。よろしいですか？');
             if (check) {
                 // サーバー側に送信
                 const webhookJson = await axios.post(

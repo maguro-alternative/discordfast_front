@@ -50,7 +50,7 @@ const LineSet = () => {
             return value;
         });
         //console.log(submitData,JSON.parse(jsonData));
-        let check = confirm('送信します。よろしいですか？');
+        let check = window.confirm('送信します。よろしいですか？');
         if (check) {
             // サーバー側に送信
             const lineSetJson = await axios.post(

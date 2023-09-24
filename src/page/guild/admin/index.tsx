@@ -78,7 +78,7 @@ const Admin = () => {
             return value;
         });
         //console.log(formAdminData);
-        let check = confirm('送信します。よろしいですか？');
+        let check = window.confirm('送信します。よろしいですか？');
         if (check) {
             // サーバー側に送信
             const adminJson = await axios.post(

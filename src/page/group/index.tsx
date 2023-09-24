@@ -86,7 +86,7 @@ const LineGroupSetting = () => {
                 }
                 return value;
             });
-            let check = confirm('送信します。よろしいですか？');
+            let check = window.confirm('送信します。よろしいですか？');
             if (check) {
                 // サーバー側に送信
                 const lineGroupJson = await axios.post(

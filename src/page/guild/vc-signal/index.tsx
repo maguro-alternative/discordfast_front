@@ -210,7 +210,7 @@ const VcSignal = () => {
                 return value;
             });
             //console.log(vcSignalData,JSON.parse(jsonData));
-            let check = confirm('送信します。よろしいですか？');
+            let check = window.confirm('送信します。よろしいですか？');
             if (check) {
                 // サーバー側に送信
                 const vcSignalJson = await axios.post(
