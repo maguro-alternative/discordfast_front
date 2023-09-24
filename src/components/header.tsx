@@ -36,7 +36,7 @@ const Header = () => {
 
                 setDiscordHeaderData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
-                console.log(pathname);
+                //console.log(pathname);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 if(pathname.includes("guild")){
@@ -60,7 +60,7 @@ const Header = () => {
 
                 setLineHeaderData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
-                console.log(responseData);
+                //console.log(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 if(pathname.includes("group")){

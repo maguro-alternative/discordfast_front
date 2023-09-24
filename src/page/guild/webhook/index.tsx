@@ -396,7 +396,7 @@ const Webhook = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setWebhookData(responseData);   // webhookのデータを格納
                 setUpdateUuids(responseData.webhookSet.map((webhook) => webhook.uuid));    // 更新用のuuidを格納
                 newWebhookSetting();    // webhookの初期値を追加
@@ -420,7 +420,7 @@ const Webhook = () => {
         */
         e.preventDefault();
         if(webhookData){
-            console.log(webhookData);
+            //console.log(webhookData);
             const webhookList = webhookData.webhookSet.filter((webhook) => {
                 if(webhook.webhook_id !== "" &&
                     webhook.subscription_id !== "" &&
@@ -455,13 +455,24 @@ const Webhook = () => {
                 }
                 return value;
             });
-            console.log(webhookData,JSON.parse(jsonData));
-            // サーバー側に送信
-            const webhookJson = await axios.post(
-                `${SERVER_BASE_URL}/api/webhook-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(webhookData,JSON.parse(jsonData));
+            let check = confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const webhookJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/webhook-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }
     };
 

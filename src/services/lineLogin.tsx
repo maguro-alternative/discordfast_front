@@ -51,7 +51,7 @@ const LineLogin = () => {
         window.location.href = lineLoginUriState;
     }
     if(lineLoginData){
-        console.log(lineLoginData);
+        //console.log(lineLoginData);
         return(
             <>
                 {lineLoginData.map((line) => (

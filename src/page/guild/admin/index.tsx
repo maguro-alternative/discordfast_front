@@ -77,13 +77,24 @@ const Admin = () => {
             }
             return value;
         });
-        console.log(formAdminData);
-        // サーバー側に送信
-        const adminJson = await axios.post(
-            `${SERVER_BASE_URL}/api/admin-success-json`,
-            JSON.parse(jsonData),
-            { withCredentials: true }
-        );
+        //console.log(formAdminData);
+        let check = confirm('送信します。よろしいですか？');
+        if (check) {
+            // サーバー側に送信
+            const adminJson = await axios.post(
+                `${SERVER_BASE_URL}/api/admin-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            )// 通信が成功したときに返ってくる
+            .then(function () {
+                alert('送信完了!');
+                window.location.href = `/guild/${id}`;
+            })
+            // 通信が失敗したときに返ってくる
+            .catch(function (error) {
+                alert(error);
+            });
+        }
     };
 
     useEffect(() => {
@@ -219,7 +230,7 @@ const Admin = () => {
         */
         const { name, value, type } = e.target;
 
-        console.log(name);
+        //console.log(name);
 
         setAdminFormData((inputDate) => ({
             ...inputDate,

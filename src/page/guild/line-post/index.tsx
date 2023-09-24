@@ -91,7 +91,7 @@ const LinePost = () => {
                     ));
 
                     updatedChannels[value] = updatedChannelArray;
-                    console.log(updatedChannelArray);
+                    //console.log(updatedChannelArray);
                 }
 
                 const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
@@ -246,7 +246,7 @@ const LinePost = () => {
                 );
                 const responseData = response.data;
                 setLinePostData(responseData);
-                console.log(responseData);
+                //console.log(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -291,13 +291,24 @@ const LinePost = () => {
                 }
                 return value;
             });
-            console.log(json,JSON.parse(jsonData));
-            // サーバー側に送信
-            const linePostJson = await axios.post(
-                `${SERVER_BASE_URL}/api/line-post-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(json,JSON.parse(jsonData));
+            let check = confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const linePostJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/line-post-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }
     };
 

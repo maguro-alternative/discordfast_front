@@ -20,7 +20,7 @@ const GuildID = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setGuildData(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -56,7 +56,7 @@ const GuildID = () => {
                     )}
                     <h3>{guildData.guildName}</h3>
                 </a>
-                {guildData.permissionCode | 8 &&
+                {(guildData.permissionCode | 8) &&
                     <ul className="flex-ul">
                         <a
                             href={`/guild/${id}/admin`}

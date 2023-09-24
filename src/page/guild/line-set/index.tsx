@@ -34,7 +34,7 @@ const LineSet = () => {
                 [name]:value,
             }));
         }
-        console.log(submitData)
+        //console.log(submitData)
     };
 
     const handleFormSubmit = async(e: React.FormEvent) => {
@@ -49,13 +49,24 @@ const LineSet = () => {
             }
             return value;
         });
-        console.log(submitData,JSON.parse(jsonData));
-        // サーバー側に送信
-        const lineSetJson = await axios.post(
-            `${SERVER_BASE_URL}/api/line-set-success-json`,
-            JSON.parse(jsonData),
-            { withCredentials: true }
-        );
+        //console.log(submitData,JSON.parse(jsonData));
+        let check = confirm('送信します。よろしいですか？');
+        if (check) {
+            // サーバー側に送信
+            const lineSetJson = await axios.post(
+                `${SERVER_BASE_URL}/api/line-set-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            )// 通信が成功したときに返ってくる
+            .then(function () {
+                alert('送信完了!');
+                window.location.href = `/guild/${id}`;
+            })
+            // 通信が失敗したときに返ってくる
+            .catch(function (error) {
+                alert(error);
+            });
+        }
     };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -68,7 +79,7 @@ const LineSet = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setLineSetData(responseData);
                 // 送信先チャンネルを設定
                 setSubmitData((inputDate) => ({

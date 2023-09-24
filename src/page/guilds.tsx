@@ -19,7 +19,7 @@ const Guilds = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setGuildsData(responseData);
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
