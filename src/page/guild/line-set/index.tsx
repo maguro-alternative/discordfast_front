@@ -332,12 +332,10 @@ const LineSet = () => {
                     })}
                     {...chengePermission ? {} : {disabled:true}}
                     />
-                    <ul className="flex-ul">
-                        <a
-                            href={`/guild/${id}`}
-                            className="blue-btn"
-                        >前のページに戻る</a>
-                    </ul>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
                     {chengePermission ? (
                         <button type="submit">Submit</button>
