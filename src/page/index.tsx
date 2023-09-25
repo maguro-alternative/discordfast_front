@@ -48,7 +48,10 @@ function Index(){
                     className="line-btn"
                 >Discordチャンネル送信先変更</a>
             ):(
-                <></>
+                <a
+                    href={`/line-login`}
+                    className="line-btn"
+                >LINEログイン</a>
             )}
             <h6>iPhoneのSafariでログインがうまくいかない場合、「設定」から「サイト越えのトラッキングを防ぐ」と「すべてのcookieをブロック」を無効にしてください。</h6>
         </>
