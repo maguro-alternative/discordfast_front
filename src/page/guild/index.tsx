@@ -56,7 +56,7 @@ const GuildID = () => {
                     )}
                     <h3>{guildData.guildName}</h3>
                 </a>
-                {(guildData.permissionCode & 8) &&
+                {guildData.permissionCode & 8 &&
                     <ul className="flex-ul">
                         <a
                             href={`/guild/${id}/admin`}
