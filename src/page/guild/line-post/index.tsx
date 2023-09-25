@@ -7,7 +7,7 @@ import { DiscordLinePost,SelectOption,LinePostData } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
-import BoxCheck from "./CheckBoxForm";
+import Headmeta from "../../../components/headmeta";
 
 import CategoryChannelSelection from "./CategoryChannelSection";
 import NoneCategoryChannelSelection from "./NoneCategoryChannelSelection";
@@ -91,7 +91,7 @@ const LinePost = () => {
                     ));
 
                     updatedChannels[value] = updatedChannelArray;
-                    console.log(updatedChannelArray);
+                    //console.log(updatedChannelArray);
                 }
 
                 const setUpdatedData: DiscordLinePost = {   // 更新した配列をDiscordLinePostの形式に合うように代入
@@ -246,7 +246,7 @@ const LinePost = () => {
                 );
                 const responseData = response.data;
                 setLinePostData(responseData);
-                console.log(responseData);
+                //console.log(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
@@ -291,13 +291,24 @@ const LinePost = () => {
                 }
                 return value;
             });
-            console.log(json,JSON.parse(jsonData));
-            // サーバー側に送信
-            const linePostJson = await axios.post(
-                `${SERVER_BASE_URL}/api/line-post-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(json,JSON.parse(jsonData));
+            let check = window.confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const linePostJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/line-post-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }
     };
 
@@ -308,9 +319,38 @@ const LinePost = () => {
         const discordChannel = linePostData && linePostData.channels !== undefined ? linePostData.channels : {"123456789012345678": [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }] } ;
         const discordThreads = linePostData && linePostData.threads !== undefined ? linePostData.threads : [{ id: "", name: "", type: "", lineNgChannel: false, ngMessageType: [""], messageBot: false, ngUsers: [""] }];
         const channelJson = discordChannel;
+        const chengePermission = linePostData && linePostData.chengePermission !== undefined ? linePostData.chengePermission : false;
 
+        const guildIcon = linePostData && linePostData.guildIcon !== undefined ? linePostData.guildIcon : "";
+        const guildName = linePostData && linePostData.guildName !== undefined ? linePostData.guildName : "";
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のLINE投稿設定`}
+                    description="Discord→LINEです"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../../images/discord-icon.jpg`
+                    )}
+                />
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
+                <h1>LINE投稿設定</h1>
+                <p>LINEに投稿するチャンネルを設定します。</p>
                 <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>
@@ -322,6 +362,7 @@ const LinePost = () => {
                                 channelJson={channelJson}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleNgCheckChenge={handleCheckChange}
                                 handleBotCheckChenge={handleCheckChange}
                                 handleMessageTypeChenge={handleMessageTypeChenge}
@@ -334,6 +375,7 @@ const LinePost = () => {
                                 channelJson={channelJson}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleNgCheckChenge={handleCheckChange}
                                 handleBotCheckChenge={handleCheckChange}
                                 handleMessageTypeChenge={handleMessageTypeChenge}
@@ -346,6 +388,7 @@ const LinePost = () => {
                                 discordThreads={discordThreads}
                                 userIdSelect={userIdSelect}
                                 messageTypeOption={messageTypeOption}
+                                chengePermission={chengePermission}
                                 handleThreadNgCheckChenge={handleCheckChange}
                                 handleThreadBotCheckChenge={handleCheckChange}
                                 handleThreadMessageTypeChenge={handleMessageTypeChenge}
@@ -355,7 +398,16 @@ const LinePost = () => {
                             ></ThreadCategoryChannelSelection>
                         </ul>
                     </details>
-                    <button type="submit">Submit</button>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
+                    <br/>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

@@ -16,10 +16,10 @@ const DiscordLogin = () => {
     const discordLoginUri = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
-    const DiscordLoginRedirect = () => {
+    const DiscordLoginRedirect = async() => {
         const discordLoginUriState = `${discordLoginUri}&state=${uniqueId}`
         //setCookie('state',uniqueId,7)
-        axios.get(
+        await axios.get(
             `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
             { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
         );

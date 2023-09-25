@@ -8,6 +8,8 @@ import {
     SelectOption,
     ChannelsType
 } from '../../../store';
+import Headmeta from "../../../components/headmeta";
+import VcChannelSelection from "./VcChannelSelection";
 
 interface VcSignalChannel {
     id: string;
@@ -19,7 +21,7 @@ interface VcSignalChannel {
     mentionRoleId:string[];
 }
 
-import VcChannelSelection from "./VcChannelSelection";
+
 
 const VcSignal = () => {
     const { id } = useParams(); // パラメータを取得
@@ -133,7 +135,7 @@ const VcSignal = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setVcSignalData(responseData);
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
@@ -176,13 +178,24 @@ const VcSignal = () => {
                 }
                 return value;
             });
-            console.log(vcSubmitData,JSON.parse(jsonData));
-            // サーバー側に送信
-            const vcSignalJson = await axios.post(
-                `${SERVER_BASE_URL}/api/vc-signal-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(vcSubmitData,JSON.parse(jsonData));
+            let check = window.confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const vcSignalJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/vc-signal-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }else if(vcSignalData){
             const vcChannelList = Object.keys(vcSignalData.vcChannels).map((categoryId) => {
                 return vcSignalData.vcChannels[categoryId].map((vcChannel) => {
@@ -207,13 +220,24 @@ const VcSignal = () => {
                 }
                 return value;
             });
-            console.log(vcSignalData,JSON.parse(jsonData));
-            // サーバー側に送信
-            const vcSignalJson = await axios.post(
-                `${SERVER_BASE_URL}/api/vc-signal-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(vcSignalData,JSON.parse(jsonData));
+            let check = window.confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const vcSignalJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/vc-signal-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }
     };
 
@@ -221,12 +245,39 @@ const VcSignal = () => {
         return <div>Loading...</div>;
     } else {
         const discordCategoryChannel = vcSignalData && vcSignalData.categorys !== undefined ? vcSignalData.categorys : [];
-        const channelJson = vcSignalData && vcSignalData.channels !== undefined ? vcSignalData.channels : {"123456789012345678": [{ id: "", name: "", type: ""}]}
-        const vcChannelJson = vcSignalData && vcSignalData.vcChannels !== undefined ? vcSignalData.vcChannels : {"123456789012345678": [{ id: "", name: "",sendChannelId:"",sendSignal:false,everyoneMention:false,joinBot:false,mentionRoleId:[""]}]};
+        const channelJson = vcSignalData && vcSignalData.channels !== undefined ? vcSignalData.channels : {"123456789012345678" : [{ id: "", name: "", type: ""}]}
+        const vcChannelJson = vcSignalData && vcSignalData.vcChannels !== undefined ? vcSignalData.vcChannels : {"123456789012345678" : [{ id: "", name: "",sendChannelId:"",sendSignal:false,everyoneMention:false,joinBot:false,mentionRoleId:[""]}]};
         const discordThreads = vcSignalData && vcSignalData.threads !== undefined ? vcSignalData.threads : [{ id: "", name: "", type: ""}];
-        const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles:[{ id: "", name: "", type: ""}];
+        const roles = vcSignalData && vcSignalData.roles !== undefined ? vcSignalData.roles : [{ id: "", name: "", type: ""}];
+        const chengePermission = vcSignalData && vcSignalData.chengePermission !== undefined ? vcSignalData.chengePermission : false;
+        const guildIcon = vcSignalData && vcSignalData.guildIcon !== undefined ? vcSignalData.guildIcon : "";
+        const guildName = vcSignalData && vcSignalData.guildName !== undefined ? vcSignalData.guildName : "";
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のボイスチャンネル通知設定`}
+                    description="ボイスチャンネル"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../../images/discord-icon.jpg`
+                    )}
+                />
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
                 <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>
@@ -239,13 +290,23 @@ const VcSignal = () => {
                                 channelJson={channelJson}
                                 roles={roles}
                                 activeThreads={discordThreads}
+                                chengePermission={chengePermission}
                                 vcChannelSelect={vcChannelSelect}
                                 vcRoleChannelSelect={vcRoleChannelSelect}
                                 handleCheckChange={handleCheckChange}
                             ></VcChannelSelection>
                         </ul>
                     </details>
-                    <button type="submit">Submit</button>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
+                    <br/>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

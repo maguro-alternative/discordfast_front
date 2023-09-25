@@ -73,9 +73,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedLineUserValue([...value]);
-                        }else{
-                            null;
-                        };
+                        }
                         selectCallback(selectedLineUserValue,'user');
                     }}
                     isMulti // trueに
@@ -89,9 +87,7 @@ const LineAdminForm: React.FC<LineAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedLineRoleValue([...value]);
-                        }else{
-                            null
-                        };
+                        }
                         selectCallback(selectedLineRoleValue,'role');
                     }}
                     isMulti // trueに

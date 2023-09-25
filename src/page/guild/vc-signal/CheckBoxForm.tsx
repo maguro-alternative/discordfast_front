@@ -6,6 +6,7 @@ interface BoxCheckFormProps {
     channelId:string;
     categoryChannelId:string;
     labelText:string;
+    chengePermission:boolean;
     checkBoxCallback:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,8 +16,20 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
     channelId,
     categoryChannelId,
     labelText,
+    chengePermission,
     checkBoxCallback
 }) => {
+    /*
+    チェックボックスのフォーム
+    すでにチェックが入っているかどうかも判断する
+
+    tagId:チェックボックスのid
+    channelBool:チェックボックスの初期値
+    channelId:チェックボックスのname
+    categoryChannelId:チェックボックスのvalue
+    labelText:チェックボックスのラベル
+    checkBoxCallback:チェックボックスのコールバック関数
+    */
     return(
         <>
             {channelBool ?
@@ -27,6 +40,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
                 value={categoryChannelId}
                 defaultChecked
                 onChange={checkBoxCallback}
+                {...chengePermission ? {} : {disabled:true}}
             />
             :
             <input
@@ -35,6 +49,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
                 name={channelId}
                 value={categoryChannelId}
                 onChange={checkBoxCallback}
+                {...chengePermission ? {} : {disabled:true}}
             />
             }
             <label>{labelText}</label>

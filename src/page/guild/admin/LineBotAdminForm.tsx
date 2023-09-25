@@ -73,9 +73,7 @@ const LineBotAdminForm: React.FC<LineAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedLineBotUserValue([...value]);
-                        }else{
-                            null;
-                        };
+                        }
                         selectCallback(selectedLineBotUserValue,'user');
                     }}
                     isMulti // trueに
@@ -89,9 +87,7 @@ const LineBotAdminForm: React.FC<LineAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedLineBotRoleValue([...value]);
-                        }else{
-                            null
-                        };
+                        }
                         selectCallback(selectedLineBotRoleValue,'role');
                     }}
                     isMulti // trueに

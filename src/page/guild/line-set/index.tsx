@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { DiscordLineSet,DiscordLineSetSubmitData } from '../../../store';
+import Headmeta from "../../../components/headmeta";
 import {
     selectChannelAndThread,
     defalutChannelIdSelected
@@ -34,7 +35,7 @@ const LineSet = () => {
                 [name]:value,
             }));
         }
-        console.log(submitData)
+        //console.log(submitData)
     };
 
     const handleFormSubmit = async(e: React.FormEvent) => {
@@ -49,13 +50,24 @@ const LineSet = () => {
             }
             return value;
         });
-        console.log(submitData,JSON.parse(jsonData));
-        // サーバー側に送信
-        const lineSetJson = await axios.post(
-            `${SERVER_BASE_URL}/api/line-set-success-json`,
-            JSON.parse(jsonData),
-            { withCredentials: true }
-        );
+        //console.log(submitData,JSON.parse(jsonData));
+        let check = window.confirm('送信します。よろしいですか？');
+        if (check) {
+            // サーバー側に送信
+            const lineSetJson = await axios.post(
+                `${SERVER_BASE_URL}/api/line-set-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            )// 通信が成功したときに返ってくる
+            .then(function () {
+                alert('送信完了!');
+                window.location.href = `/guild/${id}`;
+            })
+            // 通信が失敗したときに返ってくる
+            .catch(function (error) {
+                alert(error);
+            });
+        }
     };
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
@@ -68,7 +80,7 @@ const LineSet = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setLineSetData(responseData);
                 // 送信先チャンネルを設定
                 setSubmitData((inputDate) => ({
@@ -104,6 +116,11 @@ const LineSet = () => {
         const allChannel = lineSetData && lineSetData.channels !== undefined ? lineSetData.channels : {"0000": [{id: "123456789012345678",name: "eeee",type: "TextChannel"}]};
         const activeThreads = lineSetData && lineSetData.threads !== undefined ? lineSetData.threads : [];
 
+        const chengePermission = lineSetData && lineSetData.chengePermission !== undefined ? lineSetData.chengePermission : false;
+
+        const guildIcon = lineSetData && lineSetData.guildIcon !== undefined ? lineSetData.guildIcon : '';
+        const guildName = lineSetData && lineSetData.guildName !== undefined ? lineSetData.guildName : '';
+
         const threadAndChannels = selectChannelAndThread(   // チャンネルとスレッドを結合
             categoryChannel,
             allChannel,
@@ -116,12 +133,39 @@ const LineSet = () => {
 
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のLINEBot設定`}
+                    description="LINEBotの設定です"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../../images/discord-icon.jpg`
+                    )}
+                />
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
+                <h2>LINEBot設定</h2>
+                <h6>※LINE NotifyのトークンとLINE Botのトークン、シークレットキーは必須です。</h6>
                 <form onSubmit={handleFormSubmit}>
                     <h3>新しいLINE Notifyのトークン</h3>
                     <input
                         type="password"
                         name="line_notify_token"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Notifyのトークンを消去する</label>
@@ -136,6 +180,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{notifyToken}</h6>
 
@@ -144,6 +189,7 @@ const LineSet = () => {
                         type="password"
                         name="line_bot_token"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Botのトークンを消去する</label>
@@ -158,6 +204,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{botToken}</h6>
 
@@ -166,6 +213,7 @@ const LineSet = () => {
                         type="password"
                         name="line_bot_secret"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINE Botのシークレットキーを消去する</label>
@@ -180,6 +228,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{botSecret}</h6>
 
@@ -188,6 +237,7 @@ const LineSet = () => {
                         type="password"
                         name="line_group_id"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEグループのidを消去する</label>
@@ -202,6 +252,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{groupId}</h6>
 
@@ -210,6 +261,7 @@ const LineSet = () => {
                         type="password"
                         name="line_client_id"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEログインのクライアントidを消去する</label>
@@ -224,6 +276,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{clinetId}</h6>
 
@@ -232,6 +285,7 @@ const LineSet = () => {
                         type="password"
                         name="line_client_secret"
                         onChange={handleInputChange}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <br/>
                     <label>LINEログインのクライアントシークレットキーを消去する</label>
@@ -246,6 +300,7 @@ const LineSet = () => {
                                 }));
                             }
                         })}
+                        {...chengePermission ? {} : {disabled:true}}
                     />
                     <h6>先頭3文字:{clientSecret}</h6>
 
@@ -261,6 +316,7 @@ const LineSet = () => {
                                 }));
                             }
                         }}
+                        {...chengePermission ? {} : {isDisabled:true}}
                     ></Select>
 
                     <h3>デバッグモード</h3>
@@ -273,9 +329,19 @@ const LineSet = () => {
                                 debug_mode:value.target.checked,
                             }));
                         }
-                    })}/>
+                    })}
+                    {...chengePermission ? {} : {disabled:true}}
+                    />
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
-                    <button type="submit">Submit</button>
+                    {chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

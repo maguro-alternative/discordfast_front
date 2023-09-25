@@ -5,6 +5,7 @@ import Select,{ MultiValue } from "react-select";
 import {
     SelectOption
 } from '../../../store';
+import BoxCheck from "./CheckBoxForm";
 
 interface LinePostChannels {
     [id:string]: {
@@ -17,12 +18,12 @@ interface LinePostChannels {
         ngUsers: string[];
     }[]
 }
-import BoxCheck from "./CheckBoxForm";
 
 interface NoneCategoryChannelSectionProps {
     channelJson:LinePostChannels;
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
+    chengePermission:boolean;
     handleNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleBotCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleMessageTypeChenge:(
@@ -50,6 +51,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
         channelJson,
         userIdSelect,
         messageTypeOption,
+        chengePermission,
         handleNgCheckChenge,
         handleBotCheckChenge,
         handleMessageTypeChenge,
@@ -94,6 +96,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                     channelId={channel.id}
                                     categoryChannelId={"None"}
                                     labelText=":LINEへ送信しない"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleNgCheckChenge}
                                 ></BoxCheck>
 
@@ -103,6 +106,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                     channelId={channel.id}
                                     categoryChannelId={"None"}
                                     labelText=":botのメッセージを送信しない"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleBotCheckChenge}
                                 ></BoxCheck>
 
@@ -120,11 +124,10 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                                 "None",
                                                 channel.id
                                             )
-                                        }else{
-                                            null
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
+                                    {...chengePermission ? {} : {isDisabled:true}}
                                 ></Select>
 
                                 <h5>メッセージを送信しないユーザー</h5>
@@ -141,11 +144,10 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
                                                 "None",
                                                 channel.id
                                             )
-                                        }else{
-                                            null
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
+                                    {...chengePermission ? {} : {isDisabled:true}}
                                 ></Select>
                             </details>
                         ))}

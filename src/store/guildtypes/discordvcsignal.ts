@@ -15,6 +15,8 @@ interface VcSignalChannels {
 }
 
 export type DiscordVcSignalExport = {
+    guildIcon:string;
+    guildName:string;
     categorys: CategoryChannelType[];
     channels: {
         [id:string]:ChannelsType[]

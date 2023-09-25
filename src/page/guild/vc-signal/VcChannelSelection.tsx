@@ -8,6 +8,7 @@ import {
     selectChannelAndThread,
     defalutChannelIdSelected
 } from "../../../units/dictComprehension";
+import BoxCheck from "./CheckBoxForm";
 import Select,{ MultiValue } from "react-select";
 
 interface VcSignalChannels {
@@ -22,7 +23,6 @@ interface VcSignalChannels {
     }[];
 }
 
-import BoxCheck from "./CheckBoxForm";
 
 interface VcChannelSelectionProps {
     discordCategoryChannel:CategoryChannelType[];
@@ -32,6 +32,7 @@ interface VcChannelSelectionProps {
     };
     roles:{id:string,name:string}[];
     activeThreads:{id:string,name:string}[];
+    chengePermission:boolean;
     vcChannelSelect:(
         vcChannelSelect:SelectOption,
         categoryId:string,
@@ -51,6 +52,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
     channelJson,
     roles,
     activeThreads,
+    chengePermission,
     vcChannelSelect,
     vcRoleChannelSelect,
     handleCheckChange
@@ -127,6 +129,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                             vcChannel.id
                                         )
                                     ))}
+                                    {...chengePermission ? {} : {isDisabled:true}}
                                 ></Select>
                                 <h3>通知するロールの追加</h3>
                                 <Select
@@ -147,6 +150,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                         )
                                     ))}
                                     isMulti // trueに
+                                    {...chengePermission ? {} :{isDisabled:true}}
                                 ></Select>
 
                                 <BoxCheck
@@ -155,6 +159,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                     channelId={vcChannel.id}
                                     categoryChannelId={categoryChannel.id}
                                     labelText=":everyoneで通知をする"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleCheckChange}
                                 ></BoxCheck>
 
@@ -164,6 +169,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                     channelId={vcChannel.id}
                                     categoryChannelId={categoryChannel.id}
                                     labelText=":Botが入室したら通知をする"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleCheckChange}
                                 ></BoxCheck>
                             </details>

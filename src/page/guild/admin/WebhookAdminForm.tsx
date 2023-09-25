@@ -73,9 +73,7 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedWebhookUserValue([...value]);
-                        }else{
-                            null;
-                        };
+                        }
                         selectCallback(selectedWebhookUserValue,'user');
                     }}
                     isMulti // trueに
@@ -89,9 +87,7 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                     onChange={(value) => {
                         if(value){
                             setSelectedWebhookRoleValue([...value]);
-                        }else{
-                            null
-                        };
+                        }
                         selectCallback(selectedWebhookRoleValue,'role');
                     }}
                     isMulti // trueに

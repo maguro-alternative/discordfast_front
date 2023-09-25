@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { MultiValue } from "react-select";
 
 import { DiscordWebhook,SelectOption } from '../../../store';
-
+import Headmeta from "../../../components/headmeta";
 import CreateNewWebhookSelection from "./CreateNewWebhook";
 import UpdateWebhookSelection from "./UpdateWebhook";
 
@@ -13,6 +13,8 @@ const Webhook = () => {
     const { id } = useParams(); // パラメータを取得
 
     const [webhookData, setWebhookData] = useState<DiscordWebhook>({
+        guildIcon: "",
+        guildName: "",
         webhooks: [
             {
                 id: "123456789012345678",
@@ -394,7 +396,7 @@ const Webhook = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
-                console.log(responseData);
+                //console.log(responseData);
                 setWebhookData(responseData);   // webhookのデータを格納
                 setUpdateUuids(responseData.webhookSet.map((webhook) => webhook.uuid));    // 更新用のuuidを格納
                 newWebhookSetting();    // webhookの初期値を追加
@@ -418,7 +420,7 @@ const Webhook = () => {
         */
         e.preventDefault();
         if(webhookData){
-            console.log(webhookData);
+            //console.log(webhookData);
             const webhookList = webhookData.webhookSet.filter((webhook) => {
                 if(webhook.webhook_id !== "" &&
                     webhook.subscription_id !== "" &&
@@ -453,13 +455,24 @@ const Webhook = () => {
                 }
                 return value;
             });
-            console.log(webhookData,JSON.parse(jsonData));
-            // サーバー側に送信
-            const webhookJson = await axios.post(
-                `${SERVER_BASE_URL}/api/webhook-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            //console.log(webhookData,JSON.parse(jsonData));
+            let check = window.confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const webhookJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/webhook-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }
     };
 
@@ -468,6 +481,30 @@ const Webhook = () => {
     } else {
         return(
             <>
+                <Headmeta
+                    title={`${webhookData.guildName}のWebhook設定`}
+                    description="Webhook"
+                    orginUrl={window.location.href}
+                    iconUrl={webhookData.guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${webhookData.guildIcon}.png`
+                    ):(
+                        `../../images/discord-icon.jpg`
+                    )}
+                />
+                <a href={`/guild/${id}`}>
+                    {webhookData.guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${webhookData.guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{webhookData.guildName}</h3>
+                </a>
                 <form onSubmit={handleFormSubmit}>
                     <CreateNewWebhookSelection
                         newUuids={newUuids}
@@ -489,7 +526,16 @@ const Webhook = () => {
                         handleUpdateWebhookInputArray={handleWebhookInputArray}
                         handleDeleteWebhookCheckboxChange={handleDeleteWebhookCheckboxChange}
                     ></UpdateWebhookSelection>
-                    <button type="submit">Submit</button>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
+                    <br/>
+                    {webhookData.chengePermission ? (
+                        <button type="submit">Submit</button>
+                    ):(
+                        <></>
+                    )}
                 </form>
             </>
         )

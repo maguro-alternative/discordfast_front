@@ -1,4 +1,6 @@
 export type DiscordWebhookExport = {
+    guildIcon:string;
+    guildName:string;
     webhooks: {
         id: string;
         name: string;

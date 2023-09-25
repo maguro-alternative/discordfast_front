@@ -7,6 +7,8 @@ import {
     CategoryChannelType
 } from '../../../store';
 
+import BoxCheck from "./CheckBoxForm";
+
 interface LinePostChannels {
     [id:string]: {
         id: string;
@@ -19,13 +21,13 @@ interface LinePostChannels {
     }[]
 }
 
-import BoxCheck from "./CheckBoxForm";
 
 interface CategoryChannelSectionProps {
     discordCategoryChannel:CategoryChannelType[];
     channelJson:LinePostChannels;
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
+    chengePermission:boolean;
     handleNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleBotCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleMessageTypeChenge:(
@@ -54,6 +56,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
         channelJson,
         userIdSelect,
         messageTypeOption,
+        chengePermission,
         handleNgCheckChenge,
         handleBotCheckChenge,
         handleMessageTypeChenge,
@@ -99,6 +102,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                     channelId={channel.id}
                                     categoryChannelId={categoryChannel.id}
                                     labelText=":LINEへ送信しない"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleNgCheckChenge}
                                 ></BoxCheck>
 
@@ -108,6 +112,7 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                     channelId={channel.id}
                                     categoryChannelId={categoryChannel.id}
                                     labelText=":botのメッセージを送信しない"
+                                    chengePermission={chengePermission}
                                     checkBoxCallback={handleBotCheckChenge}
                                 ></BoxCheck>
 
@@ -125,11 +130,10 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                                 categoryChannel.id,
                                                 channel.id
                                             )
-                                        }else{
-                                            null
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
+                                    {...chengePermission ? {} : {isDisabled:true}}
                                 ></Select>
 
                                 <h5>メッセージを送信しないユーザー</h5>
@@ -146,11 +150,10 @@ const CategoryChannelSelection: React.FC<CategoryChannelSectionProps> = (
                                                 categoryChannel.id,
                                                 channel.id
                                             )
-                                        }else{
-                                            null
-                                        };
+                                        }
                                     }}
                                     isMulti // trueに
+                                    {...chengePermission ? {} : {isDisabled:true}}
                                 ></Select>
                             </details>
                         ))}

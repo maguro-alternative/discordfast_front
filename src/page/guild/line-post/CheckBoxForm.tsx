@@ -6,6 +6,7 @@ interface BoxCheckFormProps {
     channelId:string;
     categoryChannelId:string;
     labelText:string;
+    chengePermission:boolean;
     checkBoxCallback:(e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,6 +16,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
     channelId,
     categoryChannelId,
     labelText,
+    chengePermission,
     checkBoxCallback
 }) => {
     /*
@@ -38,6 +40,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
                 value={categoryChannelId}
                 defaultChecked
                 onChange={checkBoxCallback}
+                {...chengePermission ? {} : {disabled:true}}
             />
             :
             <input
@@ -46,6 +49,7 @@ const BoxCheck: React.FC<BoxCheckFormProps> = ({
                 name={channelId}
                 value={categoryChannelId}
                 onChange={checkBoxCallback}
+                {...chengePermission ? {} : {disabled:true}}
             />
             }
             <label>{labelText}</label>

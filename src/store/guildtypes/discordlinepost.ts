@@ -22,6 +22,8 @@ export interface LinePostDataExport {
 
 
 export type DiscordLinePostExport = {
+    guildIcon:string;
+    guildName:string;
     categorys: CategoryChannelType[];
     channels: LinePostChannels;
     threads: {

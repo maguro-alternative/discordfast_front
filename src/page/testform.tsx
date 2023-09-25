@@ -16,7 +16,7 @@ const InputForm: React.FC = () => {
         { value: "bar", label: "棒グラフ" },
         { value: "pie", label: "円グラフ" },
     ];
-    console.log(options);
+    //console.log(options);
 
     const [formData, setFormData] = useState<FormData>({
         name: '',
@@ -31,7 +31,7 @@ const InputForm: React.FC = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type } = e.target;
-        console.log(name, value,type);
+        //console.log(name, value,type);
         // 追加が押された場合
         if (name === 'emails' && type === 'add') {
             setFormData((prevData) => ({
@@ -50,8 +50,8 @@ const InputForm: React.FC = () => {
         e.preventDefault();
         formData.testop = selectedValue;
         const jsonData = JSON.stringify(formData);
-        console.log(jsonData);
-        console.log(selectedValue);
+        //console.log(jsonData);
+        //console.log(selectedValue);
     };
 
     return (
@@ -118,9 +118,7 @@ const InputForm: React.FC = () => {
                     options={options}
                     defaultValue={selectedValue}
                     onChange={(value) => {
-                        value ? (
-                            setSelectedValue([...value])
-                        ) :(null);
+                        setSelectedValue([...value])
                     }}
                     isMulti // trueに
                 />

@@ -2,11 +2,13 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import Headmeta from "../../../components/headmeta";
 import { DiscordAdmin, SelectOption } from '../../../store';
 import {
     MemberIdComprehension,
     RoleIdComprehension,
 } from "../../../units/dictComprehension";
+
 
 import LineAdminForm from "./LineAdminForm";
 import LineBotAdminForm from "./LineBotAdminForm";
@@ -77,13 +79,24 @@ const Admin = () => {
             }
             return value;
         });
-        console.log(formAdminData);
-        // サーバー側に送信
-        const adminJson = await axios.post(
-            `${SERVER_BASE_URL}/api/admin-success-json`,
-            JSON.parse(jsonData),
-            { withCredentials: true }
-        );
+        //console.log(formAdminData);
+        let check = window.confirm('送信します。よろしいですか？');
+        if (check) {
+            // サーバー側に送信
+            const adminJson = await axios.post(
+                `${SERVER_BASE_URL}/api/admin-success-json`,
+                JSON.parse(jsonData),
+                { withCredentials: true }
+            )// 通信が成功したときに返ってくる
+            .then(function () {
+                alert('送信完了!');
+                window.location.href = `/guild/${id}`;
+            })
+            // 通信が失敗したときに返ってくる
+            .catch(function (error) {
+                alert(error);
+            });
+        }
     };
 
     useEffect(() => {
@@ -219,7 +232,7 @@ const Admin = () => {
         */
         const { name, value, type } = e.target;
 
-        console.log(name);
+        //console.log(name);
 
         setAdminFormData((inputDate) => ({
             ...inputDate,
@@ -245,8 +258,37 @@ const Admin = () => {
         const webhookPermissionCode = adminData && adminData.webhookPermission !== undefined ? adminData.webhookPermission : 8;
         const webhookUserIds = adminData && adminData.webhookUserIdPermission !== undefined ? adminData.webhookUserIdPermission : [];
         const webhookRoleIds = adminData && adminData.webhookRoleIdPermission !== undefined ? adminData.webhookRoleIdPermission : [];
+
+        const guildIcon = adminData && adminData.guildIcon !== undefined ? adminData.guildIcon : '';
+        const guildName = adminData && adminData.guildName !== undefined ? adminData.guildName : '';
         return(
             <>
+                <Headmeta
+                    title={`${guildName}の管理者設定`}
+                    description="アドミンです"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../../images/discord-icon.jpg`
+                    )}
+                />
+                <a href={`/guild/${id}`}>
+                    {guildIcon ? (
+                        <img
+                            src={`https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`}
+                            alt="ギルドアイコン"
+                        />
+                    ):(
+                        <img
+                            src={`../../images/discord-icon.jpg`}
+                            alt="ギルドアイコン"
+                        />
+                    )}
+                    <h3>{guildName}</h3>
+                </a>
+                <h1>管理者設定</h1>
+                <h4>各項目にアクセスできる権限を設定できます。</h4>
                 <form onSubmit={handleFormSubmit}>
                     <LineAdminForm
                         linePermission={linePermissionCode}
@@ -284,6 +326,11 @@ const Admin = () => {
                         selectCallback={handleWebhookSelectionChange}
                         textCallback={handleInputChange}
                     ></WebhookAdminForm>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
+                    <br/>
                     <button type="submit">Submit</button>
                 </form>
             </>

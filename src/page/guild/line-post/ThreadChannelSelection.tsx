@@ -6,6 +6,8 @@ import {
     SelectOption
 } from '../../../store';
 
+import BoxCheck from "./CheckBoxForm";
+
 interface LinePostChannel {
     id: string;
     name: string;
@@ -17,12 +19,11 @@ interface LinePostChannel {
 }
 
 
-import BoxCheck from "./CheckBoxForm";
-
 interface ThreadChannelSectionProps {
     discordThreads:LinePostChannel[];
     userIdSelect:SelectOption[];
     messageTypeOption:SelectOption[];
+    chengePermission:boolean;
     handleThreadNgCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleThreadBotCheckChenge:(e:React.ChangeEvent<HTMLInputElement>) => void;
     handleThreadMessageTypeChenge:(
@@ -50,6 +51,7 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
         discordThreads,
         userIdSelect,
         messageTypeOption,
+        chengePermission,
         handleThreadNgCheckChenge,
         handleThreadBotCheckChenge,
         handleThreadMessageTypeChenge,
@@ -88,6 +90,7 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                 channelId={thread.id}
                                 categoryChannelId=""
                                 labelText=":LINEへ送信しない"
+                                chengePermission={chengePermission}
                                 checkBoxCallback={handleThreadNgCheckChenge}
                             ></BoxCheck>
                             <BoxCheck
@@ -96,6 +99,7 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                 channelId={thread.id}
                                 categoryChannelId=""
                                 labelText=":botのメッセージを送信しない"
+                                chengePermission={chengePermission}
                                 checkBoxCallback={handleThreadBotCheckChenge}
                             ></BoxCheck>
 
@@ -113,11 +117,10 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                             "Thread",
                                             thread.id
                                         )
-                                    }else{
-                                        null
-                                    };
+                                    }
                                 }}
                                 isMulti // trueに
+                                {...chengePermission ? {} : {isDisabled:true}}
                             ></Select>
 
                             <h5>メッセージを送信しないユーザー</h5>
@@ -134,11 +137,10 @@ const ThreadCategoryChannelSelection: React.FC<ThreadChannelSectionProps> = (
                                             "Thread",
                                             thread.id
                                         )
-                                    }else{
-                                        null
-                                    };
+                                    }
                                 }}
                                 isMulti // trueに
+                                {...chengePermission ? {} : {isDisabled:true}}
                             ></Select>
                     </details>
                 ))}
