@@ -179,12 +179,23 @@ const VcSignal = () => {
                 return value;
             });
             //console.log(vcSubmitData,JSON.parse(jsonData));
-            // サーバー側に送信
-            const vcSignalJson = await axios.post(
-                `${SERVER_BASE_URL}/api/vc-signal-success-json`,
-                JSON.parse(jsonData),
-                { withCredentials: true }
-            );
+            let check = window.confirm('送信します。よろしいですか？');
+            if (check) {
+                // サーバー側に送信
+                const vcSignalJson = await axios.post(
+                    `${SERVER_BASE_URL}/api/vc-signal-success-json`,
+                    JSON.parse(jsonData),
+                    { withCredentials: true }
+                )// 通信が成功したときに返ってくる
+                .then(function () {
+                    alert('送信完了!');
+                    window.location.href = `/guild/${id}`;
+                })
+                // 通信が失敗したときに返ってくる
+                .catch(function (error) {
+                    alert(error);
+                });
+            }
         }else if(vcSignalData){
             const vcChannelList = Object.keys(vcSignalData.vcChannels).map((categoryId) => {
                 return vcSignalData.vcChannels[categoryId].map((vcChannel) => {
