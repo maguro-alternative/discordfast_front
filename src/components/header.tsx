@@ -47,6 +47,7 @@ const Header = () => {
                     );
                     window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent}&state=${uniqueId}`;
                 };
+                setIsLoading(false); // データ取得完了後にローディングを解除
                 //throw new Error('ログインに失敗しました。 - ', error);
             }
         }
@@ -67,6 +68,7 @@ const Header = () => {
                     window.location.href = `/line-login`;
                 };
                 //throw new Error('ログインに失敗しました。 - ', error);
+                setIsLoading(false); // データ取得完了後にローディングを解除
             }
         }
         if (!ignore){
@@ -204,6 +206,13 @@ const Header = () => {
                             )}
                         </div>
                     )}
+                </div>
+
+                <div className="topbutton">
+                    <a
+                        className="top-btn"
+                        href={`/`}
+                    >Topページへ</a>
                 </div>
             </div>
         );
