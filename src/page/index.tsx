@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import Headmeta from "../components/headmeta";
 
 interface LINELoginProps {
     id: string | undefined;
@@ -38,6 +39,12 @@ function Index(){
     },[]);
     return(
         <>
+            <Headmeta
+                title="Discordチャンネル送信先変更"
+                description="Discordチャンネル送信先変更"
+                orginUrl={window.location.href}
+                iconUrl="/images/discord-icon.jpg"
+            />
             <a
                 href={`/guilds`}
                 className="discord-btn"

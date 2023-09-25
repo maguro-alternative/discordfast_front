@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import './css/index.css';
 import App from './App';
 import Header from './components/header';
@@ -12,9 +13,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <>
         <Header />
-        <div className='container'>
-            <App />
-        </div>
+        <HelmetProvider>
+            <div className='container'>
+                <App />
+            </div>
+        </HelmetProvider>
         <Footer />
     </>
 );
