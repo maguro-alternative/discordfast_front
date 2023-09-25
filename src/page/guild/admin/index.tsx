@@ -9,7 +9,7 @@ import {
     RoleIdComprehension,
 } from "../../../units/dictComprehension";
 
-import '../../css/guild.css'
+import '../../../css/guild.css'
 
 import LineAdminForm from "./LineAdminForm";
 import LineBotAdminForm from "./LineBotAdminForm";

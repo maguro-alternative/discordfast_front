@@ -3,7 +3,7 @@ import Select,{ MultiValue } from "react-select";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import '../../css/guild.css'
+import '../../../css/guild.css'
 
 import { DiscordLineSet,DiscordLineSetSubmitData } from '../../../store';
 import Headmeta from "../../../components/headmeta";

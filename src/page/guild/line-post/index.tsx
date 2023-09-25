@@ -4,7 +4,7 @@ import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
 import { DiscordLinePost,SelectOption,LinePostData } from '../../../store';
-import '../../css/guild.css'
+import '../../../css/guild.css'
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 

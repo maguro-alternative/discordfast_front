@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { MultiValue } from "react-select";
 import axios from 'axios';
 
-import '../../css/guild.css'
+import '../../../css/guild.css'
 import {
     DiscordVcSignal,
     SelectOption,

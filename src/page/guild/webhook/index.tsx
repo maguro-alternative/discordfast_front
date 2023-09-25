@@ -4,7 +4,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { MultiValue } from "react-select";
 
-import '../../css/guild.css'
+import '../../../css/guild.css'
 import { DiscordWebhook,SelectOption } from '../../../store';
 import Headmeta from "../../../components/headmeta";
 import CreateNewWebhookSelection from "./CreateNewWebhook";
