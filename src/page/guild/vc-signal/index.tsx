@@ -8,7 +8,7 @@ import {
     SelectOption,
     ChannelsType
 } from '../../../store';
-
+import Headmeta from "../../../components/headmeta";
 import VcChannelSelection from "./VcChannelSelection";
 
 interface VcSignalChannel {
@@ -254,6 +254,16 @@ const VcSignal = () => {
         const guildName = vcSignalData && vcSignalData.guildName !== undefined ? vcSignalData.guildName : "";
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のボイスチャンネル通知設定`}
+                    description="ボイスチャンネル"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}`}>
                     {guildIcon ? (
                         <img

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import { DiscordLineSet,DiscordLineSetSubmitData } from '../../../store';
+import Headmeta from "../../../components/headmeta";
 import {
     selectChannelAndThread,
     defalutChannelIdSelected
@@ -132,6 +133,16 @@ const LineSet = () => {
 
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のLINEBot設定`}
+                    description="LINEBotの設定です"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}`}>
                     {guildIcon ? (
                         <img

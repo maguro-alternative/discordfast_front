@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../../css/guild.css'
 
+import Headmeta from "../../components/headmeta";
 import { DiscordGuildID } from '../../store';
 
 const GuildID = () => {
@@ -42,6 +43,16 @@ const GuildID = () => {
     }else{
         return (
             <>
+                <Headmeta
+                    title={`${guildData.guildName}の設定項目一覧`}
+                    description="設定項目一覧"
+                    orginUrl={window.location.href}
+                    iconUrl={guildData.guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildData.guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}/`}>
                     {guildData.guildIcon ? (
                         <img
@@ -56,13 +67,16 @@ const GuildID = () => {
                     )}
                     <h3>{guildData.guildName}</h3>
                 </a>
-                {guildData.permissionCode & 8 &&
+                {guildData.permissionCode & 8 ? (
                     <ul className="flex-ul">
                         <a
                             href={`/guild/${id}/admin`}
                             className="discord-btn"
                         >管理画面</a>
                     </ul>
+                ):(
+                    <></>
+                )
                 }
                 <ul className="flex-ul">
                     <a

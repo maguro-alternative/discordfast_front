@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import Headmeta from "../../../components/headmeta";
 import { DiscordAdmin, SelectOption } from '../../../store';
 import {
     MemberIdComprehension,
@@ -261,6 +262,16 @@ const Admin = () => {
         const guildName = adminData && adminData.guildName !== undefined ? adminData.guildName : '';
         return(
             <>
+                <Headmeta
+                    title={`${guildName}の管理者設定`}
+                    description="アドミンです"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}`}>
                     {guildIcon ? (
                         <img

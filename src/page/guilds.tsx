@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
+import Headmeta from "../components/headmeta";
 import { DiscordGuilds } from '../store';
 
 const Guilds = () => {
@@ -36,6 +37,12 @@ const Guilds = () => {
 
     return (
         <>
+            <Headmeta
+                title="サーバー一覧"
+                description="設定変更、閲覧可能なサーバー一覧"
+                orginUrl={window.location.href}
+                iconUrl="/images/discord-icon.jpg"
+            />
             <h1>編集、閲覧可能なサーバ一覧</h1>
             {guildsData.map(guild => (
                 <ul key={guild.id}>

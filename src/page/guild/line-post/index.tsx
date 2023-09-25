@@ -7,7 +7,7 @@ import { DiscordLinePost,SelectOption,LinePostData } from '../../../store';
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
-import BoxCheck from "./CheckBoxForm";
+import Headmeta from "../../../components/headmeta";
 
 import CategoryChannelSelection from "./CategoryChannelSection";
 import NoneCategoryChannelSelection from "./NoneCategoryChannelSelection";
@@ -325,6 +325,16 @@ const LinePost = () => {
         const guildName = linePostData && linePostData.guildName !== undefined ? linePostData.guildName : "";
         return(
             <>
+                <Headmeta
+                    title={`${guildName}のLINE投稿設定`}
+                    description="Discord→LINEです"
+                    orginUrl={window.location.href}
+                    iconUrl={guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}`}>
                     {guildIcon ? (
                         <img

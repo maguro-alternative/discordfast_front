@@ -40,8 +40,8 @@ function Index(){
     return(
         <>
             <Headmeta
-                title="Discordチャンネル送信先変更"
-                description="Discordチャンネル送信先変更"
+                title="DiscordBot設定ページ"
+                description="DiscordBotの設定を行います。"
                 orginUrl={window.location.href}
                 iconUrl="/images/discord-icon.jpg"
             />

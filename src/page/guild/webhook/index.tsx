@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { MultiValue } from "react-select";
 
 import { DiscordWebhook,SelectOption } from '../../../store';
-
+import Headmeta from "../../../components/headmeta";
 import CreateNewWebhookSelection from "./CreateNewWebhook";
 import UpdateWebhookSelection from "./UpdateWebhook";
 
@@ -481,6 +481,16 @@ const Webhook = () => {
     } else {
         return(
             <>
+                <Headmeta
+                    title={`${webhookData.guildName}のWebhook設定`}
+                    description="Webhook"
+                    orginUrl={window.location.href}
+                    iconUrl={webhookData.guildIcon ? (
+                        `https://cdn.discordapp.com/icons/${id}/${webhookData.guildIcon}.png`
+                    ):(
+                        `../images/discord-icon.jpg`
+                    )}
+                />
                 <a href={`/guild/${id}`}>
                     {webhookData.guildIcon ? (
                         <img
