@@ -3,6 +3,8 @@ import Select,{ MultiValue } from "react-select";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+import '../../css/guild.css'
+
 import { DiscordLineSet,DiscordLineSetSubmitData } from '../../../store';
 import Headmeta from "../../../components/headmeta";
 import {
@@ -332,6 +334,12 @@ const LineSet = () => {
                     })}
                     {...chengePermission ? {} : {disabled:true}}
                     />
+                    <ul className="flex-ul">
+                        <a
+                            href={`/guild/${id}`}
+                            className="discord-btn"
+                        >前のページに戻る</a>
+                    </ul>
                     <br/>
                     {chengePermission ? (
                         <button type="submit">Submit</button>

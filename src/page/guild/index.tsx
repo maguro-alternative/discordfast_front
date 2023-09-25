@@ -96,6 +96,13 @@ const GuildID = () => {
                         className="discord-btn"
                     >Webhook設定</a>
                 </ul>
+
+                <ul className="flex-ul">
+                    <a
+                        href={`/guilds`}
+                        className="discord-btn"
+                    >前のページに戻る</a>
+                </ul>
             </>
         )
     }
