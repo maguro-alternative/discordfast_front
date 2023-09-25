@@ -136,6 +136,7 @@ const Header = () => {
                             ) : (
                                 <img
                                     src={`/images/discord-icon.jpg`}
+                                    className="avatar"
                                     alt="avatar"
                                     onClick={() => setDiscordPopoverVisible(true)}
                                 />
