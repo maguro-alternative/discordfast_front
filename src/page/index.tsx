@@ -45,10 +45,15 @@ function Index(){
                 orginUrl={window.location.href}
                 iconUrl="/images/discord-icon.jpg"
             />
-            <a
-                href={`/guilds`}
-                className="discord-btn"
-            >サーバ一覧へ</a>
+            <div>
+                <h1>ようこそ！！！！！！！！</h1>
+                <h3>DiscordBotの設定ページです</h3>
+                <img src="/images/uchuemon.png" style={{ margin: 'auto', display: 'block'}} alt="Discordアイコン" />
+                <a
+                    href={`/guilds`}
+                    className="discord-btn"
+                >サーバ一覧へ</a>
+            </div>
             {lineLoginData?.id ? (
                 <a
                     href={`/group/${lineLoginData.id}`}

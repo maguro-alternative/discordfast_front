@@ -269,7 +269,7 @@ const Admin = () => {
                     iconUrl={guildIcon ? (
                         `https://cdn.discordapp.com/icons/${id}/${guildIcon}.png`
                     ):(
-                        `../images/discord-icon.jpg`
+                        `../../images/discord-icon.jpg`
                     )}
                 />
                 <a href={`/guild/${id}`}>

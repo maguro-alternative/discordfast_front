@@ -488,7 +488,7 @@ const Webhook = () => {
                     iconUrl={webhookData.guildIcon ? (
                         `https://cdn.discordapp.com/icons/${id}/${webhookData.guildIcon}.png`
                     ):(
-                        `../images/discord-icon.jpg`
+                        `../../images/discord-icon.jpg`
                     )}
                 />
                 <a href={`/guild/${id}`}>
