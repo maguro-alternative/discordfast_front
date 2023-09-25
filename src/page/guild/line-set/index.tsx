@@ -334,7 +334,7 @@ const LineSet = () => {
                     })}
                     {...chengePermission ? {} : {disabled:true}}
                     />
-                    <ul className="flex-ul">
+                    <ul className="blue-btn">
                         <a
                             href={`/guild/${id}`}
                             className="discord-btn"

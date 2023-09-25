@@ -330,7 +330,7 @@ const Admin = () => {
                     <ul className="flex-ul">
                         <a
                             href={`/guild/${id}`}
-                            className="discord-btn"
+                            className="blue-btn"
                         >前のページに戻る</a>
                     </ul>
                     <br/>

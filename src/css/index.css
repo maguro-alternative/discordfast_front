@@ -60,6 +60,25 @@ a.line-btn:hover {
 	background: #fff;
 }
 
+a.blue-btn {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	width: 120px;
+	font-weight: bold;
+	border: 2px solid #27acd9;
+	background: #27acd9;
+	color: #fff;
+	border-radius: 5px;
+	transition: 0.5s;
+}
+
+a.blue-btn:hover {
+	color: #27acd9;
+	background: #fff;
+}
+
+
 .container {
     width: 100%;
 	max-width: 80%;
