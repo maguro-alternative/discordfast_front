@@ -71,7 +71,7 @@ const GuildID = () => {
                     <ul className="flex-ul">
                         <a
                             href={`/guild/${id}/admin`}
-                            className="blue-btn"
+                            className="discord-btn"
                         >管理画面</a>
                     </ul>
                 ):(

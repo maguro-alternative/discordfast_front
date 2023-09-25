@@ -9,7 +9,6 @@ import {
     RoleIdComprehension,
 } from "../../../units/dictComprehension";
 
-import '../../../css/guild.css'
 
 import LineAdminForm from "./LineAdminForm";
 import LineBotAdminForm from "./LineBotAdminForm";
@@ -327,12 +326,10 @@ const Admin = () => {
                         selectCallback={handleWebhookSelectionChange}
                         textCallback={handleInputChange}
                     ></WebhookAdminForm>
-                    <ul className="flex-ul">
-                        <a
-                            href={`/guild/${id}`}
-                            className="blue-btn"
-                        >前のページに戻る</a>
-                    </ul>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
                     <button type="submit">Submit</button>
                 </form>

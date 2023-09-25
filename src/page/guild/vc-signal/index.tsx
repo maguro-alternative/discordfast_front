@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { MultiValue } from "react-select";
 import axios from 'axios';
 
-import '../../../css/guild.css'
 import {
     DiscordVcSignal,
     SelectOption,
@@ -298,12 +297,10 @@ const VcSignal = () => {
                             ></VcChannelSelection>
                         </ul>
                     </details>
-                    <ul className="flex-ul">
-                        <a
-                            href={`/guild/${id}`}
-                            className="blue-btn"
-                        >前のページに戻る</a>
-                    </ul>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
                     {chengePermission ? (
                         <button type="submit">Submit</button>

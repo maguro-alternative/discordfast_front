@@ -4,7 +4,6 @@ import axios from 'axios';
 import Select,{ MultiValue } from "react-select";
 
 import { DiscordLinePost,SelectOption,LinePostData } from '../../../store';
-import '../../../css/guild.css'
 
 import { UserIdComprehension } from "../../../units/dictComprehension";
 
@@ -399,12 +398,10 @@ const LinePost = () => {
                             ></ThreadCategoryChannelSelection>
                         </ul>
                     </details>
-                    <ul className="flex-ul">
-                        <a
-                            href={`/guild/${id}`}
-                            className="blue-btn"
-                        >前のページに戻る</a>
-                    </ul>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
                     {chengePermission ? (
                         <button type="submit">Submit</button>

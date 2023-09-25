@@ -4,7 +4,6 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { MultiValue } from "react-select";
 
-import '../../../css/guild.css'
 import { DiscordWebhook,SelectOption } from '../../../store';
 import Headmeta from "../../../components/headmeta";
 import CreateNewWebhookSelection from "./CreateNewWebhook";
@@ -527,12 +526,10 @@ const Webhook = () => {
                         handleUpdateWebhookInputArray={handleWebhookInputArray}
                         handleDeleteWebhookCheckboxChange={handleDeleteWebhookCheckboxChange}
                     ></UpdateWebhookSelection>
-                    <ul className="flex-ul">
-                        <a
-                            href={`/guild/${id}`}
-                            className="blue-btn"
-                        >前のページに戻る</a>
-                    </ul>
+                    <a
+                        href={`/guild/${id}`}
+                        className="blue-btn"
+                    >前のページに戻る</a>
                     <br/>
                     {webhookData.chengePermission ? (
                         <button type="submit">Submit</button>
