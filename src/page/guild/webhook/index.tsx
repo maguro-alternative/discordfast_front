@@ -505,6 +505,8 @@ const Webhook = () => {
                     )}
                     <h3>{webhookData.guildName}</h3>
                 </a>
+                <h1>WebHookの送信設定</h1>
+                <h4>動画サイトなどの投稿があれば通知します。</h4>
                 <form onSubmit={handleFormSubmit}>
                     <CreateNewWebhookSelection
                         newUuids={newUuids}
