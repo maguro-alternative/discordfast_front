@@ -21,8 +21,7 @@ const Header = () => {
     const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
     const pathname = window.location.href;
 
-    const uniqueId = uuidv4();
-    const DiscordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent&state=${uniqueId}`;
+    const DiscordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
 
     const [isDiscordPopoverVisible, setDiscordPopoverVisible] = useState(false);
     const [isLINEPopoverVisible, setLINEPopoverVisible] = useState(false);
@@ -43,11 +42,7 @@ const Header = () => {
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 if(pathname.includes("guild")){
-                    await axios.get(
-                        `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
-                        { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
-                    );
-                    window.location.href = `${DiscordOAuthUrl}`;
+                    await discordLoginRedirect();
                 };
                 setIsLoading(false); // データ取得完了後にローディングを解除
                 //throw new Error('ログインに失敗しました。 - ', error);
@@ -81,6 +76,15 @@ const Header = () => {
             ignore = true;
         };
     },[]);
+
+    const discordLoginRedirect = async() => {
+        const uniqueId = uuidv4();
+        await axios.get(
+            `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
+            { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
+        );
+        window.location.href = `${DiscordOAuthUrl}&state=${uniqueId}`;
+    };
 
     if(isLoading){
         return (<></>)
@@ -119,7 +123,7 @@ const Header = () => {
                             {isDiscordPopoverVisible ? (
                                 <a
                                     className="discord-btn"
-                                    href={DiscordOAuthUrl}
+                                    onClick={() => discordLoginRedirect()}
                                 >Discordでログイン</a>
                             ) : (
                                 <img
@@ -135,7 +139,7 @@ const Header = () => {
                             {isDiscordPopoverVisible ? (
                                 <a
                                     className="discord-btn"
-                                    href={DiscordOAuthUrl}
+                                    onClick={() => discordLoginRedirect()}
                                 >Discordでログイン</a>
                             ) : (
                                 <img
