@@ -12,6 +12,7 @@ interface LINELoginProps {
 
 function Index(){
     const [lineLoginData, setLineLoginData] = useState<LINELoginProps>(); // ヘッダー情報
+    
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
 
     useEffect(() => {
@@ -56,7 +57,7 @@ function Index(){
             </div>
             {lineLoginData?.id ? (
                 <a
-                    href={`/group/${lineLoginData.id}`}
+                    href={`/group/${lineLoginData.guildId}`}
                     className="line-btn"
                 >Discordチャンネル送信先変更</a>
             ):(

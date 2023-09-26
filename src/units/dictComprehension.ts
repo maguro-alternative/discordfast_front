@@ -155,13 +155,15 @@ export const selectChannelAndThread = (
     let selectChannel:SelectOption[] = [];
     let selectChannelTmp:SelectOption[] = [{value:'',label:''}];
     for (let category of categoryChannel) {
-        selectChannelTmp = allChannel[category.id].map(channel => (
-            {
-                value:channel.id,
-                label:`${category.name}:${channel.name}`
-            }
-        ))
-        Array.prototype.push.apply(selectChannel,selectChannelTmp);
+        if(allChannel[category.id]){
+            selectChannelTmp = allChannel[category.id].map(channel => (
+                {
+                    value:channel.id,
+                    label:`${category.name}:${channel.name}`
+                }
+            ))
+            Array.prototype.push.apply(selectChannel,selectChannelTmp);
+        }
     }
     selectChannelTmp = allChannel["None"].map(channel => (
         {

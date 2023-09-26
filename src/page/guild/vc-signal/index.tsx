@@ -278,6 +278,7 @@ const VcSignal = () => {
                     )}
                     <h3>{guildName}</h3>
                 </a>
+                <h1>ボイスチャンネル通知設定</h1>
                 <form onSubmit={handleFormSubmit}>
                     <details>
                         <summary>
