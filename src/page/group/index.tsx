@@ -16,6 +16,7 @@ const LineGroupSetting = () => {
 
     const [lineGroupData, setLineGroupData] = useState<LineGroup>();
     const [lineChangeChannel, setLineChangeChannel] = useState<ChannelChange>();
+    const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
 
     const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
     useEffect(() => {
@@ -33,6 +34,7 @@ const LineGroupSetting = () => {
                     defalutChannelId:responseData.defalutChannelId,
                     chengeAlert:false
                 })
+                setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 //throw new Error('ログインに失敗しました。 - ', error);
@@ -107,41 +109,47 @@ const LineGroupSetting = () => {
         }
     };
 
-    if(!lineGroupData){
+    if(!isLoading){
+        if(!lineGroupData){
+            return(
+                <></>
+            )
+        }else{
+            const selectChannels = selectChannelAndThread(
+                lineGroupData.categorys,
+                lineGroupData.channels,
+                lineGroupData.threads
+            );
+            const defalutSelectChannel = defalutChannelIdSelected(
+                lineGroupData.defalutChannelId,
+                selectChannels
+            )
+            return(
+                <form onSubmit={handleFormSubmit}>
+                    <h3>LINEからのメッセージの送信先チャンネル</h3>
+                    <Select
+                        className="select-bar"
+                        defaultValue={defalutSelectChannel}
+                        options={selectChannels}
+                        onChange={(value) => {
+                            if(value){
+                                changeDefalutChannel(value)
+                            }
+                        }}
+                    />
+                    <input
+                        type="checkbox"
+                        name="chenge_alert"
+                        onChange={changeChackAlert}
+                    />
+                    変更をLINEとDiscordに通知する<br/>
+                    <input type="submit" value="送信"/>
+                </form>
+            )
+        }
+    }else{  // ロード中
         return(
-            <></>
-        )
-    }else{
-        const selectChannels = selectChannelAndThread(
-            lineGroupData.categorys,
-            lineGroupData.channels,
-            lineGroupData.threads
-        );
-        const defalutSelectChannel = defalutChannelIdSelected(
-            lineGroupData.defalutChannelId,
-            selectChannels
-        )
-        return(
-            <form onSubmit={handleFormSubmit}>
-                <h3>LINEからのメッセージの送信先チャンネル</h3>
-                <Select
-                    className="select-bar"
-                    defaultValue={defalutSelectChannel}
-                    options={selectChannels}
-                    onChange={(value) => {
-                        if(value){
-                            changeDefalutChannel(value)
-                        }
-                    }}
-                />
-                <input
-                    type="checkbox"
-                    name="chenge_alert"
-                    onChange={changeChackAlert}
-                />
-                変更をLINEとDiscordに通知する<br/>
-                <input type="submit" value="送信"/>
-            </form>
+            <>Loading</>
         )
     }
 }
