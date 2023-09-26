@@ -78,6 +78,10 @@ a.blue-btn:hover {
 	background: #fff;
 }
 
+.select-bar {
+	max-width: 80%;
+	color: #36393F;
+}
 
 .container {
     width: 100%;

@@ -82,6 +82,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                             ></input>
                             <h6>WebHook</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookSelects}
                                 defaultValue={webhookSelects.filter((webhookSelect) => webhookSelect.value === updateWebhook.webhook_id)[0]}
                                 onChange={(value) => {
@@ -115,6 +116,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
 
                             <h6>メンションするロールの選択</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookRoles}
                                 defaultValue={updateWebhook.mention_roles.map((role) => (
                                     {
@@ -136,6 +138,7 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
 
                             <h6>メンションするメンバーの選択</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookUsers}
                                 defaultValue={updateWebhook.mention_members.map((member) => (
                                     {

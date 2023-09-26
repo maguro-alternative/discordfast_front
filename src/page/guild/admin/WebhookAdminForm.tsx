@@ -66,8 +66,9 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                 />
             </div>
             <h6>アクセスを許可するメンバーの選択</h6>
-            <div style={{ width: "500px", margin: "50px" }}>
+            <div>
                 <Select
+                    className="select-bar"
                     options={guildMember}
                     defaultValue={selectedWebhookUserValue}
                     onChange={(value) => {
@@ -80,8 +81,9 @@ const WebhookAdminForm: React.FC<WebhookAdminFormProps> = ({
                 />
             </div>
             <h6>アクセスを許可するロールの選択</h6>
-            <div style={{ width: "500px", margin: "50px" }}>
+            <div>
                 <Select
+                    className="select-bar"
                     options={guildRole}
                     defaultValue={selectedWebhookRoleValue}
                     onChange={(value) => {

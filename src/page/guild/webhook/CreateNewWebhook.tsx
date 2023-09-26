@@ -77,6 +77,7 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
                         <ul>
                             <h6>WebHook</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookSelects}
                                 onChange={(value) => {
                                     if(value){
@@ -107,6 +108,7 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>メンションするロールの選択</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookRoles}
                                 onChange={(value) => {
                                     if(value){
@@ -122,6 +124,7 @@ const CreateNewWebhookSelection:React.FC<CreateNewWebhookSelectionProps> = ({
 
                             <h6>メンションするメンバーの選択</h6>
                             <Select
+                                className="select-bar"
                                 options={webhookUsers}
                                 onChange={(value) => {
                                     if(value){
