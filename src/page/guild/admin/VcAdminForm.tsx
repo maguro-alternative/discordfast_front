@@ -68,6 +68,7 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
             <h6>アクセスを許可するメンバーの選択</h6>
             <div style={{ width: "500px", margin: "50px" }}>
                 <Select
+                    className="select-bar"
                     options={guildMember}
                     defaultValue={selectedVcUserValue}
                     onChange={(value) => {
@@ -82,6 +83,7 @@ const VcAdminForm: React.FC<VcAdminFormProps> = ({
             <h6>アクセスを許可するロールの選択</h6>
             <div style={{ width: "500px", margin: "50px" }}>
                 <Select
+                    className="select-bar"
                     options={guildRole}
                     defaultValue={selectedVcRoleValue}
                     onChange={(value) => {

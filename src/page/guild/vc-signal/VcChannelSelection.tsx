@@ -116,6 +116,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                 </summary>
                                 <h3>通知の送信先チャンネル</h3>
                                 <Select
+                                    className="select-bar"
                                     options={threadAndChannels}
                                     defaultValue={defalutChannelIdSelected(
                                         vcChannel.sendChannelId,
@@ -133,6 +134,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                 ></Select>
                                 <h3>通知するロールの追加</h3>
                                 <Select
+                                    className="select-bar"
                                     options={roles.map((role) => ({
                                         value:role.id,
                                         label:role.name

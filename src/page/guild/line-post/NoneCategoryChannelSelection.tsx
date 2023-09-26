@@ -112,6 +112,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
 
                                 <h5>送信しないメッセージの種類:</h5>
                                 <Select
+                                    className="select-bar"
                                     options={messageTypeOption}
                                     defaultValue={handleMessageTypeSet(
                                         channel.ngMessageType,
@@ -132,6 +133,7 @@ const NoneCategoryChannelSelection: React.FC<NoneCategoryChannelSectionProps> = 
 
                                 <h5>メッセージを送信しないユーザー</h5>
                                 <Select
+                                    className="select-bar"
                                     options={userIdSelect}
                                     defaultValue={handleUserSet(
                                         channel.ngUsers,

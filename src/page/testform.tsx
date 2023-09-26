@@ -113,8 +113,9 @@ const InputForm: React.FC = () => {
                 Add Email
                 </button>
             </div>
-            <div style={{ width: "500px", margin: "50px" }}>
+            <div>
                 <Select
+                    className="select-bar"
                     options={options}
                     defaultValue={selectedValue}
                     onChange={(value) => {

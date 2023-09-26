@@ -125,6 +125,7 @@ const LineGroupSetting = () => {
             <form onSubmit={handleFormSubmit}>
                 <h3>LINEからのメッセージの送信先チャンネル</h3>
                 <Select
+                    className="select-bar"
                     defaultValue={defalutSelectChannel}
                     options={selectChannels}
                     onChange={(value) => {

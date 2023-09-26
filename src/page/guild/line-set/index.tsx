@@ -306,6 +306,7 @@ const LineSet = () => {
 
                     <h3>通知の送信先チャンネル</h3>
                     <Select
+                        className="select-bar"
                         options={threadAndChannels}
                         defaultValue={selectedDefalutId}
                         onChange={(value) => {
