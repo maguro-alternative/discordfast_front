@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path'
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
@@ -11,12 +10,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist', // ビルドの出力先ディレクトリ
-        sourcemap: false, // ソースマップの出力
-        rollupOptions: {
-            input: {
-                main: resolve(__dirname, 'index.html'),
-            },
-        },
+        //sourcemap: false, // ソースマップの出力
     },
     publicDir: 'public', // 静的ファイルのディレクトリ
     plugins: [react()],
