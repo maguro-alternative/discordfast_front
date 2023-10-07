@@ -235,7 +235,7 @@ const LinePost = () => {
         }
     }
 
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
     useEffect(() => {
         let ignore = false;
         async function fetchData() {

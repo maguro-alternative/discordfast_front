@@ -18,7 +18,7 @@ const LineGroupSetting = () => {
     const [lineChangeChannel, setLineChangeChannel] = useState<ChannelChange>();
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
 
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
     useEffect(() => {
         let ignore = false;
         async function fetchData() {

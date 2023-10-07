@@ -12,13 +12,13 @@ const DiscordCallback = () => {
     const location = useLocation();
 
     const DISCORD_BASE_URL = "https://discord.com/api"
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
 
     let SECRET_KEY = ''
-    if (process.env.REACT_APP_SECRET_KEY === undefined){
+    if (import.meta.env.VITE_SECRET_KEY === undefined){
         SECRET_KEY = ''
     }else{
-        SECRET_KEY = process.env.REACT_APP_SECRET_KEY
+        SECRET_KEY = import.meta.env.VITE_SECRET_KEY
     }
 
     useEffect(() => {
@@ -40,11 +40,11 @@ const DiscordCallback = () => {
 
         // OAuth2認証に必要なデータ
         const requestPostdata = {
-            client_id       :process.env.REACT_APP_DISCORD_CLINET_ID,
-            client_secret   :process.env.REACT_APP_DISCORD_CLIENT_SECRET,
+            client_id       :import.meta.env.VITE_DISCORD_CLINET_ID,
+            client_secret   :import.meta.env.VITE_DISCORD_CLIENT_SECRET,
             grant_type:     'authorization_code',
             code            :code,
-            redirect_uri    :process.env.REACT_APP_DISCORD_CALLBACK_URL
+            redirect_uri    :import.meta.env.VITE_DISCORD_CALLBACK_URL
         }
         // ヘッダー
         const urlEncodedHeaders = {

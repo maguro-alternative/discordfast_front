@@ -7,9 +7,9 @@ import { DiscordGuilds } from '../store';
 const Guilds = () => {
     const [guildsData, setGuildsData] = useState<DiscordGuilds[]>([]);
 
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
-    const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
-    const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
+    const redirect_uri = `${import.meta.env.VITE_SERVER_URL}/discord-callback/`
+    const client_id = import.meta.env.VITE_DISCORD_CLINET_ID
 
     useEffect(() => {
         let ignore = false;
