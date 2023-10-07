@@ -10,7 +10,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist', // ビルドの出力先ディレクトリ
-        //sourcemap: false, // ソースマップの出力
+        sourcemap: false, // ソースマップの出力
     },
     publicDir: 'public', // 静的ファイルのディレクトリ
     plugins: [react()],
