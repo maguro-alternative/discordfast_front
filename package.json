@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "GENERATE_SOURCEMAP=false vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "eslintConfig": {
