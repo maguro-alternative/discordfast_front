@@ -91,12 +91,11 @@ const Header = () => {
     } else {
         return(
             <div className="header">
-                <div className="popver">
+                <div className="discord-popver">
                     {discordHeaderData ? (discordHeaderData.message === undefined ? (
                         <div>
                             {isDiscordPopoverVisible ? (
                                 <div>
-                                    <p>{discordHeaderData.message}</p>
                                     <p>{discordHeaderData.username}</p>
                                     <img
                                         src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
@@ -104,6 +103,9 @@ const Header = () => {
                                         alt="avatar"
                                         onClick={() => setDiscordPopoverVisible(false)}
                                     />
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
                                     <a
                                         className="discord-btn"
                                         href={`${SERVER_BASE_URL}/discord-logout`}
@@ -121,10 +123,15 @@ const Header = () => {
                     ) : (
                         <div>
                             {isDiscordPopoverVisible ? (
-                                <a
-                                    className="discord-btn"
-                                    onClick={() => discordLoginRedirect()}
-                                >Discordでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        className="discord-btn"
+                                        onClick={() => discordLoginRedirect()}
+                                    >Discordでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`./images/discord-icon.jpg`}
@@ -137,10 +144,15 @@ const Header = () => {
                     )):(
                         <div>
                             {isDiscordPopoverVisible ? (
-                                <a
-                                    className="discord-btn"
-                                    onClick={() => discordLoginRedirect()}
-                                >Discordでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        className="discord-btn"
+                                        onClick={() => discordLoginRedirect()}
+                                    >Discordでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`/images/discord-icon.jpg`}
@@ -152,12 +164,11 @@ const Header = () => {
                         </div>
                     )}
                 </div>
-                <div className="popver">
+                <div className="line-popver">
                     {lineHeaderData ? (lineHeaderData.message === undefined ? (
                         <div>
                             {isLINEPopoverVisible ? (
                                 <div>
-                                    <p>{lineHeaderData.message}</p>
                                     <p>{lineHeaderData.username}</p>
                                     <img
                                         src={`${lineHeaderData.avatar}`}
@@ -182,10 +193,15 @@ const Header = () => {
                     ) : (
                         <div>
                             {isLINEPopoverVisible ? (
-                                <a
-                                    href={`/line-login`}
-                                    className="line-btn"
-                                >LINEでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        href={`/line-login`}
+                                        className="line-btn"
+                                    >LINEでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`./images/line-icon.jpg`}
@@ -198,10 +214,15 @@ const Header = () => {
                     )):(
                         <div>
                             {isLINEPopoverVisible ? (
-                                <a
-                                    href={`/line-login`}
-                                    className="line-btn"
-                                >LINEでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        href={`/line-login`}
+                                        className="line-btn"
+                                    >LINEでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`/images/line-icon.png`}

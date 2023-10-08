@@ -14,8 +14,8 @@
     height:64px;
 }
 
-.popver {
-    position: relative;
+.discord-popver {
+    position: absolute;
     display: flex;
     /*display: inline-block;*/
     /*border-bottom: 1px dotted black;*/
@@ -24,7 +24,25 @@
     padding: 1px;
     margin: 0 0 0 auto;
     float: right;
-    margin-right: 5%;
+    text-align: right;
+    top: 0%;
+    right: 0%;
+    z-index: 10;
+}
+
+.line-popver {
+    position: absolute;
+    display: flex;
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black;*/
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 1px;
+    margin: 0 0 0 auto;
+    float: right;
+    text-align: right;
+    top: 0%;
+    right: 21%;
 }
 
 .topbutton {
