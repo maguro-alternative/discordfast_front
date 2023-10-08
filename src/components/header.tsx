@@ -96,6 +96,9 @@ const Header = () => {
                         <div>
                             {isDiscordPopoverVisible ? (
                                 <div>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
                                     <p>{discordHeaderData.username}</p>
                                     <img
                                         src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
@@ -103,9 +106,6 @@ const Header = () => {
                                         alt="avatar"
                                         onClick={() => setDiscordPopoverVisible(false)}
                                     />
-                                    <label
-                                        onClick={() => setDiscordPopoverVisible(false)}
-                                    >X</label>
                                     <a
                                         className="discord-btn"
                                         href={`${SERVER_BASE_URL}/discord-logout`}
@@ -169,6 +169,9 @@ const Header = () => {
                         <div>
                             {isLINEPopoverVisible ? (
                                 <div>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
                                     <p>{lineHeaderData.username}</p>
                                     <img
                                         src={`${lineHeaderData.avatar}`}
