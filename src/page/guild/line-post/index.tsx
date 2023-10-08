@@ -70,6 +70,8 @@ const LinePost = () => {
                     threads: updatedChannels,
                 };
 
+                console.log(setUpdatedData);
+
                 setLinePostData(setUpdatedData) // 更新したデータを代入
             } else {    // チャンネルの項目の場合
                 const updatedChannels:LinePostData['channels'] = { ...linePostData.channels }; // channels オブジェクトのコピーを作成
