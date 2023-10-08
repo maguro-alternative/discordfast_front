@@ -291,7 +291,7 @@ const LinePost = () => {
                 }
                 return value;
             });
-            //console.log(json,JSON.parse(jsonData));
+            console.log(JSON.parse(jsonData));
             let check = window.confirm('送信します。よろしいですか？');
             if (check) {
                 // サーバー側に送信
