@@ -13,7 +13,7 @@ const LineLogin = () => {
         let ignore = false;
         const fetchLineLoginData = async () => {
             const result = await axios.get<LineBotLogin[]>(
-                `${process.env.REACT_APP_SERVER_URL}/line-login/view`,
+                `${import.meta.env.VITE_SERVER_URL}/line-login/view`,
                 { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
             );
             setLineLoginData(result.data);
@@ -34,7 +34,7 @@ const LineLogin = () => {
     ) => {
         const lineLoginUri = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectEncodeUri}&state=${uniqueId}&scope=profile%20openid%20email&nonce=${uniqueId2}`
         const lineLoginUriState = `${lineLoginUri}&state=${uniqueId}`
-        const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+        const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
 
         await axios.get(
             `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,

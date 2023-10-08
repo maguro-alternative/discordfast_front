@@ -235,7 +235,7 @@ const LinePost = () => {
         }
     }
 
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
     useEffect(() => {
         let ignore = false;
         async function fetchData() {
@@ -280,6 +280,17 @@ const LinePost = () => {
                     }
                 })
             })
+            const threadList = linePostData.threads.map((thread) => {
+                return {
+                    channel_id:thread.id,
+                    line_ng_channel:thread.lineNgChannel,
+                    ng_message_type:thread.ngMessageType,
+                    message_bot:thread.messageBot,
+                    ng_users:thread.ngUsers
+                }
+            })
+            // スレッドのチャンネルを追加
+            linePostList.push(threadList);
             const json = {
                 guild_id:id,
                 channel_list:linePostList.flat()
@@ -291,7 +302,6 @@ const LinePost = () => {
                 }
                 return value;
             });
-            //console.log(json,JSON.parse(jsonData));
             let check = window.confirm('送信します。よろしいですか？');
             if (check) {
                 // サーバー側に送信

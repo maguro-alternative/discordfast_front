@@ -16,9 +16,9 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(true);   // ロード中かどうか
     const [discordHeaderData, setDiscordHeaderData] = useState<HeaderProps>(); // ヘッダー情報
     const [lineHeaderData, setLineHeaderData] = useState<HeaderProps>(); // ヘッダー情報
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
-    const redirect_uri = `${process.env.REACT_APP_SERVER_URL}/discord-callback/`
-    const client_id = process.env.REACT_APP_DISCORD_CLINET_ID
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
+    const redirect_uri = `${import.meta.env.VITE_SERVER_URL}/discord-callback/`
+    const client_id = import.meta.env.VITE_DISCORD_CLINET_ID
     const pathname = window.location.href;
 
     const DiscordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
@@ -91,12 +91,14 @@ const Header = () => {
     } else {
         return(
             <div className="header">
-                <div className="popver">
+                <div className="discord-popver">
                     {discordHeaderData ? (discordHeaderData.message === undefined ? (
                         <div>
                             {isDiscordPopoverVisible ? (
                                 <div>
-                                    <p>{discordHeaderData.message}</p>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
                                     <p>{discordHeaderData.username}</p>
                                     <img
                                         src={`https://cdn.discordapp.com/avatars/${discordHeaderData.id}/${discordHeaderData.avatar}.webp?size=64`}
@@ -121,10 +123,15 @@ const Header = () => {
                     ) : (
                         <div>
                             {isDiscordPopoverVisible ? (
-                                <a
-                                    className="discord-btn"
-                                    onClick={() => discordLoginRedirect()}
-                                >Discordでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        className="discord-btn"
+                                        onClick={() => discordLoginRedirect()}
+                                    >Discordでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`./images/discord-icon.jpg`}
@@ -137,10 +144,15 @@ const Header = () => {
                     )):(
                         <div>
                             {isDiscordPopoverVisible ? (
-                                <a
-                                    className="discord-btn"
-                                    onClick={() => discordLoginRedirect()}
-                                >Discordでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setDiscordPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        className="discord-btn"
+                                        onClick={() => discordLoginRedirect()}
+                                    >Discordでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`/images/discord-icon.jpg`}
@@ -152,12 +164,14 @@ const Header = () => {
                         </div>
                     )}
                 </div>
-                <div className="popver">
+                <div className="line-popver">
                     {lineHeaderData ? (lineHeaderData.message === undefined ? (
                         <div>
                             {isLINEPopoverVisible ? (
                                 <div>
-                                    <p>{lineHeaderData.message}</p>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
                                     <p>{lineHeaderData.username}</p>
                                     <img
                                         src={`${lineHeaderData.avatar}`}
@@ -182,10 +196,15 @@ const Header = () => {
                     ) : (
                         <div>
                             {isLINEPopoverVisible ? (
-                                <a
-                                    href={`/line-login`}
-                                    className="line-btn"
-                                >LINEでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        href={`/line-login`}
+                                        className="line-btn"
+                                    >LINEでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`./images/line-icon.jpg`}
@@ -198,10 +217,15 @@ const Header = () => {
                     )):(
                         <div>
                             {isLINEPopoverVisible ? (
-                                <a
-                                    href={`/line-login`}
-                                    className="line-btn"
-                                >LINEでログイン</a>
+                                <>
+                                    <label
+                                        onClick={() => setLINEPopoverVisible(false)}
+                                    >X</label>
+                                    <a
+                                        href={`/line-login`}
+                                        className="line-btn"
+                                    >LINEでログイン</a>
+                                </>
                             ) : (
                                 <img
                                     src={`/images/line-icon.png`}

@@ -57,7 +57,7 @@ const Admin = () => {
         webhook_role_id_permission  :[]
     });
 
-    const SERVER_BASE_URL = process.env.REACT_APP_SERVER_URL
+    const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
 
     const userIdSelect = useMemo(() => {
         return MemberIdComprehension(guildMember);    // サーバーメンバー一覧
