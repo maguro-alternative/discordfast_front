@@ -156,6 +156,16 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                 ></Select>
 
                                 <BoxCheck
+                                    tagId={`joinBot${vcChannel.id}`}
+                                    channelBool={vcChannel.joinBot}
+                                    channelId={vcChannel.id}
+                                    categoryChannelId={categoryChannel.id}
+                                    labelText=":通知をする"
+                                    chengePermission={chengePermission}
+                                    checkBoxCallback={handleCheckChange}
+                                ></BoxCheck>
+
+                                <BoxCheck
                                     tagId={`everyoneMention${vcChannel.id}`}
                                     channelBool={vcChannel.everyoneMention}
                                     channelId={vcChannel.id}
