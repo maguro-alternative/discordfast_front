@@ -85,7 +85,6 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
         /*
         すでに選択されているロールを抜き取る
         */
-        console.log(roleIdList);
         let optionDict: SelectOption;
         let optionList: SelectOption[] = [];
         roleList.forEach(role => {
