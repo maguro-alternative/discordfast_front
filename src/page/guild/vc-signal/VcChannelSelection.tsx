@@ -156,8 +156,8 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                 ></Select>
 
                                 <BoxCheck
-                                    tagId={`joinBot${vcChannel.id}`}
-                                    channelBool={vcChannel.joinBot}
+                                    tagId={`sendSignal${vcChannel.id}`}
+                                    channelBool={vcChannel.sendSignal}
                                     channelId={vcChannel.id}
                                     categoryChannelId={categoryChannel.id}
                                     labelText=":通知をする"
