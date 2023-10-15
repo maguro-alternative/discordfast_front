@@ -109,7 +109,10 @@ const VcSignal = () => {
             const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
 
             const vcChannel = updateVcChannel[value].map((vc) => (
-                vc.id === name && id.includes("everyoneMention") ? {
+                vc.id === name && id.includes("sendSignal") ? {
+                    ...vc,
+                    sendSignal:checked
+                }: vc.id === name && id.includes("everyoneMention") ? {
                     ...vc,
                     everyoneMention:checked
                 }
@@ -117,7 +120,7 @@ const VcSignal = () => {
                     ...vc,
                     joinBot:checked
                 }
-                :vc
+                : vc
             ));
 
             setVcSubmitData(vcChannel);

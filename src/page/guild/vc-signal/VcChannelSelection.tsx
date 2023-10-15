@@ -85,6 +85,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
         /*
         すでに選択されているロールを抜き取る
         */
+        console.log(roleIdList);
         let optionDict: SelectOption;
         let optionList: SelectOption[] = [];
         roleList.forEach(role => {
@@ -154,6 +155,16 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                                     isMulti // trueに
                                     {...chengePermission ? {} :{isDisabled:true}}
                                 ></Select>
+
+                                <BoxCheck
+                                    tagId={`joinBot${vcChannel.id}`}
+                                    channelBool={vcChannel.joinBot}
+                                    channelId={vcChannel.id}
+                                    categoryChannelId={categoryChannel.id}
+                                    labelText=":通知をする"
+                                    chengePermission={chengePermission}
+                                    checkBoxCallback={handleCheckChange}
+                                ></BoxCheck>
 
                                 <BoxCheck
                                     tagId={`everyoneMention${vcChannel.id}`}
