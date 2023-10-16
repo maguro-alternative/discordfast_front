@@ -45,9 +45,9 @@ const VcSignal = () => {
         if (!vcSignalData){ // データがない場合は何もしない
             return;
         } else {
-            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+            const updateVcChannel:VcSignalChannel[] = vcSubmitData ? [...vcSubmitData] : [...vcSignalData.vcChannels[categoryId]];
 
-            const vcChannel = updateVcChannel[categoryId].map((vc) => (
+            const vcChannel = updateVcChannel.map((vc) => (
                 vc.id === channelId ? {
                     ...vc,
                     sendChannelId:vcChannelSelect.value
@@ -55,8 +55,9 @@ const VcSignal = () => {
                 :vc
             ));
 
-            setVcSubmitData(vcChannel);
-            //setVcSignalData(setUpdatedData);
+            const vcChannelData: VcSignalChannel[] = vcChannel;
+
+            setVcSubmitData(vcChannelData);
         };
     };
 
@@ -75,12 +76,12 @@ const VcSignal = () => {
         if (!vcSignalData){
             return;
         } else {
-            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+            const updateVcChannel:VcSignalChannel[] = vcSubmitData ? [...vcSubmitData] : [...vcSignalData.vcChannels[categoryId]];
             const roleIds = vcRoleSelect.map(roleId => {
                 return roleId.value
             })
 
-            const vcChannel = updateVcChannel[categoryId].map((vc) => (
+            const vcChannel = updateVcChannel.map((vc) => (
                 vc.id === channelId ? {
                     ...vc,
                     mentionRoleId:[...roleIds]
@@ -88,8 +89,9 @@ const VcSignal = () => {
                 :vc
             ));
 
-            setVcSubmitData(vcChannel);
-            //setVcSignalData(setUpdatedData);
+            const vcChannelData: VcSignalChannel[] = vcChannel;
+
+            setVcSubmitData(vcChannelData);
         };
     };
 
@@ -106,9 +108,9 @@ const VcSignal = () => {
         if (!vcSignalData){
             return;
         } else {
-            const updateVcChannel:DiscordVcSignal['vcChannels'] = { ...vcSignalData.vcChannels };
+            const updateVcChannel:VcSignalChannel[] = vcSubmitData ? [...vcSubmitData] : [...vcSignalData.vcChannels[value]];
 
-            const vcChannel = updateVcChannel[value].map((vc) => (
+            const vcChannel = updateVcChannel.map((vc) => (
                 vc.id === name && id.includes("sendSignal") ? {
                     ...vc,
                     sendSignal:checked
@@ -123,8 +125,9 @@ const VcSignal = () => {
                 : vc
             ));
 
-            setVcSubmitData(vcChannel);
-            //setVcSignalData(setUpdatedData);
+            const vcChannelData: VcSignalChannel[] = vcChannel;
+
+            setVcSubmitData(vcChannelData);
         }
     }
 
@@ -138,8 +141,22 @@ const VcSignal = () => {
                     { withCredentials: true }
                 );
                 const responseData = response.data;
+                const vcChannelList = Object.keys(responseData.vcChannels).map((categoryId) => {
+                    return responseData.vcChannels[categoryId].map((vcChannel) => {
+                        return {
+                            id:vcChannel.id,
+                            name:vcChannel.name,
+                            sendChannelId:vcChannel.sendChannelId,
+                            sendSignal:vcChannel.sendSignal,
+                            everyoneMention:vcChannel.everyoneMention,
+                            joinBot:vcChannel.joinBot,
+                            mentionRoleId:vcChannel.mentionRoleId
+                        }
+                    })
+                })
                 //console.log(responseData);
                 setVcSignalData(responseData);
+                setVcSubmitData(vcChannelList.flat());
                 setIsLoading(false); // データ取得完了後にローディングを解除
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);

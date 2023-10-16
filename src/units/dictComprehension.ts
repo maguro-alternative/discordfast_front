@@ -116,7 +116,7 @@ export function RoleIdIndexComprehension(
     let optionList: SelectOption[] = [];
 
     roleList.forEach(role => {
-        if (role.roleId in roleIdList){
+        if (roleIdList.indexOf(role.roleId) !== -1){
             optionDict = {
                 value:role.roleId,
                 label:role.roleName
