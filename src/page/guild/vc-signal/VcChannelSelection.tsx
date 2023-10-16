@@ -96,7 +96,6 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                 optionList.push(optionDict);
             }
         });
-        console.log(roleIdList,roleList,optionList);
         return optionList;
     }
 

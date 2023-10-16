@@ -59,6 +59,34 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
         }
     })
 
+    function WebhookRoleIdIndexComprehension(
+        roleIdList:string[],
+        roleList:{
+            id:string,
+            name:string
+        }[]
+    ){
+        /*
+        すでに選択されているロールを抜き取る
+        */
+        let optionDict: SelectOption;
+        let optionList: SelectOption[] = [];
+        roleList.forEach(role => {
+            if (roleIdList.includes(role.id)){
+                optionDict = {
+                    value:role.id,
+                    label:role.name
+                }
+                optionList.push(optionDict)
+            }
+        })
+        //console.log(roleIdList,roleList)
+        //console.log(optionList)
+        return optionList
+    }
+
+    //console.log(webhookSet.guildRoles)
+
     return(
         <details>
             <summary>
@@ -118,12 +146,10 @@ const UpdateWebhookSelection:React.FC<UpdateWebhookSelectionProps> = ({
                             <Select
                                 className="select-bar"
                                 options={webhookRoles}
-                                defaultValue={updateWebhook.mention_roles.map((role) => (
-                                    {
-                                        value:role,
-                                        label:webhookSet.guildRoles.filter((guildRole) => guildRole.id === role)[0].name
-                                    }
-                                ))}
+                                defaultValue={WebhookRoleIdIndexComprehension(
+                                    updateWebhook.mention_roles,
+                                    webhookSet.guildRoles
+                                )}
                                 onChange={(value) => {
                                     if(value){
                                         handleUpdateWebhookRoleChange(
