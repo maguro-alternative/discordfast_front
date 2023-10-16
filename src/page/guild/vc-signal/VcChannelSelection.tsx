@@ -88,7 +88,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
         let optionDict: SelectOption;
         let optionList: SelectOption[] = [];
         roleList.forEach(role => {
-            if (role.id in roleIdList){
+            if (roleIdList.includes(role.id)){
                 optionDict = {
                     value:role.id,
                     label:role.name
@@ -96,6 +96,7 @@ const VcChannelSelection:React.FC<VcChannelSelectionProps> = ({
                 optionList.push(optionDict);
             }
         });
+        console.log(roleIdList,roleList,optionList);
         return optionList;
     }
 
