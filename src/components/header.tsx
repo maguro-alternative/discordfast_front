@@ -17,11 +17,9 @@ const Header = () => {
     const [discordHeaderData, setDiscordHeaderData] = useState<HeaderProps>(); // ヘッダー情報
     const [lineHeaderData, setLineHeaderData] = useState<HeaderProps>(); // ヘッダー情報
     const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
-    const redirect_uri = `${import.meta.env.VITE_SERVER_URL}/discord-callback/`
-    const client_id = import.meta.env.VITE_DISCORD_CLINET_ID
     const pathname = window.location.href;
 
-    const DiscordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=identify&prompt=consent`;
+    const DiscordOAuthUrl = `${import.meta.env.VITE_SERVER_URL}/auth/discord`;
 
     const [isDiscordPopoverVisible, setDiscordPopoverVisible] = useState(false);
     const [isLINEPopoverVisible, setLINEPopoverVisible] = useState(false);
@@ -62,7 +60,7 @@ const Header = () => {
             } catch (error: unknown) {
                 console.error('ログインに失敗しました。 -', error);
                 if(pathname.includes("group")){
-                    window.location.href = `/line-login`;
+                    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/line`;
                 };
                 //throw new Error('ログインに失敗しました。 - ', error);
                 setIsLoading(false); // データ取得完了後にローディングを解除
@@ -78,12 +76,7 @@ const Header = () => {
     },[]);
 
     const discordLoginRedirect = async() => {
-        const uniqueId = uuidv4();
-        await axios.get(
-            `${SERVER_BASE_URL}/oauth_save_state/${uniqueId}`,
-            { withCredentials: true } // CORS設定のためにクッキーを送信、抗することでFastAPI側で保存されたセッションが使用できる
-        );
-        window.location.href = `${DiscordOAuthUrl}&state=${uniqueId}`;
+        window.location.href = DiscordOAuthUrl;
     };
 
     if(isLoading){
@@ -201,7 +194,7 @@ const Header = () => {
                                         onClick={() => setLINEPopoverVisible(false)}
                                     >X</label>
                                     <a
-                                        href={`/line-login`}
+                                        href={`${import.meta.env.VITE_SERVER_URL}/auth/line`}
                                         className="line-btn"
                                     >LINEでログイン</a>
                                 </>
@@ -222,7 +215,7 @@ const Header = () => {
                                         onClick={() => setLINEPopoverVisible(false)}
                                     >X</label>
                                     <a
-                                        href={`/line-login`}
+                                        href={`${import.meta.env.VITE_SERVER_URL}/auth/line`}
                                         className="line-btn"
                                     >LINEでログイン</a>
                                 </>

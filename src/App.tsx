@@ -12,7 +12,7 @@ import LineSet from './page/guild/line-set';
 import VcSignal from './page/guild/vc-signal';
 import Webhook from './page/guild/webhook';
 import LineGroupSetting from './page/group';
-import LineLogin from './services/lineLogin';
+//import LineLogin from './services/lineLogin';
 //import logo from './logo.svg';
 import './css/App.css';
 
@@ -32,7 +32,6 @@ function App() {
                 <Route path={"/guild/:id/vc-signal"} element={<VcSignal/>}/>
                 <Route path={"/guild/:id/webhook"} element={<Webhook/>}/>
                 <Route path={"/group/:id"} element={<LineGroupSetting/>}/>
-                <Route path={"/line-login"} element={<LineLogin/>}/>
             </Routes>
         </BrowserRouter>
     );
