@@ -62,7 +62,7 @@ function Index(){
                 >Discordチャンネル送信先変更</a>
             ):(
                 <a
-                    href={`/line-login`}
+                    href={`${import.meta.env.VITE_SERVER_URL}/auth/line`}
                     className="line-btn"
                 >LINEログイン</a>
             )}
