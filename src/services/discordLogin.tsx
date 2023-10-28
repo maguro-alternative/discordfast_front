@@ -11,7 +11,7 @@ const DiscordLogin = () => {
     const SERVER_BASE_URL = import.meta.env.VITE_SERVER_URL
 
     const DiscordLoginRedirect = async() => {
-        const discordLoginUriState = `${discordLoginUri}&state=${uniqueId}`
+        const discordLoginUriState = `${discordLoginUri}`
         window.location.href = discordLoginUriState;
     }
 
